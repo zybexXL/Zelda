@@ -247,6 +247,9 @@ namespace Zelda
                 if (pos >= f.pos && pos <= f.pos + f.functionLen)
                     currFunc = f;
 
+            scintilla.IndicatorCurrent = 1;
+            scintilla.IndicatorClearRange(0, scintilla.TextLength);
+            scintilla.IndicatorCurrent = 2;
             scintilla.IndicatorClearRange(0, scintilla.TextLength);
             if (currFunc != null)
             {

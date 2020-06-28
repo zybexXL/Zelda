@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ZeldaUI));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -135,8 +135,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabsRight);
             this.splitContainer1.Panel2MinSize = 200;
-            this.splitContainer1.Size = new System.Drawing.Size(1084, 467);
-            this.splitContainer1.SplitterDistance = 630;
+            this.splitContainer1.Size = new System.Drawing.Size(1184, 567);
+            this.splitContainer1.SplitterDistance = 688;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -158,8 +158,8 @@
             this.splitContainer3.Panel2.Controls.Add(this.webBrowser);
             this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(10, 0, 0, 5);
             this.splitContainer3.Panel2MinSize = 50;
-            this.splitContainer3.Size = new System.Drawing.Size(630, 467);
-            this.splitContainer3.SplitterDistance = 278;
+            this.splitContainer3.Size = new System.Drawing.Size(688, 567);
+            this.splitContainer3.SplitterDistance = 377;
             this.splitContainer3.SplitterWidth = 5;
             this.splitContainer3.TabIndex = 2;
             // 
@@ -172,7 +172,7 @@
             this.tabsLeft.Location = new System.Drawing.Point(0, 0);
             this.tabsLeft.Name = "tabsLeft";
             this.tabsLeft.SelectedIndex = 0;
-            this.tabsLeft.Size = new System.Drawing.Size(630, 278);
+            this.tabsLeft.Size = new System.Drawing.Size(688, 377);
             this.tabsLeft.TabIndex = 2;
             this.tabsLeft.SelectedIndexChanged += new System.EventHandler(this.tabsLeft_SelectedIndexChanged);
             this.tabsLeft.DoubleClick += new System.EventHandler(this.tabsLeft_DoubleClick);
@@ -183,7 +183,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(622, 250);
+            this.tabPage5.Size = new System.Drawing.Size(680, 349);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "expr1";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -194,7 +194,7 @@
             this.scintilla2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scintilla2.Location = new System.Drawing.Point(3, 3);
             this.scintilla2.Name = "scintilla2";
-            this.scintilla2.Size = new System.Drawing.Size(616, 244);
+            this.scintilla2.Size = new System.Drawing.Size(674, 343);
             this.scintilla2.TabIndex = 1;
             this.scintilla2.WhitespaceSize = 2;
             this.scintilla2.WrapStartIndent = 2;
@@ -206,7 +206,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 24);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(622, 250);
+            this.tabPage6.Size = new System.Drawing.Size(622, 249);
             this.tabPage6.TabIndex = 1;
             this.tabPage6.Text = "expr2";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -220,7 +220,7 @@
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.Size = new System.Drawing.Size(620, 179);
+            this.webBrowser.Size = new System.Drawing.Size(678, 180);
             this.webBrowser.TabIndex = 9;
             this.webBrowser.WebBrowserShortcutsEnabled = false;
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
@@ -235,7 +235,7 @@
             this.tabsRight.Location = new System.Drawing.Point(0, 0);
             this.tabsRight.Name = "tabsRight";
             this.tabsRight.SelectedIndex = 0;
-            this.tabsRight.Size = new System.Drawing.Size(449, 467);
+            this.tabsRight.Size = new System.Drawing.Size(491, 567);
             this.tabsRight.TabIndex = 1;
             this.tabsRight.SelectedIndexChanged += new System.EventHandler(this.tabsRight_SelectedIndexChanged);
             // 
@@ -245,7 +245,7 @@
             this.tabText.Location = new System.Drawing.Point(4, 24);
             this.tabText.Name = "tabText";
             this.tabText.Padding = new System.Windows.Forms.Padding(3);
-            this.tabText.Size = new System.Drawing.Size(441, 439);
+            this.tabText.Size = new System.Drawing.Size(483, 539);
             this.tabText.TabIndex = 1;
             this.tabText.Text = "Text output";
             this.tabText.UseVisualStyleBackColor = true;
@@ -257,7 +257,7 @@
             this.txtOutput.Location = new System.Drawing.Point(3, 3);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ReadOnly = true;
-            this.txtOutput.Size = new System.Drawing.Size(435, 433);
+            this.txtOutput.Size = new System.Drawing.Size(477, 533);
             this.txtOutput.TabIndex = 0;
             this.txtOutput.WhitespaceSize = 2;
             this.txtOutput.ZoomChanged += new System.EventHandler<System.EventArgs>(this.txtOutput_ZoomChanged);
@@ -305,14 +305,14 @@
             this.gridFiles.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gridFiles.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.gridFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridFiles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cFile,
@@ -383,7 +383,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(5, 0, 10, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1084, 29);
+            this.toolStrip1.Size = new System.Drawing.Size(1184, 29);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -680,10 +680,10 @@
             this.lblLatency,
             this.btnSettings,
             this.btnAbout});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 639);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.ShowItemToolTips = true;
-            this.statusStrip1.Size = new System.Drawing.Size(1084, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1184, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -707,7 +707,7 @@
             // 
             this.toolStripStatusLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(168, 17);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(556, 17);
             this.toolStripStatusLabel3.Spring = true;
             // 
             // lblZoom
@@ -806,7 +806,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
             this.splitContainer2.Panel2.Controls.Add(this.toolStrip1);
-            this.splitContainer2.Size = new System.Drawing.Size(1084, 539);
+            this.splitContainer2.Size = new System.Drawing.Size(1184, 639);
             this.splitContainer2.SplitterDistance = 40;
             this.splitContainer2.SplitterWidth = 3;
             this.splitContainer2.TabIndex = 3;
@@ -819,7 +819,7 @@
             this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.PowderBlue;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Image = global::Zelda.Properties.Resources.ArrowLeft;
-            this.button2.Location = new System.Drawing.Point(1039, 9);
+            this.button2.Location = new System.Drawing.Point(1139, 9);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(20, 20);
             this.button2.TabIndex = 12;
@@ -835,7 +835,7 @@
             this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.PowderBlue;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Image = global::Zelda.Properties.Resources.ArrowRight;
-            this.button3.Location = new System.Drawing.Point(1059, 9);
+            this.button3.Location = new System.Drawing.Point(1159, 9);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(18, 20);
             this.button3.TabIndex = 12;
@@ -864,7 +864,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(646, 12);
+            this.label2.Location = new System.Drawing.Point(746, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 15);
             this.label2.TabIndex = 11;
@@ -886,7 +886,7 @@
             this.comboFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboFiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboFiles.FormattingEnabled = true;
-            this.comboFiles.Location = new System.Drawing.Point(681, 9);
+            this.comboFiles.Location = new System.Drawing.Point(781, 9);
             this.comboFiles.Name = "comboFiles";
             this.comboFiles.Size = new System.Drawing.Size(356, 21);
             this.comboFiles.TabIndex = 2;
@@ -915,12 +915,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 561);
+            this.ClientSize = new System.Drawing.Size(1184, 661);
             this.Controls.Add(this.splitContainer2);
             this.Controls.Add(this.statusStrip1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KeyPreview = true;
-            this.MinimumSize = new System.Drawing.Size(1000, 500);
+            this.MinimumSize = new System.Drawing.Size(1000, 600);
             this.Name = "ZeldaUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ZELDA";
