@@ -303,7 +303,7 @@ namespace Zelda
             {
                 dt.Columns.Add(tab.ID);
                 gridFiles.Columns[tab.ID].HeaderText = tab.Text;
-
+                gridFiles.Columns[tab.ID].SortMode = DataGridViewColumnSortMode.NotSortable;
                 reorderDatagridColumns();
             }
 
