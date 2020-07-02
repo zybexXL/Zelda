@@ -209,6 +209,7 @@ namespace Zelda
             {
                 Task t = Task.Run(() =>
                 {
+                    if (listID == 63442111) Thread.Sleep(2000);
                    IMJPlaylistAutomation iList = jr.GetPlaylistByID(listID);
                    IMJFilesAutomation iFiles = iList.GetFiles();
                    if (!string.IsNullOrEmpty(filter))
@@ -216,7 +217,8 @@ namespace Zelda
 
                    count = iFiles.GetNumberFiles();
                 });
-                t.Wait(1000);
+                if (!t.Wait(1000))
+                    return -2;  // timeout, slow playlist
             }
             catch { }
             return count;

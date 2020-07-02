@@ -259,17 +259,19 @@ namespace Zelda
                 args.Graphics.DrawString(item.Name, args.Font, sb, r1);
             }
 
-            if (item.Count >= 0)
+            bool isSlow = item.Count == -2;
+            if (item.Count >= 0 || isSlow)
             {
-                string txt = item.Count.ToString();
+                string txt = isSlow ? "slow!" : item.Count.ToString();
                 SizeF size = args.Graphics.MeasureString(txt, args.Font);
                 Rectangle r2 = args.Bounds;
                 r2.X = args.Bounds.Width - (int)size.Width - 1;
                 r2.Width = (int)size.Width + 1;
 
-                using (SolidBrush sb = new SolidBrush(args.State.HasFlag(DrawItemState.Selected) ? Color.White : Color.DarkCyan))
+                Color color = isSlow ? Color.Red : Color.DarkCyan;
+                using (SolidBrush sb = new SolidBrush(args.State.HasFlag(DrawItemState.Selected) ? Color.White : color))
                 {
-                    args.Graphics.DrawString(item.Count.ToString(), args.Font, sb, r2);
+                    args.Graphics.DrawString(txt, args.Font, sb, r2);
                 }
             }
         }
