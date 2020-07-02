@@ -108,7 +108,7 @@ namespace Zelda
                 this.BeginInvoke((MethodInvoker)delegate { RefreshETA(); });
                 return;
             }
-
+            if (!this.IsHandleCreated || this.IsDisposed) return;
             if (lblCount.Visible)
             {
                 if (progress.currentItem < 10) lblETA.Text = "--:--";

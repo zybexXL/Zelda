@@ -22,6 +22,7 @@ namespace Zelda
         [DataMember] public bool WrapIndent = true;
         [DataMember] public bool ReplaceTabs = true;
         [DataMember] public bool ShowAPICallTime = true;
+        //[DataMember] public bool SkipPlaylistCount = false;
 
         [DataMember] public int EvaluateDelay = 500;
         [DataMember] public bool HighlightSyntax = true;

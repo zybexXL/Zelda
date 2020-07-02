@@ -59,17 +59,17 @@ namespace Zelda
             try
             {
                 // connect to existing instance
-                Logger.Log("Connect: getting existing JRiver instance");
+                Logger.Log("Connect: getting existing MediaCenter instance");
                 jr = (IMJAutomation)Marshal.GetActiveObject("MediaJukebox Application");
                 Connected = CheckConnection();
                 if (Connected) return true;
                 else Logger.Log("Connect to existing instance failed!");
             }
-            catch (Exception ex) { Logger.Log(ex, "JRiverAPI.Connect() - JRiver probably not running"); }
+            catch { Logger.Log("JRiverAPI.Connect() - MediaCenter is probably not running"); }
 
             try
             {
-                Logger.Log("Connect: creating new JRiver instance");
+                Logger.Log("Connect: creating new MediaCenter instance");
                 jr = new MCAutomation();
                 Connected = CheckConnection();
                 if (!Connected)
@@ -94,10 +94,10 @@ namespace Zelda
                 if (jr == null) return false;
                 Version = jr.GetVersion().Version;
                 APIlevel = jr.IVersion;
-                Logger.Log($"JRiver version {Version}, APILevel={APIlevel}");
+                Logger.Log($"MediaCenter version {Version}, APILevel={APIlevel}");
                 string path=null;
                 jr.GetLibrary(ref Library, ref path);
-                Logger.Log($"JRiver library is '{Library}', path={path}");
+                Logger.Log($"MediaCenter library is '{Library}', path={path}");
                 return true;
             }
             catch (Exception ex) { Logger.Log(ex, "JRiverAPI.CheckConnection()"); }
@@ -141,6 +141,7 @@ namespace Zelda
             {
                 IMJFieldsAutomation iFields = jr.GetFields();
                 int count = iFields.GetNumberFields();
+                Logger.Log($"getFields: loading {count} fields");
                 for (int i = 0; i < count; i++)
                 {
                     IMJFieldAutomation field = iFields.GetField(i);
@@ -162,39 +163,63 @@ namespace Zelda
             return FieldMap;
         }
 
-        public IEnumerable<JRPlaylist> getPlaylists(string fileFilter = null)
+        public IEnumerable<JRPlaylist> getPlaylists(string fileFilter = null, bool countFiles = true)
         {
             Playlists = new List<JRPlaylist>();
             try
             {
+                //Logger.Log("getPlaylists: getting playlist count");
                 IMJPlaylistsAutomation iList = jr.GetPlaylists();
                 int count = iList.GetNumberPlaylists();
+                Logger.Log($"getPlaylists: loading {count} playlists");
                 for (int i = 0; i < count; i++)
                 {
                     IMJPlaylistAutomation list = iList.GetPlaylist(i);
                     
                     if (list.Get("type") == "1") continue;      // 0 = playlist, 1 = playlist group, 2 = smartlist
                     string name = list.Name ?? "playlist";
-
-                    //if (Regex.IsMatch(name, @"^audio|podcast|\d:\d\d", RegexOptions.IgnoreCase))
-                     //   continue;
-
-                    IMJFilesAutomation iFiles = list.GetFiles();
-                    if (string.IsNullOrEmpty(fileFilter))
-                        iFiles.Filter(fileFilter);
+                    var playlist = new JRPlaylist(list.GetID(), name, -1, list.Path);
                     
-                    int fcount = iFiles.GetNumberFiles();
-                    if (fcount == 0) continue;
-
-                    var playlist = new JRPlaylist(list.GetID(), name, fcount, list.Path);
-                    Playlists.Add(playlist);
-                    yield return playlist;
+                    // get file count - except for "audio - task - missing files" which may take a loooong time (isMissing() slowness)
+                    if (countFiles && !name.ToLower().Contains("missing files"))
+                    {
+                        playlist.Count = getPLFileCount(playlist.ID);
+                        if (playlist.Count < 0)
+                            Logger.Log($"Warning - Slow playlist! Can't get filecount for playlist '{list.Name}'");
+                        //else Logger.Log($"      playlist {i} has {fcount} files");
+                    }
+                    if (playlist.Count != 0)
+                    {
+                        Playlists.Add(playlist);
+                        yield return playlist;
+                    }
                 }
             }
             finally
             {
                 Playlists = Playlists.OrderBy(p => p.Name.ToLower()).ToList();
             }
+            Logger.Log("getPlaylists: finished");
+        }
+
+        public int getPLFileCount(int listID, string filter = null)
+        {
+            int count = -1;
+            try
+            {
+                Task t = Task.Run(() =>
+                {
+                   IMJPlaylistAutomation iList = jr.GetPlaylistByID(listID);
+                   IMJFilesAutomation iFiles = iList.GetFiles();
+                   if (!string.IsNullOrEmpty(filter))
+                       iFiles.Filter(filter);
+
+                   count = iFiles.GetNumberFiles();
+                });
+                t.Wait(1000);
+            }
+            catch { }
+            return count;
         }
 
         public IEnumerable<JRFile> getFiles(JRPlaylist playlist, List<string> fields = null, string filter = null, int start = 0, int step = 1)
@@ -219,6 +244,7 @@ namespace Zelda
         {
             try
             {
+                if (jr == null || jrFile == null || string.IsNullOrEmpty(expression)) return string.Empty;
                 IMJFileAutomation file = jr.GetFileByKey(jrFile.JRKey);
                 return file.GetFilledTemplate(expression);
             }

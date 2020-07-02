@@ -57,6 +57,10 @@ namespace Zelda
             toolStrip1.Renderer = new ToolstripRenderer(Color.PowderBlue);      // renderer to apply a backcolor on Checked toolstrip buttons
             showFunctionHelper(false);
             tabsRight.SizeChanged += tabsRight_SizeChanged;
+
+            comboLists.DrawMode = DrawMode.OwnerDrawFixed;
+            comboLists.DrawItem += drawCombobox;
+
             // this doesn't work, looks like a bug in the Scintilla native control
             // it's supposed to change the representation of [CR] and [LF] symbols
             //int SCI_SETREPRESENTATION = 2665;
@@ -69,14 +73,14 @@ namespace Zelda
             if (!GetPlayLists(true))
                 this.Close();
 
+            if (settings.StartMaximized)
+                this.WindowState = FormWindowState.Maximized;
+
             LoadState();
         }
 
         void LoadState()
         {
-            if (settings.StartMaximized)
-                this.WindowState = FormWindowState.Maximized;
-
             tabsLeft.SuspendLayout();
             if (settings.SaveExpressions && state.Tabs.Count > 0)
             {
@@ -145,7 +149,7 @@ namespace Zelda
 
         private bool GetPlayLists(bool startup = false)
         {
-            var progressUI = new ProgressUI("Connecting to JRiver...", ConnectJRiver, false);
+            var progressUI = new ProgressUI("Connecting to MediaCenter...", ConnectJRiver, false);
             if (startup)
                 progressUI.StartPosition = FormStartPosition.CenterScreen;
 
@@ -154,16 +158,16 @@ namespace Zelda
             if (!jrAPI.Connected)
             {
                 progressUI.Close();
-                MessageBox.Show("Cannot connect to JRiver, please make sure it's installed on this PC", "No JRiver!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Cannot connect to MediaCenter, please make sure it's installed on this PC", "No MediaCenter!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             if (jrAPI.Playlists.Count == 0)
             {
-                MessageBox.Show("Failed to load list of Playlists from JRiver!", "No media?", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to load list of Playlists from MediaCenter!", "No media?", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            lblStatus.Text = $"Connected to JRiver v{jrAPI.Version} - {jrAPI.Library}";
+            lblStatus.Text = $"Connected to MediaCenter v{jrAPI.Version} - {jrAPI.Library}";
             loading = true;
 
             // update datagrid column/field list
@@ -192,7 +196,7 @@ namespace Zelda
         private void ConnectJRiver(ProgressInfo progress)
         {
             progress.result = false;
-            progress.subtitle = "Starting JRiver";
+            progress.subtitle = "Starting MediaCenter";
             progress.Update(true);
             if (!jrAPI.Connect())
                 return;
@@ -217,7 +221,7 @@ namespace Zelda
             if (progress == null)
                 progress = new ProgressUI($"Loading playlist '{list.Name}'", LoadPlaylist, false, list);
             progress.ShowDialog(this);
-
+            
             LoadDataTable();
         }
 
@@ -239,6 +243,34 @@ namespace Zelda
                 progress.currentItem = ++i;
                 progress.subtitle = $"{file.Name} ({file.Year})";
                 progress.Update(false);
+            }
+        }
+
+        // adds playlist filecount to each combobox entry
+        private void drawCombobox(object cmb, DrawItemEventArgs args)
+        {
+            args.DrawBackground();
+            JRPlaylist item = (JRPlaylist)this.comboLists.Items[args.Index];
+
+            Rectangle r1 = args.Bounds;
+            r1.Width = r1.Width - 40;
+            using (SolidBrush sb = new SolidBrush(args.ForeColor))
+            {
+                args.Graphics.DrawString(item.Name, args.Font, sb, r1);
+            }
+
+            if (item.Count >= 0)
+            {
+                string txt = item.Count.ToString();
+                SizeF size = args.Graphics.MeasureString(txt, args.Font);
+                Rectangle r2 = args.Bounds;
+                r2.X = args.Bounds.Width - (int)size.Width - 1;
+                r2.Width = (int)size.Width + 1;
+
+                using (SolidBrush sb = new SolidBrush(args.State.HasFlag(DrawItemState.Selected) ? Color.White : Color.DarkCyan))
+                {
+                    args.Graphics.DrawString(item.Count.ToString(), args.Font, sb, r2);
+                }
             }
         }
 

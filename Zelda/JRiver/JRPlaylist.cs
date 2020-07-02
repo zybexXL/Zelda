@@ -27,7 +27,10 @@ namespace Zelda
 
         public override string ToString()
         {
-            return $"{Path}{Name} ({Count} files)";
+            if (Count > 0)
+                return $"{Path}{Name} ({Count} files)";
+            else
+                return $"{Path}{Name}";
         }
     }
 }
