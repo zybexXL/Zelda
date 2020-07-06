@@ -616,6 +616,8 @@ namespace Zelda
         private void btnWrap_CheckedChanged(object sender, EventArgs e)
         {
             state.LineWrap = chkWrap.Checked;
+            txtOutput.WrapMode = chkWrap.Checked ? WrapMode.Word : WrapMode.None;
+
             foreach (var tab in expressionTabs)
                 tab.scintilla.WrapMode = chkWrap.Checked ? WrapMode.Word : WrapMode.None;
         }

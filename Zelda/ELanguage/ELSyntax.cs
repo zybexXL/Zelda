@@ -84,11 +84,11 @@ namespace Zelda
             // HTML tags: <tagName args> and <//tagName>
             reHTML = new Regex($@"\<(?://)?(?:font|img|b|u|i)\b.*?\>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
-            // literal blocks: /# literal text #/
-            reLiteral = new Regex(@"/#.*?#/", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+            // literal blocks: /* literal text /*
+            reLiteral = new Regex(@"/\*.*?/\*", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
-            // escaped: chars escaped with fwd-slash, except /# and #/ (end of escaped block)
-            reEscaped = new Regex(@"(?:^|[^#/])((?:/[^#])+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+            // escaped: chars escaped with fwd-slash, or anything between /# and #/
+            reEscaped = new Regex(@"(/#.*?#/)|(?:^|[^#/])((?:/[^#])+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
             // comment: special fields named '/' -> "[//, this is a comment]"
             reComment = new Regex(@"\[//+,.*?\]", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
@@ -138,7 +138,10 @@ namespace Zelda
             // escaped
             hits = reEscaped.Matches(expression);
             foreach (Match m in hits)
-                tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[1].Value, m.Groups[1].Index));
+                if (!string.IsNullOrEmpty(m.Groups[1].Value))
+                    tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[1].Value, m.Groups[1].Index));
+                else
+                    tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[3].Value, m.Groups[3].Index));
 
             // HTML
             hits = reHTML.Matches(expression);
@@ -169,11 +172,12 @@ namespace Zelda
             int level = 0;
             bool skip = false;
             bool skip2 = false;
+            bool skip3 = false;
             try
             {
                 for (int i = token.pos; i < expression.Length - 1; i++)
                 {
-                    // block literal content
+                    // block escape content
                     if (skip)
                     {
                         if (expression[i] == '#' && expression[i + 1] == '/')
@@ -188,10 +192,17 @@ namespace Zelda
                         if (expression[i] == ']') skip2 = false;
                         continue;
                     }
-                    // block literal start
+                    // block escape start
                     if (expression[i] == '/' && expression[i + 1] == '#')
                     {
                         skip = true;
+                        i++;
+                        continue;
+                    }
+                    // block escape start
+                    if (expression[i] == '/' && expression[i + 1] == '*')
+                    {
+                        skip3 = !skip3;
                         i++;
                         continue;
                     }
