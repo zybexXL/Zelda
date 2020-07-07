@@ -27,6 +27,7 @@ namespace Zelda
         int latencyChecks = 0;
         bool paused = false;
         bool loading;
+        int lastResize = 0;
 
         public Dictionary<JRFile, DataRow> rowIndex = new Dictionary<JRFile, DataRow>();
         ExpressionTab currentTab { get { return tabsLeft.SelectedTab as ExpressionTab; } }
@@ -56,7 +57,6 @@ namespace Zelda
 
             toolStrip1.Renderer = new ToolstripRenderer(Color.PowderBlue);      // renderer to apply a backcolor on Checked toolstrip buttons
             showFunctionHelper(false);
-            tabsRight.SizeChanged += tabsRight_SizeChanged;
 
             comboLists.DrawMode = DrawMode.OwnerDrawFixed;
             comboLists.DrawItem += drawCombobox;
@@ -73,10 +73,10 @@ namespace Zelda
             if (!GetPlayLists(true))
                 this.Close();
 
+            LoadState();
+
             if (settings.StartMaximized)
                 this.WindowState = FormWindowState.Maximized;
-
-            LoadState();
         }
 
         void LoadState()
@@ -248,8 +248,10 @@ namespace Zelda
 
         // adds playlist filecount to each combobox entry
         private void drawCombobox(object cmb, DrawItemEventArgs args)
-        {
+        {    
             args.DrawBackground();
+            if (args.Index < 0) return;
+
             JRPlaylist item = (JRPlaylist)this.comboLists.Items[args.Index];
 
             Rectangle r1 = args.Bounds;
@@ -758,6 +760,9 @@ namespace Zelda
         {
             state.OutputTab = tabsRight.SelectedIndex;
             btnColumns.Visible = tabsRight.SelectedTab == tabDatagrid;
+
+            if (tabsRight.SelectedTab == tabDatagrid)
+                resizeGridColumns();
         }
 
         private void lblLatency_Click(object sender, EventArgs e)
@@ -901,16 +906,24 @@ namespace Zelda
 
         private void resizeGridColumns()
         {
+            if (state == null) return;
             int available = gridFiles.DisplayRectangle.Width;
+            if (available == lastResize) return;
+            lastResize = available;
+
             int used = 0;
             foreach (DataGridViewColumn col in gridFiles.Columns)
                 if (col.Visible) used += col.Width + col.DividerWidth;
 
-            if (used < available - 5)
+            int grow = state.TableShowAll ? (available - used - 2) / expressionTabs.Count : available - used - 2;
+            if (grow != 0)
             {
-                int grow = state.TableShowAll ? (available - used - 5) / expressionTabs.Count : available - used;
                 foreach (var tab in expressionTabs)
-                    gridFiles.Columns[tab.ID].Width += grow;
+                    if (gridFiles.Columns.Contains(tab.ID))
+                    {
+                        int w = gridFiles.Columns[tab.ID].Width + grow;
+                        gridFiles.Columns[tab.ID].Width = w < 100 ? 100 : w;
+                    }
             }
         }
 
@@ -1003,7 +1016,7 @@ namespace Zelda
             txtOutput.Zoom = 0;
         }
 
-        private void tabsRight_SizeChanged(object sender, EventArgs e)
+        private void tabDatagrid_ClientSizeChanged(object sender, EventArgs e)
         {
             resizeGridColumns();
         }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ZeldaUI));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -159,7 +159,7 @@
             this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(10, 0, 0, 5);
             this.splitContainer3.Panel2MinSize = 50;
             this.splitContainer3.Size = new System.Drawing.Size(688, 567);
-            this.splitContainer3.SplitterDistance = 377;
+            this.splitContainer3.SplitterDistance = 373;
             this.splitContainer3.SplitterWidth = 5;
             this.splitContainer3.TabIndex = 2;
             // 
@@ -172,7 +172,7 @@
             this.tabsLeft.Location = new System.Drawing.Point(0, 0);
             this.tabsLeft.Name = "tabsLeft";
             this.tabsLeft.SelectedIndex = 0;
-            this.tabsLeft.Size = new System.Drawing.Size(688, 377);
+            this.tabsLeft.Size = new System.Drawing.Size(688, 373);
             this.tabsLeft.TabIndex = 2;
             this.tabsLeft.SelectedIndexChanged += new System.EventHandler(this.tabsLeft_SelectedIndexChanged);
             this.tabsLeft.DoubleClick += new System.EventHandler(this.tabsLeft_DoubleClick);
@@ -183,7 +183,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(680, 349);
+            this.tabPage5.Size = new System.Drawing.Size(680, 345);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "expr1";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -194,7 +194,7 @@
             this.scintilla2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scintilla2.Location = new System.Drawing.Point(3, 3);
             this.scintilla2.Name = "scintilla2";
-            this.scintilla2.Size = new System.Drawing.Size(674, 343);
+            this.scintilla2.Size = new System.Drawing.Size(674, 339);
             this.scintilla2.TabIndex = 1;
             this.scintilla2.WhitespaceSize = 2;
             this.scintilla2.WrapStartIndent = 2;
@@ -206,7 +206,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 24);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(622, 249);
+            this.tabPage6.Size = new System.Drawing.Size(680, 345);
             this.tabPage6.TabIndex = 1;
             this.tabPage6.Text = "expr2";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -220,7 +220,7 @@
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.Size = new System.Drawing.Size(678, 180);
+            this.webBrowser.Size = new System.Drawing.Size(678, 184);
             this.webBrowser.TabIndex = 9;
             this.webBrowser.WebBrowserShortcutsEnabled = false;
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
@@ -268,7 +268,7 @@
             this.tabRendered.Location = new System.Drawing.Point(4, 24);
             this.tabRendered.Name = "tabRendered";
             this.tabRendered.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRendered.Size = new System.Drawing.Size(441, 439);
+            this.tabRendered.Size = new System.Drawing.Size(483, 539);
             this.tabRendered.TabIndex = 0;
             this.tabRendered.Text = "Rendered output";
             this.tabRendered.UseVisualStyleBackColor = true;
@@ -281,7 +281,7 @@
             this.browser.Location = new System.Drawing.Point(3, 3);
             this.browser.MinimumSize = new System.Drawing.Size(20, 20);
             this.browser.Name = "browser";
-            this.browser.Size = new System.Drawing.Size(435, 433);
+            this.browser.Size = new System.Drawing.Size(477, 533);
             this.browser.TabIndex = 0;
             this.browser.WebBrowserShortcutsEnabled = false;
             // 
@@ -291,10 +291,11 @@
             this.tabDatagrid.Location = new System.Drawing.Point(4, 24);
             this.tabDatagrid.Name = "tabDatagrid";
             this.tabDatagrid.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDatagrid.Size = new System.Drawing.Size(441, 439);
+            this.tabDatagrid.Size = new System.Drawing.Size(483, 539);
             this.tabDatagrid.TabIndex = 3;
             this.tabDatagrid.Text = "Playlist";
             this.tabDatagrid.UseVisualStyleBackColor = true;
+            this.tabDatagrid.ClientSizeChanged += new System.EventHandler(this.tabDatagrid_ClientSizeChanged);
             // 
             // gridFiles
             // 
@@ -305,14 +306,14 @@
             this.gridFiles.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gridFiles.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridFiles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cFile,
@@ -324,7 +325,7 @@
             this.gridFiles.ReadOnly = true;
             this.gridFiles.RowHeadersVisible = false;
             this.gridFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridFiles.Size = new System.Drawing.Size(435, 433);
+            this.gridFiles.Size = new System.Drawing.Size(477, 533);
             this.gridFiles.TabIndex = 0;
             // 
             // cFile
