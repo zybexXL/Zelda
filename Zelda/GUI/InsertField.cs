@@ -86,12 +86,12 @@ namespace Zelda
                 if (e.KeyCode == Keys.Down && currentRow < gridFields.RowCount - 1)
                 {
                     gridFields.Rows[++currentRow].Selected = true;
-                    gridFields.CurrentCell = gridFields.Rows[currentRow].Cells[0];
+                    gridFields.CurrentCell = gridFields.Rows[currentRow].Cells[1];
                 }
                 else if (e.KeyCode == Keys.Up && currentRow > 0)
                 {
                     gridFields.Rows[--currentRow].Selected = true;
-                    gridFields.CurrentCell = gridFields.Rows[currentRow].Cells[0];
+                    gridFields.CurrentCell = gridFields.Rows[currentRow].Cells[1];
                 }
                 else
                     e.SuppressKeyPress = false;

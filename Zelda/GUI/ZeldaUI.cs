@@ -901,14 +901,14 @@ namespace Zelda
                 gridFiles.Columns[tab.ID].SortMode = DataGridViewColumnSortMode.NotSortable;
                 gridFiles.Columns[tab.ID].Width = 100;
             }
-            resizeGridColumns();
+            resizeGridColumns(true);
         }
 
-        private void resizeGridColumns()
+        private void resizeGridColumns(bool force = false)
         {
             if (state == null) return;
             int available = gridFiles.DisplayRectangle.Width;
-            if (available == lastResize) return;
+            if (!force && available == lastResize) return;
             lastResize = available;
 
             int used = 0;
@@ -942,6 +942,7 @@ namespace Zelda
                         if (tab != currentTab)
                             UpdateDatagrid(tab, tab.scintilla.Text);
                 }
+                resizeGridColumns(true);
             }
         }
 
