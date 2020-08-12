@@ -159,7 +159,7 @@
             this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(10, 0, 0, 5);
             this.splitContainer3.Panel2MinSize = 50;
             this.splitContainer3.Size = new System.Drawing.Size(688, 567);
-            this.splitContainer3.SplitterDistance = 373;
+            this.splitContainer3.SplitterDistance = 370;
             this.splitContainer3.SplitterWidth = 5;
             this.splitContainer3.TabIndex = 2;
             // 
@@ -172,7 +172,7 @@
             this.tabsLeft.Location = new System.Drawing.Point(0, 0);
             this.tabsLeft.Name = "tabsLeft";
             this.tabsLeft.SelectedIndex = 0;
-            this.tabsLeft.Size = new System.Drawing.Size(688, 373);
+            this.tabsLeft.Size = new System.Drawing.Size(688, 370);
             this.tabsLeft.TabIndex = 2;
             this.tabsLeft.SelectedIndexChanged += new System.EventHandler(this.tabsLeft_SelectedIndexChanged);
             this.tabsLeft.DoubleClick += new System.EventHandler(this.tabsLeft_DoubleClick);
@@ -183,7 +183,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(680, 345);
+            this.tabPage5.Size = new System.Drawing.Size(680, 342);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "expr1";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -194,7 +194,7 @@
             this.scintilla2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scintilla2.Location = new System.Drawing.Point(3, 3);
             this.scintilla2.Name = "scintilla2";
-            this.scintilla2.Size = new System.Drawing.Size(674, 339);
+            this.scintilla2.Size = new System.Drawing.Size(674, 336);
             this.scintilla2.TabIndex = 1;
             this.scintilla2.WhitespaceSize = 2;
             this.scintilla2.WrapStartIndent = 2;
@@ -206,7 +206,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 24);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(680, 345);
+            this.tabPage6.Size = new System.Drawing.Size(680, 342);
             this.tabPage6.TabIndex = 1;
             this.tabPage6.Text = "expr2";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -220,7 +220,7 @@
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.Size = new System.Drawing.Size(678, 184);
+            this.webBrowser.Size = new System.Drawing.Size(678, 187);
             this.webBrowser.TabIndex = 9;
             this.webBrowser.WebBrowserShortcutsEnabled = false;
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);

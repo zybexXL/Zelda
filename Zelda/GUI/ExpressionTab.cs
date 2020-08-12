@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ScintillaNET;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Zelda
 {
@@ -351,6 +352,79 @@ namespace Zelda
             InputBox box = new InputBox("Enter expression tab name", Text);
             if (box.ShowDialog(this) == DialogResult.OK)
                 Text = box.Value;
+        }
+
+        private void menuEditor_Opening(object sender, CancelEventArgs e)
+        {
+            mUndo.Enabled = scintilla.CanUndo;
+            mRedo.Enabled = scintilla.CanRedo;
+
+            bool hasSelection = !string.IsNullOrEmpty(scintilla.SelectedText);
+            bool hasText = scintilla.TextLength > 0;
+            mCopy.Enabled = mCut.Enabled = hasSelection;
+            mPaste.Enabled = scintilla.CanPaste;
+            mSelectAll.Enabled = mCopyAll.Enabled = hasText;
+            mCopySinglePreserve.Enabled = mCopySingleStrip.Enabled = hasText; 
+        }
+
+        private void MCopySinglePreserve_Click(object sender, System.EventArgs e)
+        {
+            string stripped = Regex.Replace(scintilla.Text, @"(,\w*)\n", "$1");
+            stripped = Regex.Replace(scintilla.Text, @"/?\r?\n", "char(10)");
+            try
+            {
+                Clipboard.SetText(stripped, TextDataFormat.UnicodeText);
+            }
+            catch { }
+        }
+
+        private void MCopySingleStrip_Click(object sender, System.EventArgs e)
+        {
+            string stripped = Regex.Replace(scintilla.Text, @"/?\r?\n", "");
+            try
+            {
+                Clipboard.SetText(stripped, TextDataFormat.UnicodeText);
+            }
+            catch { }
+        }
+
+        private void MCopyAll_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(scintilla.Text, TextDataFormat.UnicodeText);
+            }
+            catch { }
+        }
+
+        private void MSelectAll_Click(object sender, System.EventArgs e)
+        {
+            scintilla.SelectAll();
+        }
+
+        private void mUndo_Click(object sender, System.EventArgs e)
+        {
+            scintilla.Undo();
+        }
+
+        private void MRedo_Click(object sender, System.EventArgs e)
+        {
+            scintilla.Redo();
+        }
+
+        private void MCut_Click(object sender, System.EventArgs e)
+        {
+            scintilla.Cut();
+        }
+
+        private void MCopy_Click(object sender, System.EventArgs e)
+        {
+            scintilla.Copy();
+        }
+
+        private void MPaste_Click(object sender, System.EventArgs e)
+        {
+            scintilla.Paste();
         }
     }
 }

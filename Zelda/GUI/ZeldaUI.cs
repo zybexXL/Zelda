@@ -333,7 +333,7 @@ namespace Zelda
             if (content != null) tab.scintilla.Text = content;
             if (pos >= 0) tab.scintilla.GotoPosition(pos);
             tabsLeft.TabPages.Add(tab);
-
+            
             DataTable dt = gridFiles.DataSource as DataTable;
             if (dt != null)
             {
@@ -344,6 +344,7 @@ namespace Zelda
             }
 
             tabsLeft.SelectedTab = tab;
+            tab.scintilla.EmptyUndoBuffer();
             tab.scintilla.Focus();
             tab.Evaluate(currentFile);
             return tab;
