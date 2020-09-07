@@ -26,7 +26,7 @@ namespace Zelda
             dt.Columns.Add("blurb");
             dt.Columns.Add("category");
             dt.Columns.Add("filter");
-            foreach (var f in ELConstants.ELFunctions)
+            foreach (var f in ELConstants.ELFunctionWiki)
                 dt.Rows.Add(f, f.function, f.blurb, f.category, f.filter);
 
             loading = true;

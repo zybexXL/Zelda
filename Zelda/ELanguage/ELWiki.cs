@@ -30,6 +30,11 @@ namespace Zelda
 
         public string filter { get { return $"{function}|{blurb}|{category}"; } }
 
+        public ELFunction(ELCategory cat, ELFunctions function, string blurb, string url = null, string proto = null)
+            :this(cat, function.ToString(), blurb, url, proto)
+        {
+        }
+
         public ELFunction(ELCategory cat, string name, string blurb, string url = null, string proto = null)
         {
             this.function = name;

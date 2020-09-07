@@ -355,7 +355,7 @@ namespace Zelda
             if (splitContainer3.Panel2Collapsed) return;
             if ((sender as ExpressionTab) != currentTab) return;
             string name = e == null ? null : e.function == ELFunctions.Unknown ? null : e.function.ToString();
-            var func = name == null ? null : ELConstants.ELFunctions.Where(f => f.function.ToLower() == name.ToLower()).FirstOrDefault();
+            var func = name == null ? null : ELConstants.ELFunctionWiki.Where(f => f.function.ToLower() == name.ToLower()).FirstOrDefault();
             LoadWiki(name ?? e?.text, func);
         }
 
