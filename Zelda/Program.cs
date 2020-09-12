@@ -8,7 +8,7 @@ namespace Zelda
 {
     internal static class Program
     {
-        public static Version version = new Version(1, 1, 3);    // major, minor, revision
+        public static Version version = new Version(1, 1, 4);    // major, minor, revision
         
         /// <summary>
         /// The main entry point for the application.
