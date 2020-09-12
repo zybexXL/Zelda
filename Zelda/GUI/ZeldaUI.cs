@@ -17,9 +17,11 @@ namespace Zelda
 {
     public partial class ZeldaUI : Form
     {
-        Settings settings;
-        State state;
+        internal static Settings settings;
+        internal static string TooltipDir {
+            get { return string.IsNullOrEmpty(settings?.TooltipFolder) ? JRiverAPI.TooltipFolder : settings.TooltipFolder.TrimEnd('\\');  } }
 
+        State state;
         JRiverAPI jrAPI;
         JRPlaylist currentPlaylist;
         JRFile currentFile;
@@ -544,7 +546,6 @@ namespace Zelda
             text = fixFont(text);
             text = fixImg(text);
 
-            
             StringBuilder sb = new StringBuilder();
             string css = getCSS();
             sb.AppendLine($"<!DOCTYPE html><html>"

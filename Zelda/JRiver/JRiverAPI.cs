@@ -22,7 +22,14 @@ namespace Zelda
     // reads and writes Fields from Files (movies)
     public class JRiverAPI
     {
-        public static string InstallFolder = getInstallFolder();
+        static string InstallFolder;
+        public static string MCFolder {
+            get { if (InstallFolder == null)
+                    InstallFolder = getInstallFolder();
+                return InstallFolder;
+            } }
+
+        public static string TooltipFolder { get { return Path.Combine(MCFolder ?? "", "data\\tooltip"); } }
 
         static IMJAutomation jr;
         public bool Connected;
@@ -99,9 +106,6 @@ namespace Zelda
                 jr.GetLibrary(ref Library, ref path);
                 Logger.Log($"MediaCenter library is '{Library}', path={path}");
 
-                if (InstallFolder == null)
-                    InstallFolder = getInstallFolder();
-
                 return true;
             }
             catch (Exception ex) { Logger.Log(ex, "JRiverAPI.CheckConnection()"); }
@@ -110,6 +114,7 @@ namespace Zelda
 
         public static string getInstallFolder()
         {
+            string path = null;
             try
             {
                 using (var root = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
@@ -119,25 +124,26 @@ namespace Zelda
                     {
                         string latest = jr.GetSubKeyNames().OrderByDescending(n => n).FirstOrDefault();
                         using (var mc = jr.OpenSubKey($"{latest}\\installer"))
-                        {
-                            string path = mc.GetValue("Install Directory", null)?.ToString();
-                            if (!string.IsNullOrEmpty(path))
-                                return path;
-                        }
+                            path = mc.GetValue("Install Directory", null)?.ToString();
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) { Logger.Log(ex, "getInstallFolder"); }
 
+            // fallback: get path of running process
             try
             {
-                // fallback: get path of running process
-                var proc = Process.GetProcesses().Where(p => p.ProcessName.ToLower().StartsWith("media center ")).OrderByDescending(p => p.ProcessName).FirstOrDefault();
-                if (proc != null)
-                    return Path.GetDirectoryName(proc.MainModule.FileName);
+                if (string.IsNullOrEmpty(path))
+                {
+
+                    var proc = Process.GetProcesses().Where(p => p.ProcessName.ToLower().StartsWith("media center ")).OrderByDescending(p => p.ProcessName).FirstOrDefault();
+                    if (proc != null)
+                        path = Path.GetDirectoryName(proc.MainModule.FileName);
+                }
             }
-            catch { }
-            return null;
+            catch (Exception ex) { Logger.Log(ex, "getInstallFolder"); }
+            Logger.Log($"Detected MC install folder: {path}");
+            return path;
         }
 
         public Dictionary<string, string> getFields()

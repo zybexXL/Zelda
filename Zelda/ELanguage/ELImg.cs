@@ -15,6 +15,7 @@ namespace Zelda
         public string path = null;
         public int width = -1;
         public int height = -1;
+        public string valign = null;
 
         public ELImg(string file = null, int w = -1, int h = -1, bool isELSrc = false)
         {
@@ -59,6 +60,10 @@ namespace Zelda
                 img.height = int.Parse(p.Groups[2].Value);
             }
 
+            p = Regex.Match(tag, @"\bvalign\s*=\s*""(.+?)""", RegexOptions.IgnoreCase);
+            if (p.Success)
+                img.valign = p.Groups[1].Value;
+
             return img;
         }
 
@@ -66,8 +71,10 @@ namespace Zelda
         {
             if (src == null) return null;
             src = (src ?? "").Trim() + ".png";
-            if (src.ToLower().StartsWith("tooltip:"))
-                return Path.Combine(JRiverAPI.InstallFolder ?? "", "data\\tooltip", src.Substring(8));
+
+            string tooltip = ZeldaUI.TooltipDir?.ToLower();
+            if (src.ToLower().StartsWith("tooltip:") && !string.IsNullOrEmpty(tooltip))
+                return Path.Combine(ZeldaUI.TooltipDir, src.Substring(8));
             return src;
         }
 
@@ -75,19 +82,30 @@ namespace Zelda
         {
             if (path == null) return null;
             path = Path.ChangeExtension((path ?? "").Trim(), null) + " ";
-            string tooltip = Path.Combine(JRiverAPI.InstallFolder ?? "", "data\\tooltip");
-            if (path.StartsWith(tooltip + "\\", StringComparison.InvariantCultureIgnoreCase))
+
+            string tooltip = ZeldaUI.TooltipDir?.ToLower();
+            if (!string.IsNullOrEmpty(tooltip) && path.ToLower().StartsWith(tooltip + "\\", StringComparison.InvariantCultureIgnoreCase))
                 path = "tooltip:" + path.Substring(tooltip.Length + 1);
+
             return path.Trim();
         }
 
         public string ToHTML()
         {
+            string _valign = "middle";  // default
+            switch (valign?.ToLower())
+            {
+                case "middle":
+                case "top":
+                case "bottom": _valign = valign; break;
+            }
+
             string style = "<img ";
             string file = path ?? ELSrcToPath(src);
             if (file != null) style += $" src=\"{file}\"";
             if (width >= 0) style += $" width=\"{width}\"";
             if (height >= 0) style += $" height=\"{height}\"";
+            if (_valign != null) style += $" style=\"vertical-align:{_valign}\"";
             return style + " \" />";
         }
 
@@ -98,6 +116,7 @@ namespace Zelda
             if (file != null) style += $" src=\"{file}\"";
             if (width >= 0) style += $" width=\"{width}\"";
             if (height >= 0) style += $" height=\"{height}\"";
+            if (valign != null) style += $" valign=\"{valign}\"";
             return style + ">";
         }
     }

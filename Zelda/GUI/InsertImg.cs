@@ -24,6 +24,9 @@ namespace Zelda
 
             chkWidth.Checked = false;
             chkHeight.Checked = false;
+            
+            comboVAlign.SelectedIndex = 1;  // middle
+            chkVAlign.Checked = false;
         }
 
         public InsertImg(string tag) : this()
@@ -34,7 +37,15 @@ namespace Zelda
                 txtWidth.Text = img.width.ToString();
             if (img.height > 0)
                 txtHeight.Text = img.height.ToString();
-
+            switch (img.valign?.ToLower())
+            {
+                case "top":
+                case "middle":
+                case "bottom": 
+                    comboVAlign.Text = img.valign;
+                    chkVAlign.Checked = true;
+                    break;
+            }
             SelectedImg = img;
         }
 
@@ -49,6 +60,7 @@ namespace Zelda
                 SelectedImg.setPath(txtPath.Text);
                 SelectedImg.width = chkWidth.Checked ? int.Parse(txtWidth.Text) : -1;
                 SelectedImg.height = chkHeight.Checked ? int.Parse(txtHeight.Text) : -1;
+                SelectedImg.valign = chkVAlign.Checked ? comboVAlign.Text.ToLower() : null;
                 Close();
             }
         }
@@ -80,12 +92,17 @@ namespace Zelda
             chkHeight.Checked = true;
         }
 
+        private void comboVAlign_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            chkVAlign.Checked = true;
+        }
+
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            string tooltip = Path.Combine(JRiverAPI.InstallFolder ?? "", "data\\tooltip");
+            string tooltip = ZeldaUI.TooltipDir?.ToLower();
             if (browseFile.ShowDialog(this) == DialogResult.OK) {
                 txtPath.Text = browseFile.FileName;
-                if (txtPath.Text.StartsWith(tooltip + "\\", StringComparison.InvariantCultureIgnoreCase))
+                if (!string.IsNullOrEmpty(tooltip) && txtPath.Text.ToLower().StartsWith(tooltip + "\\", StringComparison.InvariantCultureIgnoreCase))
                     txtPath.Text = "tooltip:" + txtPath.Text.Substring(tooltip.Length + 1);
             }
         }
@@ -94,5 +111,6 @@ namespace Zelda
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
+
     }
 }

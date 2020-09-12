@@ -38,6 +38,9 @@ namespace Zelda
             chkSyntaxFunction.Checked = settings.HighlightFunction;
             chkSyntaxDelim.Checked  = settings.HighlightDelimiters;
 
+            chkTooltip.Checked = txtTooltip.Enabled = !string.IsNullOrEmpty(settings.TooltipFolder);
+            txtTooltip.Text = chkTooltip.Checked ? settings.TooltipFolder : JRiverAPI.TooltipFolder;
+
             txtExtraFuncs.Text = string.Join(" ", settings.ExtraFunctions);
 
             radio1.Checked = true;
@@ -63,6 +66,7 @@ namespace Zelda
             settings.HighlightDelimiters = chkSyntaxDelim.Checked;
 
             settings.EvaluateDelay = delaySlide.Value;
+            settings.TooltipFolder = chkTooltip.Checked ? txtTooltip.Text?.TrimEnd('\\') : null;
 
             string funcs = txtExtraFuncs.Text ?? "";
             funcs = funcs.Replace(",", " ");
@@ -194,6 +198,12 @@ namespace Zelda
         {
             if (((RadioButton)sender).Checked)
                 ShowCustomFont();
+        }
+
+        private void chkTooltip_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTooltip.Enabled = chkTooltip.Checked;
+            txtTooltip.Text = chkTooltip.Checked ? settings.TooltipFolder : JRiverAPI.TooltipFolder;
         }
     }
 }

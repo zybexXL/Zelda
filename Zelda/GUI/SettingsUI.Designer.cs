@@ -43,7 +43,6 @@
             this.btnTextColor = new System.Windows.Forms.LinkLabel();
             this.lblSampleColor = new System.Windows.Forms.Label();
             this.chkSaveTabs = new System.Windows.Forms.CheckBox();
-            this.chkDark = new System.Windows.Forms.CheckBox();
             this.chkMaximize = new System.Windows.Forms.CheckBox();
             this.chkTabs = new System.Windows.Forms.CheckBox();
             this.chkAPITime = new System.Windows.Forms.CheckBox();
@@ -72,6 +71,8 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.chkTooltip = new System.Windows.Forms.CheckBox();
+            this.txtTooltip = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaySlide)).BeginInit();
@@ -84,7 +85,7 @@
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(427, 366);
+            this.btnSave.Location = new System.Drawing.Point(427, 389);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(87, 27);
             this.btnSave.TabIndex = 0;
@@ -102,18 +103,19 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(528, 361);
+            this.tabControl1.Size = new System.Drawing.Size(528, 384);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.txtTooltip);
             this.tabPage1.Controls.Add(this.radio3);
             this.tabPage1.Controls.Add(this.radio2);
             this.tabPage1.Controls.Add(this.radio1);
             this.tabPage1.Controls.Add(this.delaySlide);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.chkSaveTabs);
-            this.tabPage1.Controls.Add(this.chkDark);
+            this.tabPage1.Controls.Add(this.chkTooltip);
             this.tabPage1.Controls.Add(this.chkMaximize);
             this.tabPage1.Controls.Add(this.chkTabs);
             this.tabPage1.Controls.Add(this.chkAPITime);
@@ -126,20 +128,21 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(520, 333);
+            this.tabPage1.Size = new System.Drawing.Size(520, 356);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Preferences";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // radio3
             // 
+            this.radio3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radio3.Appearance = System.Windows.Forms.Appearance.Button;
             this.radio3.BackColor = System.Drawing.Color.White;
             this.radio3.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.radio3.FlatAppearance.BorderSize = 0;
             this.radio3.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
             this.radio3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radio3.Location = new System.Drawing.Point(167, 196);
+            this.radio3.Location = new System.Drawing.Point(167, 219);
             this.radio3.Name = "radio3";
             this.radio3.Size = new System.Drawing.Size(73, 22);
             this.radio3.TabIndex = 8;
@@ -150,13 +153,14 @@
             // 
             // radio2
             // 
+            this.radio2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radio2.Appearance = System.Windows.Forms.Appearance.Button;
             this.radio2.BackColor = System.Drawing.Color.White;
             this.radio2.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.radio2.FlatAppearance.BorderSize = 0;
             this.radio2.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
             this.radio2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radio2.Location = new System.Drawing.Point(81, 196);
+            this.radio2.Location = new System.Drawing.Point(81, 219);
             this.radio2.Name = "radio2";
             this.radio2.Size = new System.Drawing.Size(87, 22);
             this.radio2.TabIndex = 8;
@@ -167,6 +171,7 @@
             // 
             // radio1
             // 
+            this.radio1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radio1.Appearance = System.Windows.Forms.Appearance.Button;
             this.radio1.BackColor = System.Drawing.Color.White;
             this.radio1.Checked = true;
@@ -174,7 +179,7 @@
             this.radio1.FlatAppearance.BorderSize = 0;
             this.radio1.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
             this.radio1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radio1.Location = new System.Drawing.Point(27, 196);
+            this.radio1.Location = new System.Drawing.Point(27, 219);
             this.radio1.Name = "radio1";
             this.radio1.Size = new System.Drawing.Size(54, 22);
             this.radio1.TabIndex = 8;
@@ -186,14 +191,16 @@
             // 
             // delaySlide
             // 
+            this.delaySlide.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.delaySlide.AutoSize = false;
             this.delaySlide.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.delaySlide.LargeChange = 200;
-            this.delaySlide.Location = new System.Drawing.Point(8, 151);
+            this.delaySlide.Location = new System.Drawing.Point(115, 161);
             this.delaySlide.Maximum = 2000;
             this.delaySlide.Minimum = 100;
             this.delaySlide.Name = "delaySlide";
-            this.delaySlide.Size = new System.Drawing.Size(251, 25);
+            this.delaySlide.Size = new System.Drawing.Size(345, 25);
             this.delaySlide.SmallChange = 50;
             this.delaySlide.TabIndex = 6;
             this.delaySlide.TickFrequency = 50;
@@ -211,7 +218,7 @@
             this.groupBox2.Controls.Add(this.btnTextColor);
             this.groupBox2.Controls.Add(this.lblSampleColor);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(14, 197);
+            this.groupBox2.Location = new System.Drawing.Point(14, 220);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(491, 117);
             this.groupBox2.TabIndex = 4;
@@ -285,19 +292,6 @@
             this.chkSaveTabs.TabIndex = 5;
             this.chkSaveTabs.Text = "Auto-save/restore expressions";
             this.chkSaveTabs.UseVisualStyleBackColor = true;
-            // 
-            // chkDark
-            // 
-            this.chkDark.AutoSize = true;
-            this.chkDark.Checked = true;
-            this.chkDark.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDark.Location = new System.Drawing.Point(298, 116);
-            this.chkDark.Name = "chkDark";
-            this.chkDark.Size = new System.Drawing.Size(90, 19);
-            this.chkDark.TabIndex = 5;
-            this.chkDark.Text = "Dark Theme";
-            this.chkDark.UseVisualStyleBackColor = true;
-            this.chkDark.Visible = false;
             // 
             // chkMaximize
             // 
@@ -383,8 +377,9 @@
             // 
             // lblDelay
             // 
+            this.lblDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDelay.AutoSize = true;
-            this.lblDelay.Location = new System.Drawing.Point(108, 133);
+            this.lblDelay.Location = new System.Drawing.Point(461, 164);
             this.lblDelay.Name = "lblDelay";
             this.lblDelay.Size = new System.Drawing.Size(44, 15);
             this.lblDelay.TabIndex = 2;
@@ -393,7 +388,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(11, 133);
+            this.label17.Location = new System.Drawing.Point(11, 164);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(96, 15);
             this.label17.TabIndex = 2;
@@ -413,7 +408,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(520, 333);
+            this.tabPage2.Size = new System.Drawing.Size(520, 356);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Syntax highlight";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -424,7 +419,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(86, 141);
+            this.label2.Location = new System.Drawing.Point(86, 164);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(362, 25);
             this.label2.TabIndex = 19;
@@ -448,7 +443,7 @@
             // 
             this.txtExtraFuncs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtExtraFuncs.Location = new System.Drawing.Point(139, 299);
+            this.txtExtraFuncs.Location = new System.Drawing.Point(139, 322);
             this.txtExtraFuncs.Name = "txtExtraFuncs";
             this.txtExtraFuncs.Size = new System.Drawing.Size(368, 23);
             this.txtExtraFuncs.TabIndex = 17;
@@ -471,7 +466,7 @@
             // 
             this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(13, 302);
+            this.label20.Location = new System.Drawing.Point(13, 325);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(120, 15);
             this.label20.TabIndex = 15;
@@ -483,6 +478,9 @@
             this.dgSyntax.AllowUserToDeleteRows = false;
             this.dgSyntax.AllowUserToResizeColumns = false;
             this.dgSyntax.AllowUserToResizeRows = false;
+            this.dgSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgSyntax.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgSyntax.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgSyntax.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
@@ -499,7 +497,7 @@
             this.dgSyntax.Name = "dgSyntax";
             this.dgSyntax.RowHeadersVisible = false;
             this.dgSyntax.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dgSyntax.Size = new System.Drawing.Size(491, 225);
+            this.dgSyntax.Size = new System.Drawing.Size(491, 253);
             this.dgSyntax.TabIndex = 14;
             // 
             // Column1
@@ -593,11 +591,30 @@
             this.colorDialog.FullOpen = true;
             this.colorDialog.SolidColorOnly = true;
             // 
+            // chkTooltip
+            // 
+            this.chkTooltip.AutoSize = true;
+            this.chkTooltip.Location = new System.Drawing.Point(14, 127);
+            this.chkTooltip.Name = "chkTooltip";
+            this.chkTooltip.Size = new System.Drawing.Size(102, 19);
+            this.chkTooltip.TabIndex = 5;
+            this.chkTooltip.Text = "Tooltip Folder:";
+            this.chkTooltip.UseVisualStyleBackColor = true;
+            this.chkTooltip.CheckedChanged += new System.EventHandler(this.chkTooltip_CheckedChanged);
+            // 
+            // txtTooltip
+            // 
+            this.txtTooltip.Enabled = false;
+            this.txtTooltip.Location = new System.Drawing.Point(122, 125);
+            this.txtTooltip.Name = "txtTooltip";
+            this.txtTooltip.Size = new System.Drawing.Size(383, 23);
+            this.txtTooltip.TabIndex = 9;
+            // 
             // SettingsUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 399);
+            this.ClientSize = new System.Drawing.Size(528, 422);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnSave);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -648,7 +665,6 @@
         private System.Windows.Forms.TextBox txtExtraFuncs;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.CheckBox chkTabs;
-        private System.Windows.Forms.CheckBox chkDark;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
@@ -667,5 +683,7 @@
         private System.Windows.Forms.FontDialog fontDialog;
         private System.Windows.Forms.ColorDialog colorDialog;
         private System.Windows.Forms.LinkLabel btnFont;
+        private System.Windows.Forms.TextBox txtTooltip;
+        private System.Windows.Forms.CheckBox chkTooltip;
     }
 }

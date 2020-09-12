@@ -21,14 +21,14 @@ namespace Zelda
         [DataMember] public bool ShowLineNumbers = true;
         [DataMember] public bool WrapIndent = true;
         [DataMember] public bool ReplaceTabs = true;
-        [DataMember] public bool ShowAPICallTime = true;
-        //[DataMember] public bool SkipPlaylistCount = false;
+        [DataMember] public bool ShowAPICallTime = true;  
 
         [DataMember] public int EvaluateDelay = 500;
         [DataMember] public bool HighlightSyntax = true;
         [DataMember] public bool HighlightFunction = true;
         [DataMember] public bool HighlightDelimiters = true;
         [DataMember] public List<string> ExtraFunctions = new List<string>();
+        [DataMember] public string TooltipFolder = null;
 
         [DataMember] public CustomFont EditorFont;
         [DataMember] public CustomFont OutputFont;
