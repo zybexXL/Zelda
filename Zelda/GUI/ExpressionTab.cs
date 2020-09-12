@@ -42,8 +42,34 @@ namespace Zelda
             ID = $"expr{++uniqueID}";
             scintilla.Lexer = Lexer.Null;
 
-            scintilla.Styles[Style.Default].Font = "Consolas";
-            scintilla.Styles[Style.Default].Size = 10;
+            this.Controls.Add(scintilla);
+            Config(settings);
+        }
+
+        public ExpressionTab(string title, Settings settings) : this(settings)
+        {
+            Text = title;
+        }
+
+        public void Config(Settings settings)
+        {
+            this.settings = settings;
+
+            scintilla.SetWhitespaceForeColor(true, Color.DimGray);
+            scintilla.WhitespaceSize = 2;           // larger spaces for visibility
+            scintilla.EolMode = Eol.Lf;             // LF only
+            scintilla.Margins[1].Width = 10;
+
+            scintilla.WrapStartIndent = settings.WrapIndent ? 2 : 0;
+            scintilla.UseTabs = !settings.ReplaceTabs;
+            scintilla.Margins[0].Width = settings.ShowLineNumbers ? 25 : 0;
+
+            scintilla.Styles[Style.Default].Font = settings.EditorFont.family;
+            scintilla.Styles[Style.Default].Bold = settings.EditorFont.isBold;
+            scintilla.Styles[Style.Default].Italic = settings.EditorFont.isItalic;
+            scintilla.Styles[Style.Default].SizeF = settings.EditorFont.size;
+            scintilla.Styles[Style.Default].ForeColor = settings.EditorFont.ForeColor;
+            scintilla.Styles[Style.Default].BackColor = settings.EditorFont.BackColor;
             scintilla.StyleClearAll();
 
             scintilla.Styles[(int)ELTokenType.Field].ForeColor = Color.DarkGreen;
@@ -58,27 +84,7 @@ namespace Zelda
             scintilla.Styles[(int)ELTokenType.Symbol].ForeColor = Color.Red;
             scintilla.Styles[(int)ELTokenType.Comment].ForeColor = Color.Gray;
 
-            scintilla.SetWhitespaceForeColor(true, Color.DimGray);
-            scintilla.WhitespaceSize = 2;           // larger spaces for visibility
-            scintilla.EolMode = Eol.Lf;             // LF only
-            scintilla.Margins[1].Width = 10;
-
-            Config(settings);
-            this.Controls.Add(scintilla);
-        }
-
-        public ExpressionTab(string title, Settings settings) : this(settings)
-        {
-            Text = title;
-        }
-
-        public void Config(Settings settings)
-        {
-            scintilla.WrapStartIndent = settings.WrapIndent ? 2 : 0;
-            scintilla.UseTabs = !settings.ReplaceTabs;
-            scintilla.Margins[0].Width = settings.ShowLineNumbers ? 25 : 0;
             runTimer.Interval = settings.EvaluateDelay;
-            this.settings = settings;
             syntaxHighlight();
         }
 
@@ -209,7 +215,7 @@ namespace Zelda
                 return;
             }
 
-            if (changed) return;
+            if (changed || !IsHandleCreated) return;
 
             //txtExpression.ClearDocumentStyle();       // causes problems with Word wrap!
             scintilla.StartStyling(0);

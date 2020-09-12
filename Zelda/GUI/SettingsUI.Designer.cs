@@ -29,22 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsUI));
             this.btnSave = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.radio3 = new System.Windows.Forms.RadioButton();
+            this.radio2 = new System.Windows.Forms.RadioButton();
+            this.radio1 = new System.Windows.Forms.RadioButton();
             this.delaySlide = new System.Windows.Forms.TrackBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.ddFont = new System.Windows.Forms.ComboBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.label21 = new System.Windows.Forms.Label();
-            this.ddFontSize = new System.Windows.Forms.ComboBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.btnBackColor = new System.Windows.Forms.LinkLabel();
+            this.btnFont = new System.Windows.Forms.LinkLabel();
+            this.btnTextColor = new System.Windows.Forms.LinkLabel();
+            this.lblSampleColor = new System.Windows.Forms.Label();
             this.chkSaveTabs = new System.Windows.Forms.CheckBox();
             this.chkDark = new System.Windows.Forms.CheckBox();
             this.chkMaximize = new System.Windows.Forms.CheckBox();
@@ -73,6 +70,8 @@
             this.chkSyntaxFunction = new System.Windows.Forms.CheckBox();
             this.chkSyntax = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaySlide)).BeginInit();
@@ -108,9 +107,11 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.radio3);
+            this.tabPage1.Controls.Add(this.radio2);
+            this.tabPage1.Controls.Add(this.radio1);
             this.tabPage1.Controls.Add(this.delaySlide);
             this.tabPage1.Controls.Add(this.groupBox2);
-            this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.chkSaveTabs);
             this.tabPage1.Controls.Add(this.chkDark);
             this.tabPage1.Controls.Add(this.chkMaximize);
@@ -129,6 +130,59 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Preferences";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // radio3
+            // 
+            this.radio3.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radio3.BackColor = System.Drawing.Color.White;
+            this.radio3.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.radio3.FlatAppearance.BorderSize = 0;
+            this.radio3.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
+            this.radio3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.radio3.Location = new System.Drawing.Point(167, 196);
+            this.radio3.Name = "radio3";
+            this.radio3.Size = new System.Drawing.Size(73, 22);
+            this.radio3.TabIndex = 8;
+            this.radio3.Text = "Rendered Output";
+            this.radio3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radio3.UseVisualStyleBackColor = false;
+            this.radio3.CheckedChanged += new System.EventHandler(this.radio_CheckedChanged);
+            // 
+            // radio2
+            // 
+            this.radio2.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radio2.BackColor = System.Drawing.Color.White;
+            this.radio2.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.radio2.FlatAppearance.BorderSize = 0;
+            this.radio2.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
+            this.radio2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.radio2.Location = new System.Drawing.Point(81, 196);
+            this.radio2.Name = "radio2";
+            this.radio2.Size = new System.Drawing.Size(87, 22);
+            this.radio2.TabIndex = 8;
+            this.radio2.Text = "Text Output";
+            this.radio2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radio2.UseVisualStyleBackColor = false;
+            this.radio2.CheckedChanged += new System.EventHandler(this.radio_CheckedChanged);
+            // 
+            // radio1
+            // 
+            this.radio1.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radio1.BackColor = System.Drawing.Color.White;
+            this.radio1.Checked = true;
+            this.radio1.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.radio1.FlatAppearance.BorderSize = 0;
+            this.radio1.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
+            this.radio1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.radio1.Location = new System.Drawing.Point(27, 196);
+            this.radio1.Name = "radio1";
+            this.radio1.Size = new System.Drawing.Size(54, 22);
+            this.radio1.TabIndex = 8;
+            this.radio1.TabStop = true;
+            this.radio1.Text = "Editor";
+            this.radio1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radio1.UseVisualStyleBackColor = false;
+            this.radio1.CheckedChanged += new System.EventHandler(this.radio_CheckedChanged);
             // 
             // delaySlide
             // 
@@ -152,175 +206,73 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.linkLabel2);
-            this.groupBox2.Controls.Add(this.linkLabel1);
-            this.groupBox2.Controls.Add(this.radioButton3);
-            this.groupBox2.Controls.Add(this.radioButton2);
-            this.groupBox2.Controls.Add(this.ddFont);
-            this.groupBox2.Controls.Add(this.radioButton1);
-            this.groupBox2.Controls.Add(this.label21);
-            this.groupBox2.Controls.Add(this.ddFontSize);
-            this.groupBox2.Controls.Add(this.label22);
-            this.groupBox2.Controls.Add(this.label15);
-            this.groupBox2.Enabled = false;
+            this.groupBox2.Controls.Add(this.btnBackColor);
+            this.groupBox2.Controls.Add(this.btnFont);
+            this.groupBox2.Controls.Add(this.btnTextColor);
+            this.groupBox2.Controls.Add(this.lblSampleColor);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(14, 204);
+            this.groupBox2.Location = new System.Drawing.Point(14, 197);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(491, 117);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             // 
-            // linkLabel2
+            // btnBackColor
             // 
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel2.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.linkLabel2.Location = new System.Drawing.Point(375, 79);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(101, 15);
-            this.linkLabel2.TabIndex = 9;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "background color";
+            this.btnBackColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBackColor.AutoSize = true;
+            this.btnBackColor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBackColor.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnBackColor.Location = new System.Drawing.Point(414, 79);
+            this.btnBackColor.Name = "btnBackColor";
+            this.btnBackColor.Size = new System.Drawing.Size(71, 15);
+            this.btnBackColor.TabIndex = 9;
+            this.btnBackColor.TabStop = true;
+            this.btnBackColor.Text = "background";
+            this.btnBackColor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnBackColor_LinkClicked);
             // 
-            // linkLabel1
+            // btnFont
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.linkLabel1.Location = new System.Drawing.Point(313, 79);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(56, 15);
-            this.linkLabel1.TabIndex = 9;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "text color";
+            this.btnFont.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFont.AutoSize = true;
+            this.btnFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFont.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnFont.Location = new System.Drawing.Point(414, 29);
+            this.btnFont.Name = "btnFont";
+            this.btnFont.Size = new System.Drawing.Size(29, 15);
+            this.btnFont.TabIndex = 9;
+            this.btnFont.TabStop = true;
+            this.btnFont.Text = "font";
+            this.btnFont.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnFont_LinkClicked);
             // 
-            // radioButton3
+            // btnTextColor
             // 
-            this.radioButton3.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton3.BackColor = System.Drawing.Color.White;
-            this.radioButton3.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.radioButton3.FlatAppearance.BorderSize = 0;
-            this.radioButton3.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
-            this.radioButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radioButton3.Location = new System.Drawing.Point(152, -1);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(73, 22);
-            this.radioButton3.TabIndex = 8;
-            this.radioButton3.Text = "Rendered Output";
-            this.radioButton3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton3.UseVisualStyleBackColor = false;
+            this.btnTextColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTextColor.AutoSize = true;
+            this.btnTextColor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTextColor.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnTextColor.Location = new System.Drawing.Point(414, 54);
+            this.btnTextColor.Name = "btnTextColor";
+            this.btnTextColor.Size = new System.Drawing.Size(56, 15);
+            this.btnTextColor.TabIndex = 9;
+            this.btnTextColor.TabStop = true;
+            this.btnTextColor.Text = "text color";
+            this.btnTextColor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnTextColor_LinkClicked);
             // 
-            // radioButton2
+            // lblSampleColor
             // 
-            this.radioButton2.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton2.BackColor = System.Drawing.Color.White;
-            this.radioButton2.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.radioButton2.FlatAppearance.BorderSize = 0;
-            this.radioButton2.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
-            this.radioButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radioButton2.Location = new System.Drawing.Point(66, -1);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(87, 22);
-            this.radioButton2.TabIndex = 8;
-            this.radioButton2.Text = "Text Output";
-            this.radioButton2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton2.UseVisualStyleBackColor = false;
-            // 
-            // ddFont
-            // 
-            this.ddFont.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ddFont.FormattingEnabled = true;
-            this.ddFont.Location = new System.Drawing.Point(53, 31);
-            this.ddFont.Name = "ddFont";
-            this.ddFont.Size = new System.Drawing.Size(326, 23);
-            this.ddFont.TabIndex = 0;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton1.BackColor = System.Drawing.Color.White;
-            this.radioButton1.Checked = true;
-            this.radioButton1.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.radioButton1.FlatAppearance.BorderSize = 0;
-            this.radioButton1.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
-            this.radioButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radioButton1.Location = new System.Drawing.Point(13, -1);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(54, 22);
-            this.radioButton1.TabIndex = 8;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Editor";
-            this.radioButton1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton1.UseVisualStyleBackColor = false;
-            // 
-            // label21
-            // 
-            this.label21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label21.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(53, 65);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(254, 43);
-            this.label21.TabIndex = 3;
-            this.label21.Text = "sample text";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ddFontSize
-            // 
-            this.ddFontSize.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ddFontSize.FormattingEnabled = true;
-            this.ddFontSize.Items.AddRange(new object[] {
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "14",
-            "16",
-            "18",
-            "20",
-            "22",
-            "24",
-            "26",
-            "28",
-            "30"});
-            this.ddFontSize.Location = new System.Drawing.Point(429, 31);
-            this.ddFontSize.Name = "ddFontSize";
-            this.ddFontSize.Size = new System.Drawing.Size(47, 23);
-            this.ddFontSize.TabIndex = 1;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(392, 34);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(30, 15);
-            this.label22.TabIndex = 2;
-            this.label22.Text = "Size:";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(13, 34);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(34, 15);
-            this.label15.TabIndex = 2;
-            this.label15.Text = "Font:";
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(261, 186);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(249, 15);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Custom colors/fonts are not yet implemented";
+            this.lblSampleColor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblSampleColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblSampleColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblSampleColor.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSampleColor.ForeColor = System.Drawing.Color.White;
+            this.lblSampleColor.Location = new System.Drawing.Point(13, 29);
+            this.lblSampleColor.Name = "lblSampleColor";
+            this.lblSampleColor.Padding = new System.Windows.Forms.Padding(3);
+            this.lblSampleColor.Size = new System.Drawing.Size(395, 70);
+            this.lblSampleColor.TabIndex = 3;
+            this.lblSampleColor.Text = resources.GetString("lblSampleColor.Text");
             // 
             // chkSaveTabs
             // 
@@ -626,6 +578,21 @@
             this.toolTip1.SetToolTip(this.chkSyntax, "Colorize language elements");
             this.chkSyntax.UseVisualStyleBackColor = true;
             // 
+            // fontDialog
+            // 
+            this.fontDialog.AllowScriptChange = false;
+            this.fontDialog.AllowVerticalFonts = false;
+            this.fontDialog.FontMustExist = true;
+            this.fontDialog.MaxSize = 48;
+            this.fontDialog.MinSize = 6;
+            this.fontDialog.ShowEffects = false;
+            // 
+            // colorDialog
+            // 
+            this.colorDialog.AnyColor = true;
+            this.colorDialog.FullOpen = true;
+            this.colorDialog.SolidColorOnly = true;
+            // 
             // SettingsUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -664,9 +631,6 @@
         private System.Windows.Forms.TrackBar delaySlide;
         private System.Windows.Forms.CheckBox chkLoadPlaylist;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox ddFont;
-        private System.Windows.Forms.ComboBox ddFontSize;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lblDelay;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TabPage tabPage2;
@@ -674,17 +638,15 @@
         private System.Windows.Forms.CheckBox chkSyntax;
         private System.Windows.Forms.CheckBox chkSaveTabs;
         private System.Windows.Forms.CheckBox chkLines;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label lblSampleColor;
         private System.Windows.Forms.CheckBox chkIndent;
-        private System.Windows.Forms.LinkLabel linkLabel2;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.LinkLabel btnBackColor;
+        private System.Windows.Forms.LinkLabel btnTextColor;
+        private System.Windows.Forms.RadioButton radio3;
+        private System.Windows.Forms.RadioButton radio2;
+        private System.Windows.Forms.RadioButton radio1;
         private System.Windows.Forms.TextBox txtExtraFuncs;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chkTabs;
         private System.Windows.Forms.CheckBox chkDark;
         private System.Windows.Forms.ComboBox comboBox1;
@@ -702,5 +664,8 @@
         private System.Windows.Forms.CheckBox chkSaveView;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.FontDialog fontDialog;
+        private System.Windows.Forms.ColorDialog colorDialog;
+        private System.Windows.Forms.LinkLabel btnFont;
     }
 }

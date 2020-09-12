@@ -28,6 +28,7 @@ namespace Zelda
         bool paused = false;
         bool loading;
         int lastResize = 0;
+        bool initialized = false;
 
         public Dictionary<JRFile, DataRow> rowIndex = new Dictionary<JRFile, DataRow>();
         ExpressionTab currentTab { get { return tabsLeft.SelectedTab as ExpressionTab; } }
@@ -51,9 +52,7 @@ namespace Zelda
             tabsLeft.TabPages.Clear();
 
             txtOutput.Margins[1].Width = 0;             // remove default margin
-            txtOutput.Styles[Style.Default].Font = "Consolas";
-            txtOutput.Styles[Style.Default].Size = 10;
-            txtOutput.StyleClearAll();
+            SetOutputStyle();
 
             toolStrip1.Renderer = new ToolstripRenderer(Color.PowderBlue);      // renderer to apply a backcolor on Checked toolstrip buttons
             showFunctionHelper(false);
@@ -70,13 +69,16 @@ namespace Zelda
 
         private void ZeldaUI_Load(object sender, EventArgs e)
         {
+
             if (!GetPlayLists(true))
                 this.Close();
-
-            LoadState();
-
-            if (settings.StartMaximized)
-                this.WindowState = FormWindowState.Maximized;
+            else
+            {
+                initialized = true;
+                LoadState();
+                if (settings.StartMaximized)
+                    this.WindowState = FormWindowState.Maximized;
+            }
         }
 
         void LoadState()
@@ -102,6 +104,17 @@ namespace Zelda
             }
             resizeGridColumns();
             tabsLeft.ResumeLayout();
+        }
+
+        private void SetOutputStyle()
+        {
+            txtOutput.Styles[Style.Default].Font = settings.OutputFont.family;
+            txtOutput.Styles[Style.Default].Bold = settings.OutputFont.isBold;
+            txtOutput.Styles[Style.Default].Italic = settings.OutputFont.isItalic;
+            txtOutput.Styles[Style.Default].SizeF = settings.OutputFont.size;
+            txtOutput.Styles[Style.Default].ForeColor = settings.OutputFont.ForeColor;
+            txtOutput.Styles[Style.Default].BackColor = settings.OutputFont.BackColor;
+            txtOutput.StyleClearAll();
         }
 
         private void ZeldaUI_Shown(object sender, EventArgs e)
@@ -131,11 +144,14 @@ namespace Zelda
 
         private void ZeldaUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            jrAPI.Disconnect();
-            state.Tabs = new List<TabExpression>();
-            foreach (var tab in expressionTabs)
-                state.Tabs.Add(new TabExpression(tab.Text, tab.scintilla.Text, tab.scintilla.CurrentPosition));
-            state.Save();
+            jrAPI?.Disconnect();
+            if (initialized && state != null)
+            {
+                state.Tabs = new List<TabExpression>();
+                foreach (var tab in expressionTabs)
+                    state.Tabs.Add(new TabExpression(tab.Text, tab.scintilla.Text, tab.scintilla.CurrentPosition));
+                state.Save();
+            }
         }
 
         #endregion
@@ -543,18 +559,17 @@ namespace Zelda
 
         private string getCSS()
         {
-            // #a0ffa0 = light green
-            // #ffd040 = orange
-            return $@"body {{ margin: 10px; padding: 0; background-color: #002020;
-  color: #FFFFFF;
-  font-size: 9pt;
-  font-family: Segoe UI, Verdana, Arial, Helvetica, sans-serif;
+            CustomFont cFont = settings.RenderFont;
+            string fontStyle = ((cFont.isItalic ? "italic " : "") + (cFont.isBold ? "bold " : "")).Trim();
+
+            return $@"body {{
+  margin: 10px; padding: 0;
+  background-color: #{cFont.bgcolor}; color: #{cFont.fgcolor};
+  font: {fontStyle} {cFont.size}pt {cFont.family}, Segoe UI, Verdana, Arial, Helvetica, sans-serif
 }} ";
         }
 
         #endregion
-
-
 
         #region form buttons
 
@@ -563,6 +578,8 @@ namespace Zelda
             if (DialogResult.OK == new SettingsUI(settings).ShowDialog(this))
             {
                 settings.Save();
+                SetOutputStyle();
+                ShowResults();
                 foreach (var tab in expressionTabs)
                     tab.Config(settings);
                 gridFiles.Columns["API"].Visible = settings.ShowAPICallTime;
@@ -1003,7 +1020,8 @@ namespace Zelda
             if (node != null) node.OuterHtml = "";
 
             node = webBrowser.Document.GetElementById("content");
-            node.Style = "margin: 0 0 0 0; border:0; padding: 0;";
+            if (node != null)
+                node.Style = "margin: 0 0 0 0; border:0; padding: 0;";
 
             Match m = Regex.Match(e.Url.ToString(), "([^#]+)#?(.+)?");
             if (m.Success && !string.IsNullOrEmpty(m.Groups[2].Value))

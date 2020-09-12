@@ -35,12 +35,12 @@ namespace Zelda
                 {
                     if (LatestVersion.version > Program.version)
                     {
-                        if (noQuestions || DialogResult.Yes == MessageBox.Show($"Version {LatestVersion.version} is now available! Do you want to update?",
+                        if (noQuestions || DialogResult.Yes == MessageBox.Show($"Version {LatestVersion.version} is now available! Do you want to upgrade?",
                             "New version available", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                             if (UpgradeNow())
                                 Application.Restart();
                             else
-                                MessageBox.Show($"Update failed! Please update manually from the release page:\n{LatestVersion.url}",
+                                MessageBox.Show($"Upgrade failed! Please upgrade manually from the release page:\n{LatestVersion.url}",
                                     "Upgrade error",  MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
@@ -84,7 +84,7 @@ namespace Zelda
 
         public static bool UpgradeNow()
         {
-            ProgressUI bar = new ProgressUI($"Updating Zelda to v{LatestVersion.version}", DoUpgrade, false);
+            ProgressUI bar = new ProgressUI($"Upgrading Zelda to v{LatestVersion.version}", DoUpgrade, false);
             return (bar.ShowDialog() == DialogResult.OK && bar.progress.result == true);
         }
 
@@ -102,7 +102,7 @@ namespace Zelda
                     client.Headers.Add("User-Agent", "Microsoft .Net HttpClient");
                     client.DownloadFile(LatestVersion.package, tmpFile);
 
-                    progress.subtitle = "updating";
+                    progress.subtitle = "upgrading";
                     string currEXE = Assembly.GetEntryAssembly().Location;
                     string bakFile = Path.ChangeExtension(currEXE, ".bak");
                     if (File.Exists(bakFile)) File.Delete(bakFile);

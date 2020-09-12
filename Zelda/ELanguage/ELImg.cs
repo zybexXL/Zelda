@@ -67,7 +67,7 @@ namespace Zelda
             if (src == null) return null;
             src = (src ?? "").Trim() + ".png";
             if (src.ToLower().StartsWith("tooltip:"))
-                return Path.Combine(JRiverAPI.InstallFolder, "data\\tooltip", src.Substring(8));
+                return Path.Combine(JRiverAPI.InstallFolder ?? "", "data\\tooltip", src.Substring(8));
             return src;
         }
 

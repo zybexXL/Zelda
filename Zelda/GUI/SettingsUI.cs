@@ -14,6 +14,7 @@ namespace Zelda
     public partial class SettingsUI : Form
     {
         Settings settings;
+        CustomFont[] fonts = new CustomFont[3];
 
         public SettingsUI(Settings settings)
         {
@@ -38,6 +39,12 @@ namespace Zelda
             chkSyntaxDelim.Checked  = settings.HighlightDelimiters;
 
             txtExtraFuncs.Text = string.Join(" ", settings.ExtraFunctions);
+
+            radio1.Checked = true;
+            fonts[0] = settings.EditorFont;
+            fonts[1] = settings.OutputFont;
+            fonts[2] = settings.RenderFont;
+            ShowCustomFont();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -63,6 +70,10 @@ namespace Zelda
             funcs = funcs.Replace("(", " ");
             funcs = funcs.Replace(")", " ");
             settings.ExtraFunctions = funcs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            settings.EditorFont = fonts[0];
+            settings.OutputFont = fonts[1];
+            settings.RenderFont = fonts[2];
 
             DialogResult = DialogResult.OK;
             Close();
@@ -115,11 +126,6 @@ namespace Zelda
 
             dgSyntax.Rows[8].Cells[2].Style.BackColor = Color.Gray;
             dgSyntax.Rows[8].Cells[5].Style.ForeColor = Color.Gray;
-
-            ddFont.DataSource = new InstalledFontCollection().Families;
-            ddFont.ValueMember = "Name";
-            ddFont.SelectedValue = "Consolas";
-            ddFontSize.Text = "10";
         }
 
         private void delaySlide_ValueChanged(object sender, EventArgs e)
@@ -127,7 +133,67 @@ namespace Zelda
             lblDelay.Text = $"{delaySlide.Value} ms";
             if (delaySlide.Value % 50 != 0)
                 delaySlide.Value = (delaySlide.Value / 50) * 50;
-            
+        }
+
+        private void btnFont_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            fontDialog.Font = lblSampleColor.Font;
+            if (fontDialog.ShowDialog() == DialogResult.OK)
+            {
+                lblSampleColor.Font = fontDialog.Font;
+                SetCustomFont();
+            }
+        }
+
+        private void btnTextColor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            colorDialog.Color = lblSampleColor.ForeColor;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            { 
+                lblSampleColor.ForeColor = colorDialog.Color;
+                SetCustomFont();
+            }
+        }
+
+        private void btnBackColor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            colorDialog.Color = lblSampleColor.BackColor;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            { 
+                lblSampleColor.BackColor = colorDialog.Color;
+                SetCustomFont();
+            }
+        }
+
+        int GetCustomizeIndex()
+        {
+            int index = 0;
+            //if (radio1.Checked) index = 0;
+            if (radio2.Checked) index = 1;
+            if (radio3.Checked) index = 2;
+            return index;
+        }
+
+        void SetCustomFont()
+        {
+            int index = GetCustomizeIndex();
+            fonts[index].ForeColor = lblSampleColor.ForeColor;
+            fonts[index].BackColor = lblSampleColor.BackColor;
+            fonts[index].font = lblSampleColor.Font;
+        }
+
+        void ShowCustomFont()
+        {
+            int index = GetCustomizeIndex();
+            lblSampleColor.ForeColor = fonts[index].ForeColor;
+            lblSampleColor.BackColor = fonts[index].BackColor;
+            lblSampleColor.Font = fonts[index].font;
+        }
+
+        private void radio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked)
+                ShowCustomFont();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Zelda
         Delimit, FormatBoolean, FormatDuration, FormatFileSize, FormatNumber,
         FormatRange, Orientation, PadNumber, RatingStars, RatingStars10, Watched,
         // grouping
-        GroupCount, GroupSummary, GroupCountQuery, GroupSummaryQuery,
+        FieldQuery, GroupCount, GroupSummary, GroupCountQuery, GroupSummaryQuery,
         // list manipulation
         ListBuild, ListClean, ListCombine, ListContains, ListCount, ListEqual, ListFind,
         ListFormat, ListGrep, ListItem, ListLimit, ListMath, ListMix, ListRemove, ListShuffle, ListSort,
@@ -96,6 +96,8 @@ namespace Zelda
             new ELFunction(ELCategory.Formatting, ELFunctions.RatingStars10, "Outputs the value of Rating as a number of star characters (0 to 10)", "https://wiki.jriver.com/index.php/Formatting_Functions#RatingStars10"),
             new ELFunction(ELCategory.Formatting, ELFunctions.Watched, "Outputs a formatted video bookmark", "https://wiki.jriver.com/index.php/Formatting_Functions#Watched"),
 
+            // FieldQuery - Fix URL!
+            new ELFunction(ELCategory.Grouping, ELFunctions.FieldQuery, "Return a list of matches based on a list of fields to search, from a selected scope of files", "https://yabb.jriver.com/interact/index.php/topic,124543.msg877502.html#msg877502"),
             new ELFunction(ELCategory.Grouping, ELFunctions.GroupCount, "Counts the members of a specified group (in a category or field)", "https://wiki.jriver.com/index.php/Grouping_Functions#GroupCount"),
             new ELFunction(ELCategory.Grouping, ELFunctions.GroupCountQuery, "Globally counts the number of different Field2 entries for files that share Field1 value", "https://wiki.jriver.com/index.php/Grouping_Functions#GroupCountQuery"),
             new ELFunction(ELCategory.Grouping, ELFunctions.GroupSummary, "Summarises the members of a specified group (in a category or field)", "https://wiki.jriver.com/index.php/Grouping_Functions#GroupSummary"),
@@ -112,6 +114,7 @@ namespace Zelda
             new ELFunction(ELCategory.Lists, ELFunctions.ListGrep, "Returns list items containing specified text", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListGrep"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListItem, "Returns an item from a location in a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListItem"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListLimit, "Limits the length of a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListLimit"),
+            // ListMath - Fix URL!
             new ELFunction(ELCategory.Lists, ELFunctions.ListMath, "Calculates min/max/sum/avg of all list items", "https://yabb.jriver.com/interact/index.php/topic,124543.msg877813.html#msg877813"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListMix, "Combine values from multiple lists into a new list, using a template to process each item", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListMix"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListRemove, "Removes a string from a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListRemove"),
