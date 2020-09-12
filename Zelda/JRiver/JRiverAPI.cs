@@ -120,12 +120,11 @@ namespace Zelda
                 using (var root = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
                 using (var jr = root.OpenSubKey("Software\\J. River"))
                 {
-                    if (jr != null)
-                    {
-                        string latest = jr.GetSubKeyNames().OrderByDescending(n => n).FirstOrDefault();
+                    string latest = jr?.GetSubKeyNames()?.OrderByDescending(n => n).FirstOrDefault();
+                    if (latest != null)
                         using (var mc = jr.OpenSubKey($"{latest}\\installer"))
-                            path = mc.GetValue("Install Directory", null)?.ToString();
-                    }
+                            path = mc?.GetValue("Install Directory", null)?.ToString();
+
                 }
             }
             catch (Exception ex) { Logger.Log(ex, "getInstallFolder"); }

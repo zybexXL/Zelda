@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Zelda")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("©2020, Pedro Fonseca")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
