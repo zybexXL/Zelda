@@ -229,7 +229,7 @@ namespace Zelda
 
             progress.subtitle = "Reading playlists";
             progress.Update(true);
-            var lists = jrAPI.getPlaylists().ToList();
+            var lists = jrAPI.getPlaylists(settings.PlaylistFilter, !settings.FastStart).ToList();
 
             progress.result = true;
         }
@@ -583,7 +583,8 @@ namespace Zelda
                 ShowResults();
                 foreach (var tab in expressionTabs)
                     tab.Config(settings);
-                gridFiles.Columns["API"].Visible = settings.ShowAPICallTime;
+                if (gridFiles.Columns["API"] != null)
+                    gridFiles.Columns["API"].Visible = settings.ShowAPICallTime;
             }
         }
 

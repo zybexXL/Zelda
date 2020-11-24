@@ -33,6 +33,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.txtTooltip = new System.Windows.Forms.TextBox();
             this.radio3 = new System.Windows.Forms.RadioButton();
             this.radio2 = new System.Windows.Forms.RadioButton();
             this.radio1 = new System.Windows.Forms.RadioButton();
@@ -43,6 +44,7 @@
             this.btnTextColor = new System.Windows.Forms.LinkLabel();
             this.lblSampleColor = new System.Windows.Forms.Label();
             this.chkSaveTabs = new System.Windows.Forms.CheckBox();
+            this.chkTooltip = new System.Windows.Forms.CheckBox();
             this.chkMaximize = new System.Windows.Forms.CheckBox();
             this.chkTabs = new System.Windows.Forms.CheckBox();
             this.chkAPITime = new System.Windows.Forms.CheckBox();
@@ -71,8 +73,9 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
-            this.chkTooltip = new System.Windows.Forms.CheckBox();
-            this.txtTooltip = new System.Windows.Forms.TextBox();
+            this.txtPlaylistFilter = new System.Windows.Forms.TextBox();
+            this.chkFastStart = new System.Windows.Forms.CheckBox();
+            this.chkPlaylistFilter = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaySlide)).BeginInit();
@@ -85,7 +88,7 @@
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(427, 389);
+            this.btnSave.Location = new System.Drawing.Point(427, 409);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(87, 27);
             this.btnSave.TabIndex = 0;
@@ -103,11 +106,12 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(528, 384);
+            this.tabControl1.Size = new System.Drawing.Size(528, 404);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.txtPlaylistFilter);
             this.tabPage1.Controls.Add(this.txtTooltip);
             this.tabPage1.Controls.Add(this.radio3);
             this.tabPage1.Controls.Add(this.radio2);
@@ -115,7 +119,9 @@
             this.tabPage1.Controls.Add(this.delaySlide);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.chkSaveTabs);
+            this.tabPage1.Controls.Add(this.chkPlaylistFilter);
             this.tabPage1.Controls.Add(this.chkTooltip);
+            this.tabPage1.Controls.Add(this.chkFastStart);
             this.tabPage1.Controls.Add(this.chkMaximize);
             this.tabPage1.Controls.Add(this.chkTabs);
             this.tabPage1.Controls.Add(this.chkAPITime);
@@ -128,10 +134,18 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(520, 356);
+            this.tabPage1.Size = new System.Drawing.Size(520, 376);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Preferences";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // txtTooltip
+            // 
+            this.txtTooltip.Enabled = false;
+            this.txtTooltip.Location = new System.Drawing.Point(122, 169);
+            this.txtTooltip.Name = "txtTooltip";
+            this.txtTooltip.Size = new System.Drawing.Size(383, 23);
+            this.txtTooltip.TabIndex = 9;
             // 
             // radio3
             // 
@@ -142,7 +156,7 @@
             this.radio3.FlatAppearance.BorderSize = 0;
             this.radio3.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
             this.radio3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radio3.Location = new System.Drawing.Point(167, 219);
+            this.radio3.Location = new System.Drawing.Point(167, 239);
             this.radio3.Name = "radio3";
             this.radio3.Size = new System.Drawing.Size(73, 22);
             this.radio3.TabIndex = 8;
@@ -160,7 +174,7 @@
             this.radio2.FlatAppearance.BorderSize = 0;
             this.radio2.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
             this.radio2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radio2.Location = new System.Drawing.Point(81, 219);
+            this.radio2.Location = new System.Drawing.Point(81, 239);
             this.radio2.Name = "radio2";
             this.radio2.Size = new System.Drawing.Size(87, 22);
             this.radio2.TabIndex = 8;
@@ -179,7 +193,7 @@
             this.radio1.FlatAppearance.BorderSize = 0;
             this.radio1.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
             this.radio1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radio1.Location = new System.Drawing.Point(27, 219);
+            this.radio1.Location = new System.Drawing.Point(27, 239);
             this.radio1.Name = "radio1";
             this.radio1.Size = new System.Drawing.Size(54, 22);
             this.radio1.TabIndex = 8;
@@ -196,7 +210,7 @@
             this.delaySlide.AutoSize = false;
             this.delaySlide.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.delaySlide.LargeChange = 200;
-            this.delaySlide.Location = new System.Drawing.Point(115, 161);
+            this.delaySlide.Location = new System.Drawing.Point(115, 201);
             this.delaySlide.Maximum = 2000;
             this.delaySlide.Minimum = 100;
             this.delaySlide.Name = "delaySlide";
@@ -218,7 +232,7 @@
             this.groupBox2.Controls.Add(this.btnTextColor);
             this.groupBox2.Controls.Add(this.lblSampleColor);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(14, 220);
+            this.groupBox2.Location = new System.Drawing.Point(14, 240);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(491, 117);
             this.groupBox2.TabIndex = 4;
@@ -292,6 +306,17 @@
             this.chkSaveTabs.TabIndex = 5;
             this.chkSaveTabs.Text = "Auto-save/restore expressions";
             this.chkSaveTabs.UseVisualStyleBackColor = true;
+            // 
+            // chkTooltip
+            // 
+            this.chkTooltip.AutoSize = true;
+            this.chkTooltip.Location = new System.Drawing.Point(14, 171);
+            this.chkTooltip.Name = "chkTooltip";
+            this.chkTooltip.Size = new System.Drawing.Size(102, 19);
+            this.chkTooltip.TabIndex = 5;
+            this.chkTooltip.Text = "Tooltip Folder:";
+            this.chkTooltip.UseVisualStyleBackColor = true;
+            this.chkTooltip.CheckedChanged += new System.EventHandler(this.chkbox_CheckedChanged);
             // 
             // chkMaximize
             // 
@@ -379,7 +404,7 @@
             // 
             this.lblDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDelay.AutoSize = true;
-            this.lblDelay.Location = new System.Drawing.Point(461, 164);
+            this.lblDelay.Location = new System.Drawing.Point(461, 204);
             this.lblDelay.Name = "lblDelay";
             this.lblDelay.Size = new System.Drawing.Size(44, 15);
             this.lblDelay.TabIndex = 2;
@@ -388,7 +413,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(11, 164);
+            this.label17.Location = new System.Drawing.Point(11, 204);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(96, 15);
             this.label17.TabIndex = 2;
@@ -408,7 +433,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(520, 356);
+            this.tabPage2.Size = new System.Drawing.Size(520, 376);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Syntax highlight";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -419,7 +444,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(86, 164);
+            this.label2.Location = new System.Drawing.Point(86, 184);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(362, 25);
             this.label2.TabIndex = 19;
@@ -443,7 +468,7 @@
             // 
             this.txtExtraFuncs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtExtraFuncs.Location = new System.Drawing.Point(139, 322);
+            this.txtExtraFuncs.Location = new System.Drawing.Point(139, 342);
             this.txtExtraFuncs.Name = "txtExtraFuncs";
             this.txtExtraFuncs.Size = new System.Drawing.Size(368, 23);
             this.txtExtraFuncs.TabIndex = 17;
@@ -466,7 +491,7 @@
             // 
             this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(13, 325);
+            this.label20.Location = new System.Drawing.Point(13, 345);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(120, 15);
             this.label20.TabIndex = 15;
@@ -497,7 +522,7 @@
             this.dgSyntax.Name = "dgSyntax";
             this.dgSyntax.RowHeadersVisible = false;
             this.dgSyntax.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dgSyntax.Size = new System.Drawing.Size(491, 253);
+            this.dgSyntax.Size = new System.Drawing.Size(491, 273);
             this.dgSyntax.TabIndex = 14;
             // 
             // Column1
@@ -591,30 +616,44 @@
             this.colorDialog.FullOpen = true;
             this.colorDialog.SolidColorOnly = true;
             // 
-            // chkTooltip
+            // txtPlaylistFilter
             // 
-            this.chkTooltip.AutoSize = true;
-            this.chkTooltip.Location = new System.Drawing.Point(14, 127);
-            this.chkTooltip.Name = "chkTooltip";
-            this.chkTooltip.Size = new System.Drawing.Size(102, 19);
-            this.chkTooltip.TabIndex = 5;
-            this.chkTooltip.Text = "Tooltip Folder:";
-            this.chkTooltip.UseVisualStyleBackColor = true;
-            this.chkTooltip.CheckedChanged += new System.EventHandler(this.chkTooltip_CheckedChanged);
+            this.txtPlaylistFilter.Enabled = false;
+            this.txtPlaylistFilter.Location = new System.Drawing.Point(122, 139);
+            this.txtPlaylistFilter.Name = "txtPlaylistFilter";
+            this.txtPlaylistFilter.Size = new System.Drawing.Size(383, 23);
+            this.txtPlaylistFilter.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.txtPlaylistFilter, resources.GetString("txtPlaylistFilter.ToolTip"));
             // 
-            // txtTooltip
+            // chkFastStart
             // 
-            this.txtTooltip.Enabled = false;
-            this.txtTooltip.Location = new System.Drawing.Point(122, 125);
-            this.txtTooltip.Name = "txtTooltip";
-            this.txtTooltip.Size = new System.Drawing.Size(383, 23);
-            this.txtTooltip.TabIndex = 9;
+            this.chkFastStart.AutoSize = true;
+            this.chkFastStart.Location = new System.Drawing.Point(14, 116);
+            this.chkFastStart.Name = "chkFastStart";
+            this.chkFastStart.Size = new System.Drawing.Size(73, 19);
+            this.chkFastStart.TabIndex = 5;
+            this.chkFastStart.Text = "Fast start";
+            this.toolTip1.SetToolTip(this.chkFastStart, "Enable this option to get just the Playlist names without the file count for each" +
+        " one.\r\nGetting the filecount for many playlists can be slow, specially for Smart" +
+        "lists.");
+            this.chkFastStart.UseVisualStyleBackColor = true;
+            // 
+            // chkPlaylistFilter
+            // 
+            this.chkPlaylistFilter.AutoSize = true;
+            this.chkPlaylistFilter.Location = new System.Drawing.Point(14, 141);
+            this.chkPlaylistFilter.Name = "chkPlaylistFilter";
+            this.chkPlaylistFilter.Size = new System.Drawing.Size(95, 19);
+            this.chkPlaylistFilter.TabIndex = 5;
+            this.chkPlaylistFilter.Text = "Playlist Filter:";
+            this.chkPlaylistFilter.UseVisualStyleBackColor = true;
+            this.chkPlaylistFilter.CheckedChanged += new System.EventHandler(this.chkbox_CheckedChanged);
             // 
             // SettingsUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 422);
+            this.ClientSize = new System.Drawing.Size(528, 442);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnSave);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -685,5 +724,8 @@
         private System.Windows.Forms.LinkLabel btnFont;
         private System.Windows.Forms.TextBox txtTooltip;
         private System.Windows.Forms.CheckBox chkTooltip;
+        private System.Windows.Forms.TextBox txtPlaylistFilter;
+        private System.Windows.Forms.CheckBox chkPlaylistFilter;
+        private System.Windows.Forms.CheckBox chkFastStart;
     }
 }

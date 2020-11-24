@@ -31,6 +31,7 @@ namespace Zelda
             chkMaximize.Checked     = settings.StartMaximized;
             chkLoadPlaylist.Checked = settings.ReloadPlaylist;
             chkLines.Checked        = settings.ShowLineNumbers;
+            chkFastStart.Checked    = settings.FastStart;
 
             delaySlide.Value        = settings.EvaluateDelay;
 
@@ -40,6 +41,8 @@ namespace Zelda
 
             chkTooltip.Checked = txtTooltip.Enabled = !string.IsNullOrEmpty(settings.TooltipFolder);
             txtTooltip.Text = chkTooltip.Checked ? settings.TooltipFolder : JRiverAPI.TooltipFolder;
+            chkPlaylistFilter.Checked = txtPlaylistFilter.Enabled = !string.IsNullOrEmpty(settings.PlaylistFilter);
+            txtPlaylistFilter.Text = settings.PlaylistFilter;
 
             txtExtraFuncs.Text = string.Join(" ", settings.ExtraFunctions);
 
@@ -60,6 +63,7 @@ namespace Zelda
             settings.StartMaximized = chkMaximize.Checked;
             settings.ReloadPlaylist = chkLoadPlaylist.Checked;
             settings.ShowLineNumbers = chkLines.Checked;
+            settings.FastStart = chkFastStart.Checked;
 
             settings.HighlightSyntax = chkSyntax.Checked;
             settings.HighlightFunction = chkSyntaxFunction.Checked;
@@ -67,6 +71,7 @@ namespace Zelda
 
             settings.EvaluateDelay = delaySlide.Value;
             settings.TooltipFolder = chkTooltip.Checked ? txtTooltip.Text?.TrimEnd('\\') : null;
+            settings.PlaylistFilter = chkPlaylistFilter.Checked ? txtPlaylistFilter.Text : null;
 
             string funcs = txtExtraFuncs.Text ?? "";
             funcs = funcs.Replace(",", " ");
@@ -200,8 +205,9 @@ namespace Zelda
                 ShowCustomFont();
         }
 
-        private void chkTooltip_CheckedChanged(object sender, EventArgs e)
+        private void chkbox_CheckedChanged(object sender, EventArgs e)
         {
+            txtPlaylistFilter.Enabled = chkPlaylistFilter.Checked; 
             txtTooltip.Enabled = chkTooltip.Checked;
             txtTooltip.Text = chkTooltip.Checked ? settings.TooltipFolder : JRiverAPI.TooltipFolder;
         }

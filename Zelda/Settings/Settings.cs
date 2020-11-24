@@ -21,7 +21,8 @@ namespace Zelda
         [DataMember] public bool ShowLineNumbers = true;
         [DataMember] public bool WrapIndent = true;
         [DataMember] public bool ReplaceTabs = true;
-        [DataMember] public bool ShowAPICallTime = true;  
+        [DataMember] public bool ShowAPICallTime = true;
+        [DataMember] public bool FastStart = false;
 
         [DataMember] public int EvaluateDelay = 500;
         [DataMember] public bool HighlightSyntax = true;
@@ -29,6 +30,7 @@ namespace Zelda
         [DataMember] public bool HighlightDelimiters = true;
         [DataMember] public List<string> ExtraFunctions = new List<string>();
         [DataMember] public string TooltipFolder = null;
+        [DataMember] public string PlaylistFilter = null;
 
         [DataMember] public CustomFont EditorFont;
         [DataMember] public CustomFont OutputFont;

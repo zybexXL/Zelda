@@ -120,7 +120,10 @@ namespace Zelda
                 using (var root = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
                 using (var jr = root.OpenSubKey("Software\\J. River"))
                 {
-                    string latest = jr?.GetSubKeyNames()?.OrderByDescending(n => n).FirstOrDefault();
+                    string latest = jr?.GetSubKeyNames()?
+                        .Where(n=>n.StartsWith("Media Center"))
+                        .OrderByDescending(n => n)
+                        .FirstOrDefault();
                     if (latest != null)
                         using (var mc = jr.OpenSubKey($"{latest}\\installer"))
                             path = mc?.GetValue("Install Directory", null)?.ToString();
@@ -176,21 +179,30 @@ namespace Zelda
             return FieldMap;
         }
 
-        public IEnumerable<JRPlaylist> getPlaylists(string fileFilter = null, bool countFiles = true)
+        public IEnumerable<JRPlaylist> getPlaylists(string filter = null, bool countFiles = true)
         {
             Playlists = new List<JRPlaylist>();
+            DateTime limit = DateTime.Now.AddSeconds(10);                           // max playlist loadtime
+            List<string> plFilter = filter?.Split(';').Select(f => f.Trim()).Where(f => !string.IsNullOrEmpty(f)).ToList();
+            if (plFilter != null && plFilter.Count == 0) plFilter = null;
+
             try
             {
-                //Logger.Log("getPlaylists: getting playlist count");
                 IMJPlaylistsAutomation iList = jr.GetPlaylists();
                 int count = iList.GetNumberPlaylists();
+
                 Logger.Log($"getPlaylists: loading {count} playlists");
                 for (int i = 0; i < count; i++)
                 {
+                    if (countFiles && DateTime.Now > limit) countFiles = false;         // disable getPLFileCount() if it's taking too long
                     IMJPlaylistAutomation list = iList.GetPlaylist(i);
                     
                     if (list.Get("type") == "1") continue;      // 0 = playlist, 1 = playlist group, 2 = smartlist
                     string name = list.Name ?? "playlist";
+                    string fullname = $"{list.Path}\\{name}";
+                    if (plFilter != null && plFilter.All(f => fullname.IndexOf(f, StringComparison.CurrentCultureIgnoreCase) < 0))
+                        continue;
+
                     var playlist = new JRPlaylist(list.GetID(), name, -1, list.Path);
                     
                     // get file count - except for "audio - task - missing files" which may take a loooong time (isMissing() slowness)
