@@ -846,6 +846,7 @@
             // 
             // btnReconnect
             // 
+            this.btnReconnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnReconnect.BackColor = System.Drawing.Color.Transparent;
             this.btnReconnect.FlatAppearance.BorderSize = 0;
             this.btnReconnect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.PowderBlue;
@@ -895,6 +896,8 @@
             // 
             // comboLists
             // 
+            this.comboLists.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboLists.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboLists.FormattingEnabled = true;
             this.comboLists.Location = new System.Drawing.Point(65, 9);

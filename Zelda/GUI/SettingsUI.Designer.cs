@@ -315,6 +315,8 @@
             this.chkTooltip.Size = new System.Drawing.Size(102, 19);
             this.chkTooltip.TabIndex = 5;
             this.chkTooltip.Text = "Tooltip Folder:";
+            this.toolTip1.SetToolTip(this.chkTooltip, "Set this path in case Zelda doesn\'t detect the Tooltip: location correctly.\r\nLeav" +
+        "e blank to autodetect the Tooltip folder.");
             this.chkTooltip.UseVisualStyleBackColor = true;
             this.chkTooltip.CheckedChanged += new System.EventHandler(this.chkbox_CheckedChanged);
             // 
@@ -623,7 +625,6 @@
             this.txtPlaylistFilter.Name = "txtPlaylistFilter";
             this.txtPlaylistFilter.Size = new System.Drawing.Size(383, 23);
             this.txtPlaylistFilter.TabIndex = 9;
-            this.toolTip1.SetToolTip(this.txtPlaylistFilter, resources.GetString("txtPlaylistFilter.ToolTip"));
             // 
             // chkFastStart
             // 
@@ -646,6 +647,7 @@
             this.chkPlaylistFilter.Size = new System.Drawing.Size(95, 19);
             this.chkPlaylistFilter.TabIndex = 5;
             this.chkPlaylistFilter.Text = "Playlist Filter:";
+            this.toolTip1.SetToolTip(this.chkPlaylistFilter, resources.GetString("chkPlaylistFilter.ToolTip"));
             this.chkPlaylistFilter.UseVisualStyleBackColor = true;
             this.chkPlaylistFilter.CheckedChanged += new System.EventHandler(this.chkbox_CheckedChanged);
             // 

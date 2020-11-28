@@ -13,7 +13,7 @@ namespace Zelda
         public string Name { get; set; }
         public int Count { get; set; }
         public string Path { get; set; }
-
+        public string FullName { get { return $"{Path}{Name}"; } }
         public List<JRFile> Files { get; set; }
 
 

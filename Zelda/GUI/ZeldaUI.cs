@@ -181,8 +181,8 @@ namespace Zelda
             }
             if (jrAPI.Playlists.Count == 0)
             {
-                MessageBox.Show("Failed to load list of Playlists from MediaCenter!", "No media?", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                string filtered = !string.IsNullOrEmpty(settings.PlaylistFilter) ? "\nPlease check the Playlist Filter in settings." : "";
+                MessageBox.Show($"Failed to load list of Playlists from MediaCenter!{filtered}", "No playlists", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             lblStatus.Text = $"Connected to MediaCenter v{jrAPI.Version} - {jrAPI.Library}";
@@ -196,7 +196,7 @@ namespace Zelda
             state.TableFields = columns;
 
             // load current playlist files
-            comboLists.DataSource = jrAPI.Playlists.OrderBy(p => p.ToString()).ToList();
+            comboLists.DataSource = jrAPI.Playlists.OrderBy(p => p.Path).ThenBy(p => p.ToString()).ToList();
             JRPlaylist list = null;
             if (currentPlaylist != null)
                 list = jrAPI.Playlists.Where(p => p.Name == currentPlaylist.Name).FirstOrDefault();
@@ -276,7 +276,7 @@ namespace Zelda
             r1.Width = r1.Width - 40;
             using (SolidBrush sb = new SolidBrush(args.ForeColor))
             {
-                args.Graphics.DrawString(item.Name, args.Font, sb, r1);
+                args.Graphics.DrawString(item.FullName, args.Font, sb, r1);
             }
 
             bool isSlow = item.Count == -2;
@@ -576,6 +576,7 @@ namespace Zelda
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
+            string filter = settings.PlaylistFilter ?? "";
             if (DialogResult.OK == new SettingsUI(settings).ShowDialog(this))
             {
                 settings.Save();
@@ -585,6 +586,9 @@ namespace Zelda
                     tab.Config(settings);
                 if (gridFiles.Columns["API"] != null)
                     gridFiles.Columns["API"].Visible = settings.ShowAPICallTime;
+
+                if (filter != (settings.PlaylistFilter ?? ""))
+                    GetPlayLists();
             }
         }
 

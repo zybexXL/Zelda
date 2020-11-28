@@ -71,7 +71,7 @@ namespace Zelda
 
             settings.EvaluateDelay = delaySlide.Value;
             settings.TooltipFolder = chkTooltip.Checked ? txtTooltip.Text?.TrimEnd('\\') : null;
-            settings.PlaylistFilter = chkPlaylistFilter.Checked ? txtPlaylistFilter.Text : null;
+            settings.PlaylistFilter = chkPlaylistFilter.Checked && !string.IsNullOrWhiteSpace(txtPlaylistFilter.Text) ? txtPlaylistFilter.Text : null;
 
             string funcs = txtExtraFuncs.Text ?? "";
             funcs = funcs.Replace(",", " ");
