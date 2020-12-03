@@ -930,7 +930,7 @@ namespace Zelda
 
         private void resizeGridColumns(bool force = false)
         {
-            if (state == null) return;
+            if (state == null || expressionTabs.Count == 0) return;
             int available = gridFiles.DisplayRectangle.Width;
             if (!force && available == lastResize) return;
             lastResize = available;
