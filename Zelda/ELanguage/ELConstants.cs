@@ -25,7 +25,7 @@ namespace Zelda
         FieldQuery, GroupCount, GroupSummary, GroupCountQuery, GroupSummaryQuery,
         // list manipulation
         ListBuild, ListClean, ListCombine, ListContains, ListCount, ListEqual, ListFind,
-        ListFormat, ListGrep, ListItem, ListLimit, ListMath, ListMix, ListRemove, ListShuffle, ListSort,
+        ListFormat, ListGrep, ListItem, ListLimit, ListMath, ListMix, ListMix2, ListRemove, ListShuffle, ListSort,
         // miscellaneous
         AlbumArtist, AlbumKey, AlbumType, AudioAnalysisState, Char, Counter,
         CustomData, FilePlaylists, Literal, Number, Rand, Range, Row, Size,
@@ -117,6 +117,7 @@ namespace Zelda
             // ListMath - Fix URL!
             new ELFunction(ELCategory.Lists, ELFunctions.ListMath, "Calculates min/max/sum/avg of all list items", "https://yabb.jriver.com/interact/index.php/topic,124543.msg877813.html#msg877813"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListMix, "Combine values from multiple lists into a new list, using a template to process each item", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListMix"),
+            new ELFunction(ELCategory.Lists, ELFunctions.ListMix2, "Combine values from multiple lists into a new list (alternate escape processing version)", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListMix"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListRemove, "Removes a string from a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListRemove"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListShuffle, "Shuffles a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListShuffle"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListSort, "Sort a list of values", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListSort"),

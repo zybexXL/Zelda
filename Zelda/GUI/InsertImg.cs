@@ -100,10 +100,10 @@ namespace Zelda
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             string tooltip = ZeldaUI.TooltipDir?.ToLower();
+            if (!string.IsNullOrEmpty(txtPath.Text))
+                browseFile.InitialDirectory = txtPath.Text.ToLower().Trim().StartsWith("tooltip:") ? ZeldaUI.TooltipDir : Path.GetDirectoryName(txtPath.Text);
             if (browseFile.ShowDialog(this) == DialogResult.OK) {
                 txtPath.Text = browseFile.FileName;
-                if (!string.IsNullOrEmpty(tooltip) && txtPath.Text.ToLower().StartsWith(tooltip + "\\", StringComparison.InvariantCultureIgnoreCase))
-                    txtPath.Text = "tooltip:" + txtPath.Text.Substring(tooltip.Length + 1);
             }
         }
 

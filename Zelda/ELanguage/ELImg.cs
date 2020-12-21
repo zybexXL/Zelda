@@ -70,22 +70,22 @@ namespace Zelda
         public static string ELSrcToPath(string src)
         {
             if (src == null) return null;
-            src = (src ?? "").Trim() + ".png";
+            src = src.Trim();
 
             string tooltip = ZeldaUI.TooltipDir?.ToLower();
-            if (src.ToLower().StartsWith("tooltip:") && !string.IsNullOrEmpty(tooltip))
-                return Path.Combine(ZeldaUI.TooltipDir, src.Substring(8));
+            if (src.ToLower().StartsWith("tooltip:") && src.Length > 8 && !string.IsNullOrEmpty(tooltip))
+                return Path.Combine(ZeldaUI.TooltipDir, src.Substring(8)) + ".png";
             return src;
         }
 
         public static string PathToELSrc(string path)
         {
             if (path == null) return null;
-            path = Path.ChangeExtension((path ?? "").Trim(), null) + " ";
-
+            
+            bool isPNG = path.ToLower().EndsWith(".png");
             string tooltip = ZeldaUI.TooltipDir?.ToLower();
-            if (!string.IsNullOrEmpty(tooltip) && path.ToLower().StartsWith(tooltip + "\\", StringComparison.InvariantCultureIgnoreCase))
-                path = "tooltip:" + path.Substring(tooltip.Length + 1);
+            if (isPNG && !string.IsNullOrEmpty(tooltip) && path.ToLower().StartsWith(tooltip + "\\", StringComparison.InvariantCultureIgnoreCase))
+                path = "tooltip:" + Path.ChangeExtension((path + " ").Substring(tooltip.Length + 1).Trim(), null);
 
             return path.Trim();
         }
@@ -100,13 +100,17 @@ namespace Zelda
                 case "bottom": _valign = valign; break;
             }
 
-            string style = "<img ";
+            string tag = "<img ";
+            string style = "";
             string file = path ?? ELSrcToPath(src);
-            if (file != null) style += $" src=\"{file}\"";
-            if (width >= 0) style += $" width=\"{width}\"";
-            if (height >= 0) style += $" height=\"{height}\"";
-            if (_valign != null) style += $" style=\"vertical-align:{_valign}\"";
-            return style + " \" />";
+            if (file != null) tag += $" src=\"{file}\"";
+            if (width > 0) tag += $" width=\"{width}\"";
+            if (height > 0) tag += $" height=\"{height}\"";
+            //if (height <= 0 && height <= 0) style += $"height:100%; ";
+            if (_valign != null) style += $" vertical-align:{_valign}; ";
+
+            if (!string.IsNullOrWhiteSpace(style)) style = $" style=\"{style}\"";
+            return $"{tag}{style} />";
         }
 
         public string ToExpression()
@@ -114,8 +118,8 @@ namespace Zelda
             string style = "<img";
             string file = src ?? PathToELSrc(path);
             if (file != null) style += $" src=\"{file}\"";
-            if (width >= 0) style += $" width=\"{width}\"";
-            if (height >= 0) style += $" height=\"{height}\"";
+            if (width > 0) style += $" width=\"{width}\"";
+            if (height > 0) style += $" height=\"{height}\"";
             if (valign != null) style += $" valign=\"{valign}\"";
             return style + ">";
         }

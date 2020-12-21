@@ -135,7 +135,7 @@
             // browseFile
             // 
             this.browseFile.DefaultExt = "png";
-            this.browseFile.Filter = "PNG files|*.png";
+            this.browseFile.Filter = "Image files|*.png;*.bmp;*.jpg;*.gif;*.tif";
             // 
             // chkVAlign
             // 
