@@ -56,16 +56,29 @@ namespace Zelda
             }
         }
 
-        private void txtFilter_TextChanged(object sender, EventArgs e)
+        private void Filter()
         {
             var bs = gridFields.DataSource as BindingSource;
-            if (string.IsNullOrEmpty(txtFilter.Text))
+            if (string.IsNullOrWhiteSpace(txtFilter.Text) && !chkValue.Checked)
                 bs.RemoveFilter();
             else
             {
                 string[] parts = txtFilter.Text.Trim().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                try { bs.Filter = string.Join(" AND ", parts.Select(p => $"field like '%{p}%'")); } catch { }
+                string exclude = chkValue.Checked ? "value <> ''" : "";
+                if (parts.Length > 0 && !string.IsNullOrEmpty(exclude)) exclude = $"{exclude} AND ";
+                string filter = exclude + string.Join(" AND ", parts.Select(p => $"field like '%{p}%'"));
+                try { bs.Filter = filter; } catch { }
             }
+        }
+
+        private void txtFilter_TextChanged(object sender, EventArgs e)
+        {
+            Filter();
+        }
+
+        private void chkValue_CheckedChanged(object sender, EventArgs e)
+        {
+            Filter();
         }
 
         private void gridFields_KeyDown(object sender, KeyEventArgs e)

@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.button1 = new System.Windows.Forms.Button();
             this.gridFields = new System.Windows.Forms.DataGridView();
-            this.txtFilter = new System.Windows.Forms.TextBox();
-            this.chkUnformatted = new System.Windows.Forms.CheckBox();
             this.cField = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.chkUnformatted = new System.Windows.Forms.CheckBox();
+            this.chkValue = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridFields)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,14 +65,14 @@
             this.gridFields.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cField,
             this.cValue});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridFields.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridFields.DefaultCellStyle = dataGridViewCellStyle4;
             this.gridFields.Location = new System.Drawing.Point(12, 35);
             this.gridFields.MultiSelect = false;
             this.gridFields.Name = "gridFields";
@@ -82,6 +83,25 @@
             this.gridFields.TabIndex = 2;
             this.gridFields.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridFields_KeyDown);
             this.gridFields.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.gridFields_MouseDoubleClick);
+            // 
+            // cField
+            // 
+            this.cField.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cField.DataPropertyName = "field";
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cField.DefaultCellStyle = dataGridViewCellStyle3;
+            this.cField.HeaderText = "Field Name";
+            this.cField.Name = "cField";
+            this.cField.ReadOnly = true;
+            this.cField.Width = 96;
+            // 
+            // cValue
+            // 
+            this.cValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.cValue.DataPropertyName = "value";
+            this.cValue.HeaderText = "Value";
+            this.cValue.Name = "cValue";
+            this.cValue.ReadOnly = true;
             // 
             // txtFilter
             // 
@@ -103,30 +123,23 @@
             this.chkUnformatted.Text = "unformatted";
             this.chkUnformatted.UseVisualStyleBackColor = true;
             // 
-            // cField
+            // chkValue
             // 
-            this.cField.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cField.DataPropertyName = "field";
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cField.DefaultCellStyle = dataGridViewCellStyle1;
-            this.cField.HeaderText = "Field Name";
-            this.cField.Name = "cField";
-            this.cField.ReadOnly = true;
-            this.cField.Width = 96;
-            // 
-            // cValue
-            // 
-            this.cValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.cValue.DataPropertyName = "value";
-            this.cValue.HeaderText = "Value";
-            this.cValue.Name = "cValue";
-            this.cValue.ReadOnly = true;
+            this.chkValue.AutoSize = true;
+            this.chkValue.Location = new System.Drawing.Point(195, 10);
+            this.chkValue.Name = "chkValue";
+            this.chkValue.Size = new System.Drawing.Size(80, 19);
+            this.chkValue.TabIndex = 3;
+            this.chkValue.Text = "with value";
+            this.chkValue.UseVisualStyleBackColor = true;
+            this.chkValue.CheckedChanged += new System.EventHandler(this.chkValue_CheckedChanged);
             // 
             // InsertField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 307);
+            this.Controls.Add(this.chkValue);
             this.Controls.Add(this.chkUnformatted);
             this.Controls.Add(this.txtFilter);
             this.Controls.Add(this.gridFields);
@@ -155,5 +168,6 @@
         private System.Windows.Forms.CheckBox chkUnformatted;
         private System.Windows.Forms.DataGridViewTextBoxColumn cField;
         private System.Windows.Forms.DataGridViewTextBoxColumn cValue;
+        private System.Windows.Forms.CheckBox chkValue;
     }
 }

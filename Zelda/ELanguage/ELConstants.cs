@@ -12,12 +12,11 @@ namespace Zelda
         // access/store
         Field, Load, Note, Save, SaveAdd, Tag, ItemCount,
         // conditional
-        If, IfElse, FirstNotEmpty, IfCase, And, Or,
+        If, IfElse, FirstNotEmpty, IfCase, And, Or, Not,
         // date and time
         ConvertDate, FormatDate, Now, DateInRange,
         // file path and identifier
-        DBLocation, FileDBLocation, FileFolder, FileKey, FileName, FilePath, FileVolume,
-        FileLookup, IsDriveMissing,
+        DBLocation, Enviro, FileDBLocation, FileFolder, FileKey, FileLookup, FileName, FilePath, FileVolume,
         // formatting
         Delimit, FormatBoolean, FormatDuration, FormatFileSize, FormatNumber,
         FormatRange, Orientation, PadNumber, RatingStars, RatingStars10, Watched,
@@ -27,16 +26,17 @@ namespace Zelda
         ListBuild, ListClean, ListCombine, ListContains, ListCount, ListEqual, ListFind,
         ListFormat, ListGrep, ListItem, ListLimit, ListMath, ListMix, ListMix2, ListRemove, ListShuffle, ListSort,
         // miscellaneous
-        AlbumArtist, AlbumKey, AlbumType, AudioAnalysisState, Char, Counter,
-        CustomData, FilePlaylists, Literal, Number, Rand, Range, Row, Size,
-        StackCount, TrackNumber, Translate, TVInfo,
-        Min, Max, Avg, Sum,
+        AlbumArtist, AlbumKey, AlbumType, AudioAnalysisState, Char, 
+        CustomData, FilePlaylists, Literal, Repeat, Row, Size,
+        Translate, TVInfo,
+        // Number functions
+        Avg, Counter, Max, Min, Number, Rand, Range, Roman, StackCount, Sum, TrackNumber,
         // string manipulation
-        Clean, Enviro, Find, FixCase, FixSpacing, Hexify, Left, Length, Letter, Mid,
-        MoveArticles, Regex, RemoveCharacters, RemoveLeft, RemoveRight, Replace,
-        Right, Swap, Trim, TrimLines, UnMoveArticles, Unswap, NoArticles, URLify,
+        Clean, Find, FixCase, FixSpacing, Hexify, Left, Length, Letter, Mid,
+        MoveArticles, NoArticles, PadLeft, PadRight, Regex, RemoveCharacters, RemoveLeft, RemoveRight, Replace,
+        Right, Swap, Trim, TrimLines, UnMoveArticles, Unswap, URLify,
         // test and comparison
-        Compare, IsDigit, IsEqual, IsEmpty, IsInPlayingNow, IsLowerCase, IsMissing,
+        Compare, IsDigit, IsDriveMissing, IsEmpty, IsEqual, IsInPlayingNow, IsLowerCase, IsMissing,
         IsPlaying, IsRange, IsRemovable, IsUpperCase, SearchTags,
         // math + subfunctions
         Math,
@@ -47,7 +47,7 @@ namespace Zelda
     public enum ELCategory
     {
         LoadStore, Conditional, DateTime, Identifier, Formatting,
-        Grouping, Lists, Miscellaneous, Strings, TestCompare, Math
+        Grouping, Lists, Miscellaneous, Number, Strings, TestCompare, Math
     }
 
     public class ELConstants
@@ -67,8 +67,10 @@ namespace Zelda
             new ELFunction(ELCategory.Conditional, ELFunctions.If, "Conditional ifelse evaluator", "https://wiki.jriver.com/index.php/Conditional_Functions#If"),
             new ELFunction(ELCategory.Conditional, ELFunctions.IfCase, "Functions as a switch or select case statement", "https://wiki.jriver.com/index.php/Conditional_Functions#IfCase"),
             new ELFunction(ELCategory.Conditional, ELFunctions.IfElse, "Conditional if-elseif evaluator", "https://wiki.jriver.com/index.php/Conditional_Functions#IfElse"),
+            // NOT - Fix URL!
+            new ELFunction(ELCategory.Conditional, ELFunctions.Not, "Inverts a boolean value", "https://yabb.jriver.com/interact/index.php/topic,128028.msg888187.html"),
             new ELFunction(ELCategory.Conditional, ELFunctions.Or, "Tests a set of values and returns 1 if any are true", "https://wiki.jriver.com/index.php/Conditional_Functions#Or"),
-
+            
             new ELFunction(ELCategory.DateTime, ELFunctions.ConvertDate, "Converts a human-readable date to the internal format", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#ConvertDate"),
             new ELFunction(ELCategory.DateTime, ELFunctions.DateInRange, "Compares a date with a range of dates", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#DateInRange"),
             new ELFunction(ELCategory.DateTime, ELFunctions.FormatDate, "Formats a date value in a specified manner", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#FormatDate"),
@@ -114,10 +116,9 @@ namespace Zelda
             new ELFunction(ELCategory.Lists, ELFunctions.ListGrep, "Returns list items containing specified text", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListGrep"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListItem, "Returns an item from a location in a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListItem"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListLimit, "Limits the length of a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListLimit"),
-            // ListMath - Fix URL!
-            new ELFunction(ELCategory.Lists, ELFunctions.ListMath, "Calculates min/max/sum/avg of all list items", "https://yabb.jriver.com/interact/index.php/topic,124543.msg877813.html#msg877813"),
+            new ELFunction(ELCategory.Lists, ELFunctions.ListMath, "Calculates min/max/sum/avg of all list items", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListMath"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListMix, "Combine values from multiple lists into a new list, using a template to process each item", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListMix"),
-            new ELFunction(ELCategory.Lists, ELFunctions.ListMix2, "Combine values from multiple lists into a new list (alternate escape processing version)", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListMix"),
+            new ELFunction(ELCategory.Lists, ELFunctions.ListMix2, "ListMix wrapper - unescapes and evaluates expression before calling ListMix", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListMix"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListRemove, "Removes a string from a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListRemove"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListShuffle, "Shuffles a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListShuffle"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListSort, "Sort a list of values", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListSort"),
@@ -127,24 +128,27 @@ namespace Zelda
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.AlbumType, "Returns the album type for a file", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#AlbumType"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.AudioAnalysisState, "Returns the state of audio analysis for a file", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#AudioAnalysisState"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Char, "Returns a character from the numeric code of that character", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Char"),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.Counter, "Counts upwards in specified increments", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Counter"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.CustomData, "Returns internal data to the expression language", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#CustomData"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.FilePlaylists, "Returns a list of playlists a file belongs to (Can also be used to search)", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#FilePlaylists"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Literal, "Returns a string as given without any formatting or processing", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Literal"),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.Number, "Returns the first number , including decimals, from a given string", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Number"),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.Rand, "Returns a random number between two given numbers", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Rand"),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.Range, "Creates a semi-colon delimited list of numbers in a field", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Range"),
+            new ELFunction(ELCategory.Miscellaneous, ELFunctions.Repeat, "Returns any given string repeated the specified number of times", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Repeat"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Row, "Returns the row number of a list entry", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Row"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Size, "Returns a file's size in a format specific to the media type", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Size"),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.StackCount, "Returns the number of files in a stack", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#StackCount"),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.TrackNumber, "Returns a file's track # value", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#TrackNumber"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Translate, "Converts an English string found in the program to the currently selected language", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Translate"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.TVInfo, "Miscellaneous television and other pre-formatted information", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#TVInfo"),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.Min, "Returns the minimum value of a series of values", null),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.Max, "Returns the maximum value of a series of values", null),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.Avg, "Returns the average value of a series of values", null),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.Sum, "Returns the sum of a series of values", null),
 
+            new ELFunction(ELCategory.Number, ELFunctions.Avg, "Returns the average value of a series of values", "https://wiki.jriver.com/index.php/Number_Functions#Avg"),
+            new ELFunction(ELCategory.Number, ELFunctions.Counter, "Counts upwards in specified increments", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Counter"),
+            new ELFunction(ELCategory.Number, ELFunctions.Max, "Returns the maximum value of a series of values", "https://wiki.jriver.com/index.php/Number_Functions#Max"),
+            new ELFunction(ELCategory.Number, ELFunctions.Min, "Returns the minimum value of a series of values", "https://wiki.jriver.com/index.php/Number_Functions#Min"),
+            new ELFunction(ELCategory.Number, ELFunctions.Number, "Returns the first number , including decimals, from a given string", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Number"),
+            new ELFunction(ELCategory.Number, ELFunctions.Rand, "Returns a random number between two given numbers", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Rand"),
+            new ELFunction(ELCategory.Number, ELFunctions.Range, "Creates a semi-colon delimited list of numbers in a field", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Range"),
+            new ELFunction(ELCategory.Number, ELFunctions.Roman, "Converts any given number to, or from, roman numerals", "https://wiki.jriver.com/index.php/Number_Functions#Roman"),
+            new ELFunction(ELCategory.Number, ELFunctions.StackCount, "Returns the number of files in a stack", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#StackCount"),
+            new ELFunction(ELCategory.Number, ELFunctions.Sum, "Returns the sum of a series of values", "https://wiki.jriver.com/index.php/Number_Functions#Sum"),
+            new ELFunction(ELCategory.Number, ELFunctions.TrackNumber, "Returns a file's track # value", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#TrackNumber"),
+            
             new ELFunction(ELCategory.Strings, ELFunctions.Clean, "Clean a string to be used for various operations", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Clean"),
             new ELFunction(ELCategory.Strings, ELFunctions.Find, "Finds a string or character in another string, returning its zero-based position in that string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Find"),
             new ELFunction(ELCategory.Strings, ELFunctions.FixCase, "Changes the case of a given string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#FixCase"),
@@ -156,6 +160,8 @@ namespace Zelda
             new ELFunction(ELCategory.Strings, ELFunctions.Mid, "Retrieves specified characters from a string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Mid"),
             new ELFunction(ELCategory.Strings, ELFunctions.MoveArticles, "Takes 'The Beatles' and reverses it to 'Beatles, The'", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#MoveArticles"),
             new ELFunction(ELCategory.Strings, ELFunctions.NoArticles, "Takes 'The Beatles' and removes the article, returning 'Beatles'", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#NoArticles"),
+            new ELFunction(ELCategory.Strings, ELFunctions.PadLeft, "Pad any string with any character, to the left", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#PadLeft"),
+            new ELFunction(ELCategory.Strings, ELFunctions.PadRight, "Pad any string with any character, to the right", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#PadRight"),
             new ELFunction(ELCategory.Strings, ELFunctions.Regex, "Regular expression pattern matching and capture", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Regex"),
             new ELFunction(ELCategory.Strings, ELFunctions.RemoveCharacters, "Removes a list of characters from a string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#RemoveCharacters"),
             new ELFunction(ELCategory.Strings, ELFunctions.RemoveLeft, "Trims characters from the beginning of a string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#RemoveLeft"),

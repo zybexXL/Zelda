@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,7 +22,8 @@ namespace Zelda
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
             Icon = Properties.Resources.ZeldaIcon;
-
+            tabControl1.TabPages.Remove(tabCustomize);      // not implemented
+            
             this.settings = settings;
             chkAPITime.Checked      = settings.ShowAPICallTime;
             chkIndent.Checked       = settings.WrapIndent;
@@ -73,11 +75,7 @@ namespace Zelda
             settings.TooltipFolder = chkTooltip.Checked ? txtTooltip.Text?.TrimEnd('\\') : null;
             settings.PlaylistFilter = chkPlaylistFilter.Checked && !string.IsNullOrWhiteSpace(txtPlaylistFilter.Text) ? txtPlaylistFilter.Text : null;
 
-            string funcs = txtExtraFuncs.Text ?? "";
-            funcs = funcs.Replace(",", " ");
-            funcs = funcs.Replace(";", " ");
-            funcs = funcs.Replace("(", " ");
-            funcs = funcs.Replace(")", " ");
+            string funcs = Regex.Replace(txtExtraFuncs.Text ?? "", "[,;()\r\n]+", " ");
             settings.ExtraFunctions = funcs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
             settings.EditorFont = fonts[0];

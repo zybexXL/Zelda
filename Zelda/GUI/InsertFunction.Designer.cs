@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gridFunc = new System.Windows.Forms.DataGridView();
             this.cObj = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cFunction = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,6 +39,8 @@
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
+            this.comboCat = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridFunc)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,21 +59,21 @@
             this.cBlurb,
             this.cCategory,
             this.filter});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridFunc.DefaultCellStyle = dataGridViewCellStyle2;
-            this.gridFunc.Location = new System.Drawing.Point(12, 35);
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridFunc.DefaultCellStyle = dataGridViewCellStyle6;
+            this.gridFunc.Location = new System.Drawing.Point(12, 39);
             this.gridFunc.MultiSelect = false;
             this.gridFunc.Name = "gridFunc";
             this.gridFunc.ReadOnly = true;
             this.gridFunc.RowHeadersVisible = false;
             this.gridFunc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridFunc.Size = new System.Drawing.Size(789, 220);
+            this.gridFunc.Size = new System.Drawing.Size(789, 232);
             this.gridFunc.TabIndex = 1;
             this.gridFunc.SelectionChanged += new System.EventHandler(this.gridFunc_SelectionChanged);
             this.gridFunc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridFunc_KeyDown);
@@ -89,8 +91,8 @@
             // 
             this.cFunction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.cFunction.DataPropertyName = "function";
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cFunction.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cFunction.DefaultCellStyle = dataGridViewCellStyle5;
             this.cFunction.HeaderText = "Function";
             this.cFunction.Name = "cFunction";
             this.cFunction.ReadOnly = true;
@@ -123,7 +125,7 @@
             // 
             // txtFilter
             // 
-            this.txtFilter.Location = new System.Drawing.Point(12, 8);
+            this.txtFilter.Location = new System.Drawing.Point(55, 10);
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(177, 21);
             this.txtFilter.TabIndex = 0;
@@ -134,7 +136,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.Location = new System.Drawing.Point(752, 6);
+            this.btnOK.Location = new System.Drawing.Point(752, 8);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(49, 23);
             this.btnOK.TabIndex = 2;
@@ -149,22 +151,43 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowser.IsWebBrowserContextMenuEnabled = false;
-            this.webBrowser.Location = new System.Drawing.Point(12, 266);
+            this.webBrowser.Location = new System.Drawing.Point(12, 281);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.Size = new System.Drawing.Size(789, 237);
+            this.webBrowser.Size = new System.Drawing.Size(789, 242);
             this.webBrowser.TabIndex = 8;
             this.webBrowser.TabStop = false;
             this.webBrowser.WebBrowserShortcutsEnabled = false;
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
+            // 
+            // comboCat
+            // 
+            this.comboCat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboCat.FormattingEnabled = true;
+            this.comboCat.Location = new System.Drawing.Point(248, 9);
+            this.comboCat.Name = "comboCat";
+            this.comboCat.Size = new System.Drawing.Size(137, 23);
+            this.comboCat.TabIndex = 9;
+            this.comboCat.SelectedIndexChanged += new System.EventHandler(this.comboCat_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 15);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Filter:";
             // 
             // InsertFunction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(813, 515);
+            this.ClientSize = new System.Drawing.Size(813, 535);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboCat);
             this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.txtFilter);
             this.Controls.Add(this.btnOK);
@@ -196,5 +219,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cBlurb;
         private System.Windows.Forms.DataGridViewTextBoxColumn cCategory;
         private System.Windows.Forms.DataGridViewTextBoxColumn filter;
+        private System.Windows.Forms.ComboBox comboCat;
+        private System.Windows.Forms.Label label1;
     }
 }

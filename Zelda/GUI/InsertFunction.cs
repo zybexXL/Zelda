@@ -33,6 +33,11 @@ namespace Zelda
             BindingSource bs = new BindingSource();
             bs.DataSource = dt;
             gridFunc.DataSource = bs;
+
+            var cats = Enum.GetNames(typeof(ELCategory)).OrderBy(a=>a).ToList();
+            cats.Insert(0, "All categories");
+            comboCat.DataSource = cats;
+            comboCat.SelectedIndex = 0;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -59,16 +64,32 @@ namespace Zelda
             }
         }
 
-        private void txtFilter_TextChanged(object sender, EventArgs e)
+        private void Filter()
         {
+            if (loading) return;
+            bool catAll = comboCat.SelectedIndex == 0;
+
             var bs = gridFunc.DataSource as BindingSource;
-            if (string.IsNullOrEmpty(txtFilter.Text))
+            if (catAll && string.IsNullOrWhiteSpace(txtFilter.Text))
                 bs.RemoveFilter();
             else
             {
                 string[] parts = txtFilter.Text.Trim().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                try { bs.Filter = string.Join(" AND ", parts.Select(p => $"[filter] like '%{p}%'")); } catch { }
+                string cat = catAll ? "" : $"category='{comboCat.Text}'";
+                if (parts.Length > 0 && !string.IsNullOrEmpty(cat)) cat = $"{cat} AND ";
+                string filter = cat + string.Join(" AND ", parts.Select(p => $"[filter] like '%{p}%'"));
+                try { bs.Filter = filter; } catch { }
             }
+        }
+
+        private void txtFilter_TextChanged(object sender, EventArgs e)
+        {
+            Filter();
+        }
+
+        private void comboCat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Filter();
         }
 
         private void txtFilter_KeyDown(object sender, KeyEventArgs e)
@@ -134,7 +155,7 @@ namespace Zelda
             if (node != null) node.OuterHtml = "";
 
             node = webBrowser.Document.GetElementById("content");
-            node.Style = "margin: 0 0 0 0; border:0; padding: 0;";
+            if (node != null) node.Style = "margin: 0 0 0 0; border:0; padding: 0;";
 
             Match m = Regex.Match(e.Url.ToString(), "([^#]+)#?(.+)?");
             if (m.Success && !string.IsNullOrEmpty(m.Groups[2].Value))
