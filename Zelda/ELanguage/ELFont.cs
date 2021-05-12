@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -60,7 +61,7 @@ namespace Zelda
             string style = "<span style=\"";
             if (font != null) style += $@" font-family: '{font}';";
             if (size >= 0) style += $" font-size: {size}%;";
-            if (alpha >= 0) style += $" opacity: {alpha / 100.0:0.0};";
+            if (alpha >= 0) style += $" opacity: {(alpha / 100.0).ToString("0.0", CultureInfo.InvariantCulture)};";
             if (color != Color.Empty) style += $" color: #{color.R:X2}{color.G:X2}{color.B:X2};";
             if (bgcolor != Color.Empty) style += $" background-color: #{bgcolor.R:X2}{bgcolor.G:X2}{bgcolor.B:X2};";
 

@@ -27,12 +27,12 @@ namespace Zelda
         ListFormat, ListGrep, ListItem, ListLimit, ListMath, ListMix, ListMix2, ListRemove, ListShuffle, ListSort,
         // miscellaneous
         AlbumArtist, AlbumKey, AlbumType, AudioAnalysisState, Char, 
-        CustomData, FilePlaylists, Literal, Repeat, Row, Size,
-        Translate, TVInfo,
+        CustomData, FilePlaylists, Literal, PlaylistTime, Repeat, Row, Size,
+        Translate, TreeNode, TVInfo,
         // Number functions
         Avg, Counter, Max, Min, Number, Rand, Range, Roman, StackCount, Sum, TrackNumber,
         // string manipulation
-        Clean, Find, FixCase, FixSpacing, Hexify, Left, Length, Letter, Mid,
+        Clean, Extract, Find, FixCase, FixSpacing, Hexify, Left, Length, Letter, Mid,
         MoveArticles, NoArticles, PadLeft, PadRight, Regex, RemoveCharacters, RemoveLeft, RemoveRight, Replace,
         Right, Swap, Trim, TrimLines, UnMoveArticles, Unswap, URLify,
         // test and comparison
@@ -131,10 +131,12 @@ namespace Zelda
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.CustomData, "Returns internal data to the expression language", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#CustomData"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.FilePlaylists, "Returns a list of playlists a file belongs to (Can also be used to search)", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#FilePlaylists"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Literal, "Returns a string as given without any formatting or processing", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Literal"),
+            new ELFunction(ELCategory.Miscellaneous, ELFunctions.PlaylistTime, "Return the start/remianing time of a track in the current playlist", "https://yabb.jriver.com/interact/index.php/topic,129172.msg896425.html#msg896425"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Repeat, "Returns any given string repeated the specified number of times", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Repeat"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Row, "Returns the row number of a list entry", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Row"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Size, "Returns a file's size in a format specific to the media type", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Size"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Translate, "Converts an English string found in the program to the currently selected language", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Translate"),
+            new ELFunction(ELCategory.Miscellaneous, ELFunctions.TreeNode, "Returns the currently active tree node", "https://yabb.jriver.com/interact/index.php/topic,124543.msg897717.html#msg897717"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.TVInfo, "Miscellaneous television and other pre-formatted information", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#TVInfo"),
 
             new ELFunction(ELCategory.Number, ELFunctions.Avg, "Returns the average value of a series of values", "https://wiki.jriver.com/index.php/Number_Functions#Avg"),
@@ -150,6 +152,7 @@ namespace Zelda
             new ELFunction(ELCategory.Number, ELFunctions.TrackNumber, "Returns a file's track # value", "https://wiki.jriver.com/index.php/Number_Functions#TrackNumber"),
             
             new ELFunction(ELCategory.Strings, ELFunctions.Clean, "Clean a string to be used for various operations", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Clean"),
+            new ELFunction(ELCategory.Strings, ELFunctions.Extract, "Extract a substring from a string with custom delimiters", "https://yabb.jriver.com/interact/index.php/topic,124543.msg894801.html#msg894801"),
             new ELFunction(ELCategory.Strings, ELFunctions.Find, "Finds a string or character in another string, returning its zero-based position in that string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Find"),
             new ELFunction(ELCategory.Strings, ELFunctions.FixCase, "Changes the case of a given string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#FixCase"),
             new ELFunction(ELCategory.Strings, ELFunctions.FixSpacing, "Intelligently splits adjacent camel-cased words", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#FixSpacing"),
