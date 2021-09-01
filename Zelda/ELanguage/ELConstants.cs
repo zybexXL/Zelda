@@ -10,7 +10,7 @@ namespace Zelda
     {
         Unknown, 
         // access/store
-        Field, Load, Note, Save, SaveAdd, Tag, ItemCount,
+        Field, FieldQuery, Load, Note, Save, SaveAdd, Tag, ItemCount,
         // conditional
         If, IfElse, FirstNotEmpty, IfCase, And, Or, Not,
         // date and time
@@ -21,7 +21,7 @@ namespace Zelda
         Delimit, FormatBoolean, FormatDuration, FormatFileSize, FormatNumber,
         FormatRange, Orientation, PadNumber, RatingStars, RatingStars10, Watched,
         // grouping
-        FieldQuery, GroupCount, GroupSummary, GroupCountQuery, GroupSummaryQuery,
+        GroupCount, GroupSummary, GroupCountQuery, GroupSummaryQuery,
         // list manipulation
         ListBuild, ListClean, ListCombine, ListContains, ListCount, ListEqual, ListFind,
         ListFormat, ListGrep, ListItem, ListLimit, ListMath, ListMix, ListMix2, ListRemove, ListShuffle, ListSort,
@@ -55,6 +55,7 @@ namespace Zelda
         public static readonly List<ELFunction> ELFunctionWiki = new List<ELFunction>()
         {
             new ELFunction(ELCategory.LoadStore, ELFunctions.Field, "Returns a field's value", "https://wiki.jriver.com/index.php/Accessing_and_Storing_Functions#Field"),
+            new ELFunction(ELCategory.LoadStore, ELFunctions.FieldQuery, "Return a list of matches based on a list of fields to search, from a selected scope of files", "https://wiki.jriver.com/index.php/Accessing_and_Storing_Functions#FieldQuery"),
             new ELFunction(ELCategory.LoadStore, ELFunctions.ItemCount, "Globally counts the number of files that have share the same Field value", "https://wiki.jriver.com/index.php/Accessing_and_Storing_Functions#ItemCount"),
             new ELFunction(ELCategory.LoadStore, ELFunctions.Load, "Outputs the value of a global variable", "https://wiki.jriver.com/index.php/Accessing_and_Storing_Functions#Load"),
             new ELFunction(ELCategory.LoadStore, ELFunctions.Note, "Retrieve note fields", "https://wiki.jriver.com/index.php/Accessing_and_Storing_Functions#Note"),
@@ -67,8 +68,7 @@ namespace Zelda
             new ELFunction(ELCategory.Conditional, ELFunctions.If, "Conditional ifelse evaluator", "https://wiki.jriver.com/index.php/Conditional_Functions#If"),
             new ELFunction(ELCategory.Conditional, ELFunctions.IfCase, "Functions as a switch or select case statement", "https://wiki.jriver.com/index.php/Conditional_Functions#IfCase"),
             new ELFunction(ELCategory.Conditional, ELFunctions.IfElse, "Conditional if-elseif evaluator", "https://wiki.jriver.com/index.php/Conditional_Functions#IfElse"),
-            // NOT - Fix URL!
-            new ELFunction(ELCategory.Conditional, ELFunctions.Not, "Inverts a boolean value", "https://yabb.jriver.com/interact/index.php/topic,128028.msg888187.html#msg888187"),
+            new ELFunction(ELCategory.Conditional, ELFunctions.Not, "Inverts a boolean value", "https://wiki.jriver.com/index.php/Conditional_Functions#Not"),
             new ELFunction(ELCategory.Conditional, ELFunctions.Or, "Tests a set of values and returns 1 if any are true", "https://wiki.jriver.com/index.php/Conditional_Functions#Or"),
             
             new ELFunction(ELCategory.DateTime, ELFunctions.ConvertDate, "Converts a human-readable date to the internal format", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#ConvertDate"),
@@ -98,8 +98,6 @@ namespace Zelda
             new ELFunction(ELCategory.Formatting, ELFunctions.RatingStars10, "Outputs the value of Rating as a number of star characters (0 to 10)", "https://wiki.jriver.com/index.php/Formatting_Functions#RatingStars10"),
             new ELFunction(ELCategory.Formatting, ELFunctions.Watched, "Outputs a formatted video bookmark", "https://wiki.jriver.com/index.php/Formatting_Functions#Watched"),
 
-            // FieldQuery - Fix URL!
-            new ELFunction(ELCategory.Grouping, ELFunctions.FieldQuery, "Return a list of matches based on a list of fields to search, from a selected scope of files", "https://yabb.jriver.com/interact/index.php/topic,124543.msg877502.html#msg877502"),
             new ELFunction(ELCategory.Grouping, ELFunctions.GroupCount, "Counts the members of a specified group (in a category or field)", "https://wiki.jriver.com/index.php/Grouping_Functions#GroupCount"),
             new ELFunction(ELCategory.Grouping, ELFunctions.GroupCountQuery, "Globally counts the number of different Field2 entries for files that share Field1 value", "https://wiki.jriver.com/index.php/Grouping_Functions#GroupCountQuery"),
             new ELFunction(ELCategory.Grouping, ELFunctions.GroupSummary, "Summarises the members of a specified group (in a category or field)", "https://wiki.jriver.com/index.php/Grouping_Functions#GroupSummary"),
@@ -131,12 +129,12 @@ namespace Zelda
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.CustomData, "Returns internal data to the expression language", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#CustomData"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.FilePlaylists, "Returns a list of playlists a file belongs to (Can also be used to search)", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#FilePlaylists"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Literal, "Returns a string as given without any formatting or processing", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Literal"),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.PlaylistTime, "Return the start/remianing time of a track in the current playlist", "https://yabb.jriver.com/interact/index.php/topic,129172.msg896425.html#msg896425"),
+            new ELFunction(ELCategory.Miscellaneous, ELFunctions.PlaylistTime, "Return the start/remaining time of a track in the current playlist", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#PlaylistTime"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Repeat, "Returns any given string repeated the specified number of times", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Repeat"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Row, "Returns the row number of a list entry", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Row"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Size, "Returns a file's size in a format specific to the media type", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Size"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Translate, "Converts an English string found in the program to the currently selected language", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Translate"),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.TreeNode, "Returns the currently active tree node", "https://yabb.jriver.com/interact/index.php/topic,124543.msg897717.html#msg897717"),
+            new ELFunction(ELCategory.Miscellaneous, ELFunctions.TreeNode, "Returns the currently active tree node", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#TreeNode"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.TVInfo, "Miscellaneous television and other pre-formatted information", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#TVInfo"),
 
             new ELFunction(ELCategory.Number, ELFunctions.Avg, "Returns the average value of a series of values", "https://wiki.jriver.com/index.php/Number_Functions#Avg"),
@@ -152,7 +150,7 @@ namespace Zelda
             new ELFunction(ELCategory.Number, ELFunctions.TrackNumber, "Returns a file's track # value", "https://wiki.jriver.com/index.php/Number_Functions#TrackNumber"),
             
             new ELFunction(ELCategory.Strings, ELFunctions.Clean, "Clean a string to be used for various operations", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Clean"),
-            new ELFunction(ELCategory.Strings, ELFunctions.Extract, "Extract a substring from a string with custom delimiters", "https://yabb.jriver.com/interact/index.php/topic,124543.msg894801.html#msg894801"),
+            new ELFunction(ELCategory.Strings, ELFunctions.Extract, "Extract a substring from a string with custom delimiters", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Extract"),
             new ELFunction(ELCategory.Strings, ELFunctions.Find, "Finds a string or character in another string, returning its zero-based position in that string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Find"),
             new ELFunction(ELCategory.Strings, ELFunctions.FixCase, "Changes the case of a given string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#FixCase"),
             new ELFunction(ELCategory.Strings, ELFunctions.FixSpacing, "Intelligently splits adjacent camel-cased words", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#FixSpacing"),
