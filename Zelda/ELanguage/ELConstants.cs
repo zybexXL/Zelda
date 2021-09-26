@@ -10,7 +10,7 @@ namespace Zelda
     {
         Unknown, 
         // access/store
-        Field, FieldQuery, Load, Note, Save, SaveAdd, Tag, ItemCount,
+        Field, FieldQuery, Load, Note, Save, SaveAdd, SetField, Tag, ItemCount,
         // conditional
         If, IfElse, FirstNotEmpty, IfCase, And, Or, Not,
         // date and time
@@ -23,7 +23,7 @@ namespace Zelda
         // grouping
         GroupCount, GroupSummary, GroupCountQuery, GroupSummaryQuery,
         // list manipulation
-        ListBuild, ListClean, ListCombine, ListContains, ListCount, ListEqual, ListFind,
+        ListBuild, ListClean, ListCombine, ListContains, ListCount, ListEqual, ListFilter, ListFind,
         ListFormat, ListGrep, ListItem, ListLimit, ListMath, ListMix, ListMix2, ListRemove, ListShuffle, ListSort,
         // miscellaneous
         AlbumArtist, AlbumKey, AlbumType, AudioAnalysisState, Char, 
@@ -61,6 +61,7 @@ namespace Zelda
             new ELFunction(ELCategory.LoadStore, ELFunctions.Note, "Retrieve note fields", "https://wiki.jriver.com/index.php/Accessing_and_Storing_Functions#Note"),
             new ELFunction(ELCategory.LoadStore, ELFunctions.Save, "Saves a value to a global variable", "https://wiki.jriver.com/index.php/Accessing_and_Storing_Functions#Save"),
             new ELFunction(ELCategory.LoadStore, ELFunctions.SaveAdd, "Adds to a global variable", "https://wiki.jriver.com/index.php/Accessing_and_Storing_Functions#SaveAdd"),
+            new ELFunction(ELCategory.LoadStore, ELFunctions.SetField, "Sets a field's value", "https://wiki.jriver.com/index.php/Accessing_and_Storing_Functions#SetField"),
             new ELFunction(ELCategory.LoadStore, ELFunctions.Tag, "Returns a file's physical tag", "https://wiki.jriver.com/index.php/Accessing_and_Storing_Functions#Tag"),
 
             new ELFunction(ELCategory.Conditional, ELFunctions.And, "Tests a set of values and returns 1 if all are true", "https://wiki.jriver.com/index.php/Conditional_Functions#And"),
@@ -109,6 +110,7 @@ namespace Zelda
             new ELFunction(ELCategory.Lists, ELFunctions.ListContains, "Checks for a value being in a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListContains"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListCount, "Returns the number of items in a list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListCount"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListEqual, "Checks for equality between two lists", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListEqual"),
+            new ELFunction(ELCategory.Lists, ELFunctions.ListFilter, "Filter any list, returning only values within a given range", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListFilter"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListFind, "Search a list for a value and return that value, or its index # in the list", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListFind"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListFormat, "Outputs a given list in a reader friendly format", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListFormat"),
             new ELFunction(ELCategory.Lists, ELFunctions.ListGrep, "Returns list items containing specified text", "https://wiki.jriver.com/index.php/List_Manipulation_Functions#ListGrep"),

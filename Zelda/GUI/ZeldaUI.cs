@@ -785,6 +785,14 @@ namespace Zelda
             state.OutputTab = tabsRight.SelectedIndex;
             btnColumns.Visible = tabsRight.SelectedTab == tabDatagrid;
 
+            if (!paused)
+            {
+                currentTab?.Evaluate(true);
+                foreach (var tab in expressionTabs)
+                    if (tab != currentTab)
+                        UpdateDatagrid(tab, tab.scintilla.Text);
+            }
+
             if (tabsRight.SelectedTab == tabDatagrid)
                 resizeGridColumns();
         }
@@ -804,6 +812,10 @@ namespace Zelda
 
         void UpdateDatagrid(ExpressionTab tab, string expression)
         {
+            if (tabsRight.SelectedTab != tabDatagrid) return;
+            if (!gridFiles.Columns.Contains(tab.ID) || !gridFiles.Columns[tab.ID].Visible)
+                return;
+            
             // get visible rows to fetch them first
             int first = gridFiles.FirstDisplayedScrollingRowIndex;
             int count = gridFiles.DisplayedRowCount(true);
