@@ -201,7 +201,7 @@ namespace Zelda
             Task.Run(() =>
             {
                 lock (this)
-                    highlighter.getTokens(text);
+                    highlighter.getTokens(text, settings.HighlightComments);
                 if (!syntaxTimer.Enabled)
                     syntaxHighlight(highlighter.Tokens);
             });
@@ -330,7 +330,7 @@ namespace Zelda
                         Task.Run(() =>
                         {
                             Stopwatch sw = Stopwatch.StartNew();
-                            Result = jrAPI.resolveExpression(currentFile, expression);
+                            Result = jrAPI.resolveExpression(currentFile, expression, settings.HighlightComments);
                             sw.Stop();
                             APItime = TimeSpan.FromTicks(sw.ElapsedTicks).TotalMilliseconds;
                             if (!changed)

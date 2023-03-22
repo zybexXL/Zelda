@@ -77,6 +77,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.chkSyntaxComments = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPrefs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaySlide)).BeginInit();
@@ -181,7 +182,7 @@
             this.chkSaveTabs.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSaveTabs.Location = new System.Drawing.Point(14, 16);
             this.chkSaveTabs.Name = "chkSaveTabs";
-            this.chkSaveTabs.Size = new System.Drawing.Size(184, 19);
+            this.chkSaveTabs.Size = new System.Drawing.Size(185, 19);
             this.chkSaveTabs.TabIndex = 5;
             this.chkSaveTabs.Text = "Auto-save/restore expressions";
             this.chkSaveTabs.UseVisualStyleBackColor = true;
@@ -203,7 +204,7 @@
             this.chkTooltip.AutoSize = true;
             this.chkTooltip.Location = new System.Drawing.Point(14, 185);
             this.chkTooltip.Name = "chkTooltip";
-            this.chkTooltip.Size = new System.Drawing.Size(102, 19);
+            this.chkTooltip.Size = new System.Drawing.Size(101, 19);
             this.chkTooltip.TabIndex = 5;
             this.chkTooltip.Text = "Tooltip Folder:";
             this.toolTip1.SetToolTip(this.chkTooltip, "Set this path in case Zelda doesn\'t detect the Tooltip: location correctly.\r\nLeav" +
@@ -231,7 +232,7 @@
             this.chkMaximize.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkMaximize.Location = new System.Drawing.Point(14, 91);
             this.chkMaximize.Name = "chkMaximize";
-            this.chkMaximize.Size = new System.Drawing.Size(110, 19);
+            this.chkMaximize.Size = new System.Drawing.Size(111, 19);
             this.chkMaximize.TabIndex = 5;
             this.chkMaximize.Text = "Start maximized";
             this.chkMaximize.UseVisualStyleBackColor = true;
@@ -243,7 +244,7 @@
             this.chkTabs.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkTabs.Location = new System.Drawing.Point(298, 66);
             this.chkTabs.Name = "chkTabs";
-            this.chkTabs.Size = new System.Drawing.Size(170, 19);
+            this.chkTabs.Size = new System.Drawing.Size(169, 19);
             this.chkTabs.TabIndex = 5;
             this.chkTabs.Text = "Insert spaces instead of Tab";
             this.chkTabs.UseVisualStyleBackColor = true;
@@ -329,6 +330,7 @@
             // 
             this.tabColors.Controls.Add(this.txtExtraFuncs);
             this.tabColors.Controls.Add(this.label20);
+            this.tabColors.Controls.Add(this.chkSyntaxComments);
             this.tabColors.Controls.Add(this.chkSyntaxDelim);
             this.tabColors.Controls.Add(this.chkSyntaxFunction);
             this.tabColors.Controls.Add(this.chkSyntax);
@@ -400,7 +402,7 @@
             this.chkSyntax.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSyntax.Location = new System.Drawing.Point(14, 16);
             this.chkSyntax.Name = "chkSyntax";
-            this.chkSyntax.Size = new System.Drawing.Size(165, 19);
+            this.chkSyntax.Size = new System.Drawing.Size(166, 19);
             this.chkSyntax.TabIndex = 13;
             this.chkSyntax.Text = "Enable syntax highlighting";
             this.toolTip1.SetToolTip(this.chkSyntax, "Colorize language elements");
@@ -414,7 +416,7 @@
             this.radio3.FlatAppearance.BorderSize = 0;
             this.radio3.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
             this.radio3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radio3.Location = new System.Drawing.Point(167, 115);
+            this.radio3.Location = new System.Drawing.Point(167, 127);
             this.radio3.Name = "radio3";
             this.radio3.Size = new System.Drawing.Size(73, 22);
             this.radio3.TabIndex = 8;
@@ -431,7 +433,7 @@
             this.radio2.FlatAppearance.BorderSize = 0;
             this.radio2.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
             this.radio2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radio2.Location = new System.Drawing.Point(81, 115);
+            this.radio2.Location = new System.Drawing.Point(81, 127);
             this.radio2.Name = "radio2";
             this.radio2.Size = new System.Drawing.Size(87, 22);
             this.radio2.TabIndex = 8;
@@ -449,7 +451,7 @@
             this.radio1.FlatAppearance.BorderSize = 0;
             this.radio1.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
             this.radio1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.radio1.Location = new System.Drawing.Point(27, 115);
+            this.radio1.Location = new System.Drawing.Point(27, 127);
             this.radio1.Name = "radio1";
             this.radio1.Size = new System.Drawing.Size(54, 22);
             this.radio1.TabIndex = 8;
@@ -468,7 +470,7 @@
             this.groupBox2.Controls.Add(this.btnTextColor);
             this.groupBox2.Controls.Add(this.lblSampleColor);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(14, 116);
+            this.groupBox2.Location = new System.Drawing.Point(14, 128);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(491, 110);
             this.groupBox2.TabIndex = 4;
@@ -510,7 +512,7 @@
             this.btnTextColor.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnTextColor.Location = new System.Drawing.Point(414, 54);
             this.btnTextColor.Name = "btnTextColor";
-            this.btnTextColor.Size = new System.Drawing.Size(56, 15);
+            this.btnTextColor.Size = new System.Drawing.Size(57, 15);
             this.btnTextColor.TabIndex = 9;
             this.btnTextColor.TabStop = true;
             this.btnTextColor.Text = "text color";
@@ -661,6 +663,18 @@
             this.colorDialog.FullOpen = true;
             this.colorDialog.SolidColorOnly = true;
             // 
+            // chkComments
+            // 
+            this.chkSyntaxComments.AutoSize = true;
+            this.chkSyntaxComments.Checked = true;
+            this.chkSyntaxComments.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSyntaxComments.Location = new System.Drawing.Point(14, 91);
+            this.chkSyntaxComments.Name = "chkComments";
+            this.chkSyntaxComments.Size = new System.Drawing.Size(193, 19);
+            this.chkSyntaxComments.TabIndex = 13;
+            this.chkSyntaxComments.Text = "Comment lines starting with ##";
+            this.chkSyntaxComments.UseVisualStyleBackColor = true;
+            // 
             // SettingsUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -742,5 +756,6 @@
         private System.Windows.Forms.CheckBox chkPlaylistFilter;
         private System.Windows.Forms.CheckBox chkFastStart;
         private System.Windows.Forms.TabPage tabCustomize;
+        private System.Windows.Forms.CheckBox chkSyntaxComments;
     }
 }

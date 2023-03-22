@@ -581,7 +581,10 @@ namespace Zelda
             {
                 settings.Save();
                 SetOutputStyle();
+                if (!paused)
+                    currentTab?.Evaluate(true);
                 ShowResults();
+
                 foreach (var tab in expressionTabs)
                     tab.Config(settings);
                 if (gridFiles.Columns["API"] != null)
@@ -849,7 +852,7 @@ namespace Zelda
                     if (tab.changed) return;
                     //if (changed) return;  // TODO!!!! cancel current processing on changes
                     if (settings.ShowAPICallTime) sw.Restart();
-                    string value = isEmpty ? expression : jrAPI.resolveExpression(row[0] as JRFile, expression);
+                    string value = isEmpty ? expression : jrAPI.resolveExpression(row[0] as JRFile, expression, settings.HighlightComments);
                     if (settings.ShowAPICallTime) sw.Stop();
                     double time = settings.ShowAPICallTime && !isEmpty ? TimeSpan.FromTicks(sw.ElapsedTicks).TotalMilliseconds : 0;
 

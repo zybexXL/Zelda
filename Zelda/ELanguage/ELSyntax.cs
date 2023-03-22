@@ -91,13 +91,13 @@ namespace Zelda
             reEscaped = new Regex(@"(/#.*?#/)|(?:^|[^#/])((?:/[^#])+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
             // comment: special fields named '/' -> "[//, this is a comment]"
-            reComment = new Regex(@"\[//+,.*?\]", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+            reComment = new Regex(@"\[//+,.*?\]|^##.*$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
             // numbers - attention needed with function "log10()" !! 
             reNumbers = new Regex(@"(?<![\w])(-?\d+(?:\.\d+)?|#[a-f\d]+)(?:\b)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
         }
 
-        public List<ELToken> getTokens(string expression)
+        public List<ELToken> getTokens(string expression, bool doComments=true)
         {
             List<ELToken> tokens = new List<ELToken>();
             MatchCollection hits = null;
@@ -159,9 +159,12 @@ namespace Zelda
                 tokens.Add(new ELToken(ELTokenType.Literal, m.Value, m.Index));
 
             // comments
-            hits = reComment.Matches(expression);
-            foreach (Match m in hits)
-                tokens.Add(new ELToken(ELTokenType.Comment, m.Value, m.Index));
+            if (doComments)
+            {
+                hits = reComment.Matches(expression);
+                foreach (Match m in hits)
+                    tokens.Add(new ELToken(ELTokenType.Comment, m.Value, m.Index));
+            }
 
             Tokens = tokens;
             return tokens;

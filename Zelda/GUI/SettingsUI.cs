@@ -37,9 +37,10 @@ namespace Zelda
 
             delaySlide.Value        = settings.EvaluateDelay;
 
-            chkSyntax.Checked       = settings.HighlightSyntax;
+            chkSyntax.Checked         = settings.HighlightSyntax;
             chkSyntaxFunction.Checked = settings.HighlightFunction;
-            chkSyntaxDelim.Checked  = settings.HighlightDelimiters;
+            chkSyntaxDelim.Checked    = settings.HighlightDelimiters;
+            chkSyntaxComments.Checked = settings.HighlightComments;
 
             chkTooltip.Checked = txtTooltip.Enabled = !string.IsNullOrEmpty(settings.TooltipFolder);
             txtTooltip.Text = chkTooltip.Checked ? settings.TooltipFolder : JRiverAPI.TooltipFolder;
@@ -70,6 +71,7 @@ namespace Zelda
             settings.HighlightSyntax = chkSyntax.Checked;
             settings.HighlightFunction = chkSyntaxFunction.Checked;
             settings.HighlightDelimiters = chkSyntaxDelim.Checked;
+            settings.HighlightComments = chkSyntaxComments.Checked;
 
             settings.EvaluateDelay = delaySlide.Value;
             settings.TooltipFolder = chkTooltip.Checked ? txtTooltip.Text?.TrimEnd('\\') : null;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Zelda
 {
@@ -13,7 +14,8 @@ namespace Zelda
     public class Settings
     {
         public bool isDefault = true;
-
+        [DataMember] public int version = 1;
+        
         [DataMember] public bool SaveExpressions = true;
         [DataMember] public bool SaveState = true;
         [DataMember] public bool ReloadPlaylist = true;
@@ -28,27 +30,33 @@ namespace Zelda
         [DataMember] public bool HighlightSyntax = true;
         [DataMember] public bool HighlightFunction = true;
         [DataMember] public bool HighlightDelimiters = true;
+        [DataMember] public bool HighlightComments = true; 
         [DataMember] public List<string> ExtraFunctions = new List<string>();
         [DataMember] public string TooltipFolder = null;
         [DataMember] public string PlaylistFilter = null;
 
-        [DataMember] public CustomFont EditorFont;
-        [DataMember] public CustomFont OutputFont;
-        [DataMember] public CustomFont RenderFont;
+        [DataMember(Order = 100)] public CustomFont EditorFont;
+        [DataMember(Order = 101)] public CustomFont OutputFont;
+        [DataMember(Order = 102)] public CustomFont RenderFont;
 
-        [DataMember] public string CurrentProfile;
-        [DataMember] public List<SyntaxProfile> SyntaxProfiles;
+        //[DataMember] public string CurrentProfile;
+        //[DataMember] public List<SyntaxProfile> SyntaxProfiles;
 
         public Settings()
         {
             CheckSettings();
         }
 
-        private void CheckSettings()
+        private bool CheckSettings()
         {
             if (EditorFont == null) EditorFont = new CustomFont("Consolas", 11.25F, Color.Black, Color.White);
             if (OutputFont == null) OutputFont = new CustomFont("Consolas", 11.25F, Color.Black, Color.White);
             if (RenderFont == null) RenderFont = new CustomFont("Segoe UI", 9F, Color.White, Color.FromArgb(0, 48, 48));
+            if (version < 1) { HighlightComments = true; }
+
+            bool isChanged = version < 1;
+            version = 1;
+            return !isChanged;
         }
 
         public static Settings DefaultSettings()
@@ -66,7 +74,8 @@ namespace Zelda
                     string json = File.ReadAllText(Constants.SettingsFile);
                     var settings = Util.JsonDeserialize<Settings>(json);
                     settings.isDefault = false;
-                    settings.CheckSettings();
+                    if (!settings.CheckSettings())
+                        settings.Save();
                     return settings;
                 }
             }

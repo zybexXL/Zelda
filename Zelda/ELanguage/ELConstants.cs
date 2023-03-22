@@ -30,7 +30,7 @@ namespace Zelda
         CustomData, FilePlaylists, Literal, PlaylistTime, Repeat, Row, Size,
         Translate, TreeNode, TVInfo,
         // Number functions
-        Avg, Counter, Max, Min, Number, Rand, Range, Roman, StackCount, Sum, TrackNumber,
+        Avg, Decimal, Counter, Max, Min, Number, Rand, Range, Roman, StackCount, Sum, TrackNumber,
         // string manipulation
         Clean, Extract, Find, FixCase, FixSpacing, Hexify, Left, Length, Letter, Mid,
         MoveArticles, NoArticles, PadLeft, PadRight, Regex, RemoveCharacters, RemoveLeft, RemoveRight, Replace,
@@ -141,6 +141,7 @@ namespace Zelda
 
             new ELFunction(ELCategory.Number, ELFunctions.Avg, "Returns the average value of a series of values", "https://wiki.jriver.com/index.php/Number_Functions#Avg"),
             new ELFunction(ELCategory.Number, ELFunctions.Counter, "Counts upwards in specified increments", "https://wiki.jriver.com/index.php/Number_Functions#Counter"),
+            new ELFunction(ELCategory.Number, ELFunctions.Decimal, "Converts decimal commas to dots", "https://wiki.jriver.com/index.php/Number_Functions#Decimal"),
             new ELFunction(ELCategory.Number, ELFunctions.Max, "Returns the maximum value of a series of values", "https://wiki.jriver.com/index.php/Number_Functions#Max"),
             new ELFunction(ELCategory.Number, ELFunctions.Min, "Returns the minimum value of a series of values", "https://wiki.jriver.com/index.php/Number_Functions#Min"),
             new ELFunction(ELCategory.Number, ELFunctions.Number, "Returns the first number , including decimals, from a given string", "https://wiki.jriver.com/index.php/Number_Functions#Number"),

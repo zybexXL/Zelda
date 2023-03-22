@@ -266,10 +266,13 @@ namespace Zelda
             }
         }
 
-        public string resolveExpression(JRFile jrFile, string expression)
+        public string resolveExpression(JRFile jrFile, string expression, bool stripComments = true)
         {
             try
             {
+                if (stripComments)
+                    expression = Regex.Replace(expression ?? "", @"^##.*$\r?\n?", "", RegexOptions.Multiline);
+
                 if (jr == null || jrFile == null || string.IsNullOrEmpty(expression)) return string.Empty;
                 IMJFileAutomation file = jr.GetFileByKey(jrFile.JRKey);
                 return file.GetFilledTemplate(expression);
