@@ -38,9 +38,7 @@ namespace Zelda
         public ZeldaUI()
         {
             InitializeComponent();
-            txtOutput.CaretLineVisible = false;     // scintillaNET bug
-            txtOutput.CaretStyle = CaretStyle.Invisible;
-
+            
             settings = Settings.Load();
             state = State.Load();
 
@@ -52,7 +50,7 @@ namespace Zelda
             gridFiles.Columns.Clear();
 
             tabsLeft.TabPages.Clear();
-            txtOutput.Margins[1].Width = 0;             // remove default margin
+            txtOutput.Margins[1].Width = 10;             // remove default margin
             SetOutputStyle();
 
             toolStrip1.Renderer = new ToolstripRenderer(Color.PowderBlue);      // renderer to apply a backcolor on Checked toolstrip buttons
@@ -124,6 +122,11 @@ namespace Zelda
 
         private void ZeldaUI_Shown(object sender, EventArgs e)
         {
+            // scintillaNET bugs
+            txtOutput.CaretLineVisible = false;     
+            txtOutput.CaretStyle = CaretStyle.Invisible;
+            txtOutput.Focus();
+
             currentTab?.scintilla.Focus();
             if (settings.isDefault)
                 btnAbout_Click(null, EventArgs.Empty);

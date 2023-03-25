@@ -247,6 +247,7 @@
             this.txtOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtOutput.CaretLineBackColor = System.Drawing.Color.Black;
             this.txtOutput.CaretLineVisible = true;
+            this.txtOutput.CaretStyle = ScintillaNET.CaretStyle.Invisible;
             this.txtOutput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtOutput.LexerName = null;
             this.txtOutput.Location = new System.Drawing.Point(2, 2);
