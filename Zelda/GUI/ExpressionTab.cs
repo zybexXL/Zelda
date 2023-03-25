@@ -40,7 +40,7 @@ namespace Zelda
             InitializeComponent();
             this.settings = settings;
             ID = $"expr{++uniqueID}";
-            scintilla.Lexer = Lexer.Null;
+            scintilla.LexerName = null;
 
             this.Controls.Add(scintilla);
             Config(settings);
@@ -49,6 +49,15 @@ namespace Zelda
         public ExpressionTab(string title, Settings settings) : this(settings)
         {
             Text = title;
+        }
+
+        public void SetContent(string content)
+        {
+            scintilla.Text = content;
+            if (IsHandleCreated)
+                syntaxHighlight(true);
+            else
+                this.HandleCreated += (a, b) => syntaxHighlight(true);
         }
 
         public void Config(Settings settings)
@@ -60,6 +69,7 @@ namespace Zelda
             scintilla.EolMode = Eol.Lf;             // LF only
             scintilla.Margins[1].Width = 10;
 
+            scintilla.CaretLineVisible = false;
             scintilla.WrapStartIndent = settings.WrapIndent ? 2 : 0;
             scintilla.UseTabs = !settings.ReplaceTabs;
             scintilla.Margins[0].Width = settings.ShowLineNumbers ? 25 : 0;
@@ -83,6 +93,10 @@ namespace Zelda
             scintilla.Styles[(int)ELTokenType.Number].ForeColor = Color.DarkOrange;
             scintilla.Styles[(int)ELTokenType.Symbol].ForeColor = Color.Red;
             scintilla.Styles[(int)ELTokenType.Comment].ForeColor = Color.Gray;
+
+            // change CR/LF representation
+            //scintilla.SetRepresentation("\n", "LF");
+            //scintilla.SetRepresentation("\r", "CR");
 
             runTimer.Interval = settings.EvaluateDelay;
             syntaxHighlight();
@@ -195,27 +209,27 @@ namespace Zelda
             syntaxHighlight();
         }
 
-        private void syntaxHighlight()
+        private void syntaxHighlight(bool forced = false)
         {
             string text = scintilla.Text;
             Task.Run(() =>
             {
                 lock (this)
                     highlighter.getTokens(text, settings.HighlightComments);
-                if (!syntaxTimer.Enabled)
-                    syntaxHighlight(highlighter.Tokens);
+                if (forced || !syntaxTimer.Enabled)
+                    syntaxHighlight(highlighter.Tokens, forced);
             });
         }
 
-        private void syntaxHighlight(List<ELToken> tokens)
+        private void syntaxHighlight(List<ELToken> tokens, bool forced = false)
         {
             if (this.InvokeRequired)
             {
-                this.BeginInvoke((MethodInvoker)delegate { syntaxHighlight(tokens); });
+                this.BeginInvoke((MethodInvoker)delegate { syntaxHighlight(tokens, forced); });
                 return;
             }
 
-            if (changed || !IsHandleCreated) return;
+            if ((changed && !forced) || !IsHandleCreated) return;
 
             //txtExpression.ClearDocumentStyle();       // causes problems with Word wrap!
             scintilla.StartStyling(0);

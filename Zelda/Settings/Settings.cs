@@ -19,12 +19,16 @@ namespace Zelda
         [DataMember] public bool SaveExpressions = true;
         [DataMember] public bool SaveState = true;
         [DataMember] public bool ReloadPlaylist = true;
-        [DataMember] public bool StartMaximized = false;
+        [DataMember] public bool StartMaximized = false;        // deprecated, Zelda saves/restores last state
         [DataMember] public bool ShowLineNumbers = true;
         [DataMember] public bool WrapIndent = true;
         [DataMember] public bool ReplaceTabs = true;
         [DataMember] public bool ShowAPICallTime = true;
         [DataMember] public bool FastStart = false;
+        [DataMember] public bool UseMCWS = false;
+        [DataMember] public string MCWSServer = "http://localhost:52199";
+        [DataMember] public string MCWSUsername = null;
+        [DataMember] public string MCWSPassword = null;
 
         [DataMember] public int EvaluateDelay = 500;
         [DataMember] public bool HighlightSyntax = true;
@@ -35,9 +39,9 @@ namespace Zelda
         [DataMember] public string TooltipFolder = null;
         [DataMember] public string PlaylistFilter = null;
 
-        [DataMember(Order = 100)] public CustomFont EditorFont;
-        [DataMember(Order = 101)] public CustomFont OutputFont;
-        [DataMember(Order = 102)] public CustomFont RenderFont;
+        [DataMember(Order = 101)] public CustomFont EditorFont;
+        [DataMember(Order = 102)] public CustomFont OutputFont;
+        [DataMember(Order = 103)] public CustomFont RenderFont;
 
         //[DataMember] public string CurrentProfile;
         //[DataMember] public List<SyntaxProfile> SyntaxProfiles;

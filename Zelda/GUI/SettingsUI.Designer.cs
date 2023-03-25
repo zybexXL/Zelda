@@ -32,13 +32,27 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsUI));
             this.btnSave = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabConnection = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panelMCWS = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblServer = new System.Windows.Forms.Label();
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtServer = new System.Windows.Forms.TextBox();
+            this.btnTestConnection = new System.Windows.Forms.Button();
+            this.optAutomation = new System.Windows.Forms.RadioButton();
+            this.optMCWS = new System.Windows.Forms.RadioButton();
             this.tabPrefs = new System.Windows.Forms.TabPage();
+            this.delaySlide = new System.Windows.Forms.TrackBar();
+            this.lblDelay = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.txtPlaylistFilter = new System.Windows.Forms.TextBox();
             this.txtTooltip = new System.Windows.Forms.TextBox();
-            this.delaySlide = new System.Windows.Forms.TrackBar();
-            this.chkSaveTabs = new System.Windows.Forms.CheckBox();
             this.chkPlaylistFilter = new System.Windows.Forms.CheckBox();
             this.chkTooltip = new System.Windows.Forms.CheckBox();
+            this.chkSaveTabs = new System.Windows.Forms.CheckBox();
             this.chkFastStart = new System.Windows.Forms.CheckBox();
             this.chkMaximize = new System.Windows.Forms.CheckBox();
             this.chkTabs = new System.Windows.Forms.CheckBox();
@@ -47,11 +61,10 @@
             this.chkLines = new System.Windows.Forms.CheckBox();
             this.chkSaveView = new System.Windows.Forms.CheckBox();
             this.chkLoadPlaylist = new System.Windows.Forms.CheckBox();
-            this.lblDelay = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
             this.tabColors = new System.Windows.Forms.TabPage();
             this.txtExtraFuncs = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
+            this.chkSyntaxComments = new System.Windows.Forms.CheckBox();
             this.chkSyntaxDelim = new System.Windows.Forms.CheckBox();
             this.chkSyntaxFunction = new System.Windows.Forms.CheckBox();
             this.chkSyntax = new System.Windows.Forms.CheckBox();
@@ -77,8 +90,9 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
-            this.chkSyntaxComments = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
+            this.tabConnection.SuspendLayout();
+            this.panelMCWS.SuspendLayout();
             this.tabPrefs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaySlide)).BeginInit();
             this.tabColors.SuspendLayout();
@@ -91,10 +105,10 @@
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(427, 290);
+            this.btnSave.Location = new System.Drawing.Point(364, 280);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(87, 27);
-            this.btnSave.TabIndex = 0;
+            this.btnSave.TabIndex = 20;
             this.btnSave.Text = "SAVE";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -104,23 +118,162 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabConnection);
             this.tabControl1.Controls.Add(this.tabPrefs);
             this.tabControl1.Controls.Add(this.tabColors);
             this.tabControl1.Controls.Add(this.tabCustomize);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(528, 285);
-            this.tabControl1.TabIndex = 2;
+            this.tabControl1.Size = new System.Drawing.Size(465, 275);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // tabConnection
+            // 
+            this.tabConnection.Controls.Add(this.label1);
+            this.tabConnection.Controls.Add(this.panelMCWS);
+            this.tabConnection.Controls.Add(this.btnTestConnection);
+            this.tabConnection.Controls.Add(this.optAutomation);
+            this.tabConnection.Controls.Add(this.optMCWS);
+            this.tabConnection.Location = new System.Drawing.Point(4, 24);
+            this.tabConnection.Name = "tabConnection";
+            this.tabConnection.Padding = new System.Windows.Forms.Padding(3);
+            this.tabConnection.Size = new System.Drawing.Size(457, 247);
+            this.tabConnection.TabIndex = 3;
+            this.tabConnection.Text = "Connection";
+            this.tabConnection.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(13, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(200, 15);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Select a method to connect to MC:";
+            // 
+            // panelMCWS
+            // 
+            this.panelMCWS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelMCWS.Controls.Add(this.label6);
+            this.panelMCWS.Controls.Add(this.label7);
+            this.panelMCWS.Controls.Add(this.lblServer);
+            this.panelMCWS.Controls.Add(this.txtUsername);
+            this.panelMCWS.Controls.Add(this.txtPassword);
+            this.panelMCWS.Controls.Add(this.txtServer);
+            this.panelMCWS.Location = new System.Drawing.Point(8, 89);
+            this.panelMCWS.Name = "panelMCWS";
+            this.panelMCWS.Size = new System.Drawing.Size(434, 111);
+            this.panelMCWS.TabIndex = 16;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(22, 67);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(60, 15);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Password:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(22, 41);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(63, 15);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Username:";
+            // 
+            // lblServer
+            // 
+            this.lblServer.Image = global::Zelda.Properties.Resources.help;
+            this.lblServer.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblServer.Location = new System.Drawing.Point(22, 12);
+            this.lblServer.Name = "lblServer";
+            this.lblServer.Size = new System.Drawing.Size(67, 15);
+            this.lblServer.TabIndex = 15;
+            this.lblServer.Text = "Server:";
+            this.toolTip1.SetToolTip(this.lblServer, resources.GetString("lblServer.ToolTip"));
+            this.lblServer.Click += new System.EventHandler(this.lblServer_Click);
+            // 
+            // txtUsername
+            // 
+            this.txtUsername.Location = new System.Drawing.Point(91, 38);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(150, 23);
+            this.txtUsername.TabIndex = 4;
+            this.txtUsername.TextChanged += new System.EventHandler(this.connection_Changed);
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(91, 67);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(150, 23);
+            this.txtPassword.TabIndex = 5;
+            this.txtPassword.UseSystemPasswordChar = true;
+            this.txtPassword.TextChanged += new System.EventHandler(this.connection_Changed);
+            // 
+            // txtServer
+            // 
+            this.txtServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtServer.Location = new System.Drawing.Point(91, 9);
+            this.txtServer.Name = "txtServer";
+            this.txtServer.Size = new System.Drawing.Size(331, 23);
+            this.txtServer.TabIndex = 3;
+            this.txtServer.Text = "http://localhost:52199";
+            this.txtServer.TextChanged += new System.EventHandler(this.connection_Changed);
+            // 
+            // btnTestConnection
+            // 
+            this.btnTestConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTestConnection.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestConnection.Location = new System.Drawing.Point(16, 206);
+            this.btnTestConnection.Name = "btnTestConnection";
+            this.btnTestConnection.Size = new System.Drawing.Size(112, 27);
+            this.btnTestConnection.TabIndex = 6;
+            this.btnTestConnection.Text = "Test connection";
+            this.btnTestConnection.UseVisualStyleBackColor = true;
+            this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
+            // 
+            // optAutomation
+            // 
+            this.optAutomation.AutoSize = true;
+            this.optAutomation.Checked = true;
+            this.optAutomation.Location = new System.Drawing.Point(16, 45);
+            this.optAutomation.Name = "optAutomation";
+            this.optAutomation.Size = new System.Drawing.Size(110, 19);
+            this.optAutomation.TabIndex = 1;
+            this.optAutomation.TabStop = true;
+            this.optAutomation.Text = "Automation API";
+            this.toolTip1.SetToolTip(this.optAutomation, "MC must be installed in this computer");
+            this.optAutomation.UseVisualStyleBackColor = true;
+            this.optAutomation.CheckedChanged += new System.EventHandler(this.optMCWS_CheckedChanged);
+            // 
+            // optMCWS
+            // 
+            this.optMCWS.AutoSize = true;
+            this.optMCWS.Location = new System.Drawing.Point(16, 70);
+            this.optMCWS.Name = "optMCWS";
+            this.optMCWS.Size = new System.Drawing.Size(61, 19);
+            this.optMCWS.TabIndex = 2;
+            this.optMCWS.Text = "MCWS";
+            this.toolTip1.SetToolTip(this.optMCWS, "Connect to Network or Local MC server");
+            this.optMCWS.UseVisualStyleBackColor = true;
+            this.optMCWS.CheckedChanged += new System.EventHandler(this.optMCWS_CheckedChanged);
             // 
             // tabPrefs
             // 
+            this.tabPrefs.Controls.Add(this.delaySlide);
+            this.tabPrefs.Controls.Add(this.lblDelay);
+            this.tabPrefs.Controls.Add(this.label17);
             this.tabPrefs.Controls.Add(this.txtPlaylistFilter);
             this.tabPrefs.Controls.Add(this.txtTooltip);
-            this.tabPrefs.Controls.Add(this.delaySlide);
-            this.tabPrefs.Controls.Add(this.chkSaveTabs);
             this.tabPrefs.Controls.Add(this.chkPlaylistFilter);
             this.tabPrefs.Controls.Add(this.chkTooltip);
+            this.tabPrefs.Controls.Add(this.chkSaveTabs);
             this.tabPrefs.Controls.Add(this.chkFastStart);
             this.tabPrefs.Controls.Add(this.chkMaximize);
             this.tabPrefs.Controls.Add(this.chkTabs);
@@ -129,31 +282,13 @@
             this.tabPrefs.Controls.Add(this.chkLines);
             this.tabPrefs.Controls.Add(this.chkSaveView);
             this.tabPrefs.Controls.Add(this.chkLoadPlaylist);
-            this.tabPrefs.Controls.Add(this.lblDelay);
-            this.tabPrefs.Controls.Add(this.label17);
             this.tabPrefs.Location = new System.Drawing.Point(4, 24);
             this.tabPrefs.Name = "tabPrefs";
             this.tabPrefs.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPrefs.Size = new System.Drawing.Size(520, 257);
+            this.tabPrefs.Size = new System.Drawing.Size(457, 247);
             this.tabPrefs.TabIndex = 0;
             this.tabPrefs.Text = "Preferences";
             this.tabPrefs.UseVisualStyleBackColor = true;
-            // 
-            // txtPlaylistFilter
-            // 
-            this.txtPlaylistFilter.Enabled = false;
-            this.txtPlaylistFilter.Location = new System.Drawing.Point(122, 153);
-            this.txtPlaylistFilter.Name = "txtPlaylistFilter";
-            this.txtPlaylistFilter.Size = new System.Drawing.Size(383, 23);
-            this.txtPlaylistFilter.TabIndex = 9;
-            // 
-            // txtTooltip
-            // 
-            this.txtTooltip.Enabled = false;
-            this.txtTooltip.Location = new System.Drawing.Point(122, 183);
-            this.txtTooltip.Name = "txtTooltip";
-            this.txtTooltip.Size = new System.Drawing.Size(383, 23);
-            this.txtTooltip.TabIndex = 9;
             // 
             // delaySlide
             // 
@@ -162,18 +297,81 @@
             this.delaySlide.AutoSize = false;
             this.delaySlide.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.delaySlide.LargeChange = 200;
-            this.delaySlide.Location = new System.Drawing.Point(115, 224);
+            this.delaySlide.Location = new System.Drawing.Point(114, 213);
             this.delaySlide.Maximum = 2000;
             this.delaySlide.Minimum = 100;
             this.delaySlide.Name = "delaySlide";
-            this.delaySlide.Size = new System.Drawing.Size(345, 25);
+            this.delaySlide.Size = new System.Drawing.Size(289, 25);
             this.delaySlide.SmallChange = 50;
-            this.delaySlide.TabIndex = 6;
+            this.delaySlide.TabIndex = 10;
             this.delaySlide.TickFrequency = 50;
             this.delaySlide.TickStyle = System.Windows.Forms.TickStyle.None;
             this.toolTip1.SetToolTip(this.delaySlide, "Delay after typing stops before recalculating the expression result");
             this.delaySlide.Value = 500;
-            this.delaySlide.ValueChanged += new System.EventHandler(this.delaySlide_ValueChanged);
+            // 
+            // lblDelay
+            // 
+            this.lblDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDelay.AutoSize = true;
+            this.lblDelay.Location = new System.Drawing.Point(403, 214);
+            this.lblDelay.Name = "lblDelay";
+            this.lblDelay.Size = new System.Drawing.Size(44, 15);
+            this.lblDelay.TabIndex = 29;
+            this.lblDelay.Text = "500 ms";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(13, 213);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(96, 15);
+            this.label17.TabIndex = 30;
+            this.label17.Text = "Evaluation delay:";
+            // 
+            // txtPlaylistFilter
+            // 
+            this.txtPlaylistFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPlaylistFilter.Enabled = false;
+            this.txtPlaylistFilter.Location = new System.Drawing.Point(124, 138);
+            this.txtPlaylistFilter.Name = "txtPlaylistFilter";
+            this.txtPlaylistFilter.Size = new System.Drawing.Size(323, 23);
+            this.txtPlaylistFilter.TabIndex = 7;
+            this.txtPlaylistFilter.TextChanged += new System.EventHandler(this.connection_Changed);
+            // 
+            // txtTooltip
+            // 
+            this.txtTooltip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTooltip.Enabled = false;
+            this.txtTooltip.Location = new System.Drawing.Point(124, 167);
+            this.txtTooltip.Name = "txtTooltip";
+            this.txtTooltip.Size = new System.Drawing.Size(323, 23);
+            this.txtTooltip.TabIndex = 9;
+            // 
+            // chkPlaylistFilter
+            // 
+            this.chkPlaylistFilter.AutoSize = true;
+            this.chkPlaylistFilter.Location = new System.Drawing.Point(14, 140);
+            this.chkPlaylistFilter.Name = "chkPlaylistFilter";
+            this.chkPlaylistFilter.Size = new System.Drawing.Size(95, 19);
+            this.chkPlaylistFilter.TabIndex = 6;
+            this.chkPlaylistFilter.Text = "Playlist Filter:";
+            this.toolTip1.SetToolTip(this.chkPlaylistFilter, resources.GetString("chkPlaylistFilter.ToolTip"));
+            this.chkPlaylistFilter.UseVisualStyleBackColor = true;
+            this.chkPlaylistFilter.TextChanged += new System.EventHandler(this.connection_Changed);
+            // 
+            // chkTooltip
+            // 
+            this.chkTooltip.AutoSize = true;
+            this.chkTooltip.Location = new System.Drawing.Point(14, 169);
+            this.chkTooltip.Name = "chkTooltip";
+            this.chkTooltip.Size = new System.Drawing.Size(101, 19);
+            this.chkTooltip.TabIndex = 8;
+            this.chkTooltip.Text = "Tooltip Folder:";
+            this.toolTip1.SetToolTip(this.chkTooltip, "Set this path in case Zelda doesn\'t detect the Tooltip: location correctly.\r\nLeav" +
+        "e blank to autodetect the Tooltip folder.");
+            this.chkTooltip.UseVisualStyleBackColor = true;
             // 
             // chkSaveTabs
             // 
@@ -183,39 +381,14 @@
             this.chkSaveTabs.Location = new System.Drawing.Point(14, 16);
             this.chkSaveTabs.Name = "chkSaveTabs";
             this.chkSaveTabs.Size = new System.Drawing.Size(185, 19);
-            this.chkSaveTabs.TabIndex = 5;
+            this.chkSaveTabs.TabIndex = 1;
             this.chkSaveTabs.Text = "Auto-save/restore expressions";
             this.chkSaveTabs.UseVisualStyleBackColor = true;
-            // 
-            // chkPlaylistFilter
-            // 
-            this.chkPlaylistFilter.AutoSize = true;
-            this.chkPlaylistFilter.Location = new System.Drawing.Point(14, 155);
-            this.chkPlaylistFilter.Name = "chkPlaylistFilter";
-            this.chkPlaylistFilter.Size = new System.Drawing.Size(95, 19);
-            this.chkPlaylistFilter.TabIndex = 5;
-            this.chkPlaylistFilter.Text = "Playlist Filter:";
-            this.toolTip1.SetToolTip(this.chkPlaylistFilter, resources.GetString("chkPlaylistFilter.ToolTip"));
-            this.chkPlaylistFilter.UseVisualStyleBackColor = true;
-            this.chkPlaylistFilter.CheckedChanged += new System.EventHandler(this.chkbox_CheckedChanged);
-            // 
-            // chkTooltip
-            // 
-            this.chkTooltip.AutoSize = true;
-            this.chkTooltip.Location = new System.Drawing.Point(14, 185);
-            this.chkTooltip.Name = "chkTooltip";
-            this.chkTooltip.Size = new System.Drawing.Size(101, 19);
-            this.chkTooltip.TabIndex = 5;
-            this.chkTooltip.Text = "Tooltip Folder:";
-            this.toolTip1.SetToolTip(this.chkTooltip, "Set this path in case Zelda doesn\'t detect the Tooltip: location correctly.\r\nLeav" +
-        "e blank to autodetect the Tooltip folder.");
-            this.chkTooltip.UseVisualStyleBackColor = true;
-            this.chkTooltip.CheckedChanged += new System.EventHandler(this.chkbox_CheckedChanged);
             // 
             // chkFastStart
             // 
             this.chkFastStart.AutoSize = true;
-            this.chkFastStart.Location = new System.Drawing.Point(14, 116);
+            this.chkFastStart.Location = new System.Drawing.Point(14, 91);
             this.chkFastStart.Name = "chkFastStart";
             this.chkFastStart.Size = new System.Drawing.Size(73, 19);
             this.chkFastStart.TabIndex = 5;
@@ -230,22 +403,23 @@
             this.chkMaximize.AutoSize = true;
             this.chkMaximize.Checked = true;
             this.chkMaximize.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMaximize.Location = new System.Drawing.Point(14, 91);
+            this.chkMaximize.Location = new System.Drawing.Point(224, 116);
             this.chkMaximize.Name = "chkMaximize";
             this.chkMaximize.Size = new System.Drawing.Size(111, 19);
-            this.chkMaximize.TabIndex = 5;
+            this.chkMaximize.TabIndex = 4;
             this.chkMaximize.Text = "Start maximized";
             this.chkMaximize.UseVisualStyleBackColor = true;
+            this.chkMaximize.Visible = false;
             // 
             // chkTabs
             // 
             this.chkTabs.AutoSize = true;
             this.chkTabs.Checked = true;
             this.chkTabs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTabs.Location = new System.Drawing.Point(298, 66);
+            this.chkTabs.Location = new System.Drawing.Point(224, 66);
             this.chkTabs.Name = "chkTabs";
             this.chkTabs.Size = new System.Drawing.Size(169, 19);
-            this.chkTabs.TabIndex = 5;
+            this.chkTabs.TabIndex = 13;
             this.chkTabs.Text = "Insert spaces instead of Tab";
             this.chkTabs.UseVisualStyleBackColor = true;
             // 
@@ -254,10 +428,10 @@
             this.chkAPITime.AutoSize = true;
             this.chkAPITime.Checked = true;
             this.chkAPITime.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAPITime.Location = new System.Drawing.Point(298, 91);
+            this.chkAPITime.Location = new System.Drawing.Point(224, 91);
             this.chkAPITime.Name = "chkAPITime";
             this.chkAPITime.Size = new System.Drawing.Size(211, 19);
-            this.chkAPITime.TabIndex = 5;
+            this.chkAPITime.TabIndex = 14;
             this.chkAPITime.Text = "Show API call times in Playlist table";
             this.chkAPITime.UseVisualStyleBackColor = true;
             // 
@@ -266,10 +440,10 @@
             this.chkIndent.AutoSize = true;
             this.chkIndent.Checked = true;
             this.chkIndent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIndent.Location = new System.Drawing.Point(298, 41);
+            this.chkIndent.Location = new System.Drawing.Point(224, 41);
             this.chkIndent.Name = "chkIndent";
             this.chkIndent.Size = new System.Drawing.Size(136, 19);
-            this.chkIndent.TabIndex = 5;
+            this.chkIndent.TabIndex = 12;
             this.chkIndent.Text = "Indent wrapped lines";
             this.chkIndent.UseVisualStyleBackColor = true;
             // 
@@ -278,10 +452,10 @@
             this.chkLines.AutoSize = true;
             this.chkLines.Checked = true;
             this.chkLines.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkLines.Location = new System.Drawing.Point(298, 16);
+            this.chkLines.Location = new System.Drawing.Point(224, 16);
             this.chkLines.Name = "chkLines";
             this.chkLines.Size = new System.Drawing.Size(127, 19);
-            this.chkLines.TabIndex = 5;
+            this.chkLines.TabIndex = 11;
             this.chkLines.Text = "Show line numbers";
             this.chkLines.UseVisualStyleBackColor = true;
             // 
@@ -293,7 +467,7 @@
             this.chkSaveView.Location = new System.Drawing.Point(14, 41);
             this.chkSaveView.Name = "chkSaveView";
             this.chkSaveView.Size = new System.Drawing.Size(155, 19);
-            this.chkSaveView.TabIndex = 5;
+            this.chkSaveView.TabIndex = 2;
             this.chkSaveView.Text = "Remember view settings";
             this.chkSaveView.UseVisualStyleBackColor = true;
             // 
@@ -303,28 +477,9 @@
             this.chkLoadPlaylist.Location = new System.Drawing.Point(14, 66);
             this.chkLoadPlaylist.Name = "chkLoadPlaylist";
             this.chkLoadPlaylist.Size = new System.Drawing.Size(180, 19);
-            this.chkLoadPlaylist.TabIndex = 5;
+            this.chkLoadPlaylist.TabIndex = 3;
             this.chkLoadPlaylist.Text = "Reload last playlist on startup";
             this.chkLoadPlaylist.UseVisualStyleBackColor = true;
-            // 
-            // lblDelay
-            // 
-            this.lblDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDelay.AutoSize = true;
-            this.lblDelay.Location = new System.Drawing.Point(461, 227);
-            this.lblDelay.Name = "lblDelay";
-            this.lblDelay.Size = new System.Drawing.Size(44, 15);
-            this.lblDelay.TabIndex = 2;
-            this.lblDelay.Text = "500 ms";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(11, 227);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(96, 15);
-            this.label17.TabIndex = 2;
-            this.label17.Text = "Evaluation delay:";
             // 
             // tabColors
             // 
@@ -341,7 +496,7 @@
             this.tabColors.Location = new System.Drawing.Point(4, 24);
             this.tabColors.Name = "tabColors";
             this.tabColors.Padding = new System.Windows.Forms.Padding(3);
-            this.tabColors.Size = new System.Drawing.Size(520, 257);
+            this.tabColors.Size = new System.Drawing.Size(457, 247);
             this.tabColors.TabIndex = 1;
             this.tabColors.Text = "Colors";
             this.tabColors.UseVisualStyleBackColor = true;
@@ -350,11 +505,11 @@
             // 
             this.txtExtraFuncs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtExtraFuncs.Location = new System.Drawing.Point(254, 34);
+            this.txtExtraFuncs.Location = new System.Drawing.Point(239, 34);
             this.txtExtraFuncs.Multiline = true;
             this.txtExtraFuncs.Name = "txtExtraFuncs";
-            this.txtExtraFuncs.Size = new System.Drawing.Size(251, 51);
-            this.txtExtraFuncs.TabIndex = 17;
+            this.txtExtraFuncs.Size = new System.Drawing.Size(208, 51);
+            this.txtExtraFuncs.TabIndex = 5;
             this.toolTip1.SetToolTip(this.txtExtraFuncs, "Add new function names for highlighting, separated by space.\r\nThis allows ZELDA t" +
         "o recognized recently added functions.\r\n\r\nRequires application restart to take e" +
         "ffect.");
@@ -362,11 +517,23 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(251, 16);
+            this.label20.Location = new System.Drawing.Point(239, 16);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(183, 15);
             this.label20.TabIndex = 15;
             this.label20.Text = "Additional functions to highlight:";
+            // 
+            // chkSyntaxComments
+            // 
+            this.chkSyntaxComments.AutoSize = true;
+            this.chkSyntaxComments.Checked = true;
+            this.chkSyntaxComments.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSyntaxComments.Location = new System.Drawing.Point(14, 91);
+            this.chkSyntaxComments.Name = "chkSyntaxComments";
+            this.chkSyntaxComments.Size = new System.Drawing.Size(193, 19);
+            this.chkSyntaxComments.TabIndex = 4;
+            this.chkSyntaxComments.Text = "Comment lines starting with ##";
+            this.chkSyntaxComments.UseVisualStyleBackColor = true;
             // 
             // chkSyntaxDelim
             // 
@@ -376,7 +543,7 @@
             this.chkSyntaxDelim.Location = new System.Drawing.Point(14, 66);
             this.chkSyntaxDelim.Name = "chkSyntaxDelim";
             this.chkSyntaxDelim.Size = new System.Drawing.Size(179, 19);
-            this.chkSyntaxDelim.TabIndex = 13;
+            this.chkSyntaxDelim.TabIndex = 3;
             this.chkSyntaxDelim.Text = "Highlight function delimiters";
             this.toolTip1.SetToolTip(this.chkSyntaxDelim, "Shade the delimiters (commas and parethesis) of the function under the cursor pos" +
         "ition");
@@ -390,7 +557,7 @@
             this.chkSyntaxFunction.Location = new System.Drawing.Point(14, 41);
             this.chkSyntaxFunction.Name = "chkSyntaxFunction";
             this.chkSyntaxFunction.Size = new System.Drawing.Size(165, 19);
-            this.chkSyntaxFunction.TabIndex = 13;
+            this.chkSyntaxFunction.TabIndex = 2;
             this.chkSyntaxFunction.Text = "Highlight current function";
             this.toolTip1.SetToolTip(this.chkSyntaxFunction, "Shade the full text of the function under the cursor position");
             this.chkSyntaxFunction.UseVisualStyleBackColor = true;
@@ -403,7 +570,7 @@
             this.chkSyntax.Location = new System.Drawing.Point(14, 16);
             this.chkSyntax.Name = "chkSyntax";
             this.chkSyntax.Size = new System.Drawing.Size(166, 19);
-            this.chkSyntax.TabIndex = 13;
+            this.chkSyntax.TabIndex = 1;
             this.chkSyntax.Text = "Enable syntax highlighting";
             this.toolTip1.SetToolTip(this.chkSyntax, "Colorize language elements");
             this.chkSyntax.UseVisualStyleBackColor = true;
@@ -436,7 +603,7 @@
             this.radio2.Location = new System.Drawing.Point(81, 127);
             this.radio2.Name = "radio2";
             this.radio2.Size = new System.Drawing.Size(87, 22);
-            this.radio2.TabIndex = 8;
+            this.radio2.TabIndex = 7;
             this.radio2.Text = "Text Output";
             this.radio2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.radio2.UseVisualStyleBackColor = false;
@@ -454,7 +621,7 @@
             this.radio1.Location = new System.Drawing.Point(27, 127);
             this.radio1.Name = "radio1";
             this.radio1.Size = new System.Drawing.Size(54, 22);
-            this.radio1.TabIndex = 8;
+            this.radio1.TabIndex = 6;
             this.radio1.TabStop = true;
             this.radio1.Text = "Editor";
             this.radio1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -472,7 +639,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(14, 128);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(491, 110);
+            this.groupBox2.Size = new System.Drawing.Size(433, 110);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             // 
@@ -482,10 +649,10 @@
             this.btnBackColor.AutoSize = true;
             this.btnBackColor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBackColor.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnBackColor.Location = new System.Drawing.Point(414, 79);
+            this.btnBackColor.Location = new System.Drawing.Point(355, 79);
             this.btnBackColor.Name = "btnBackColor";
             this.btnBackColor.Size = new System.Drawing.Size(71, 15);
-            this.btnBackColor.TabIndex = 9;
+            this.btnBackColor.TabIndex = 12;
             this.btnBackColor.TabStop = true;
             this.btnBackColor.Text = "background";
             this.btnBackColor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnBackColor_LinkClicked);
@@ -496,10 +663,10 @@
             this.btnFont.AutoSize = true;
             this.btnFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFont.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnFont.Location = new System.Drawing.Point(414, 29);
+            this.btnFont.Location = new System.Drawing.Point(355, 29);
             this.btnFont.Name = "btnFont";
             this.btnFont.Size = new System.Drawing.Size(29, 15);
-            this.btnFont.TabIndex = 9;
+            this.btnFont.TabIndex = 10;
             this.btnFont.TabStop = true;
             this.btnFont.Text = "font";
             this.btnFont.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnFont_LinkClicked);
@@ -510,10 +677,10 @@
             this.btnTextColor.AutoSize = true;
             this.btnTextColor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTextColor.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnTextColor.Location = new System.Drawing.Point(414, 54);
+            this.btnTextColor.Location = new System.Drawing.Point(355, 54);
             this.btnTextColor.Name = "btnTextColor";
             this.btnTextColor.Size = new System.Drawing.Size(57, 15);
-            this.btnTextColor.TabIndex = 9;
+            this.btnTextColor.TabIndex = 11;
             this.btnTextColor.TabStop = true;
             this.btnTextColor.Text = "text color";
             this.btnTextColor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnTextColor_LinkClicked);
@@ -529,8 +696,8 @@
             this.lblSampleColor.Location = new System.Drawing.Point(13, 29);
             this.lblSampleColor.Name = "lblSampleColor";
             this.lblSampleColor.Padding = new System.Windows.Forms.Padding(3);
-            this.lblSampleColor.Size = new System.Drawing.Size(395, 70);
-            this.lblSampleColor.TabIndex = 3;
+            this.lblSampleColor.Size = new System.Drawing.Size(337, 70);
+            this.lblSampleColor.TabIndex = 9;
             this.lblSampleColor.Text = resources.GetString("lblSampleColor.Text");
             // 
             // tabCustomize
@@ -542,7 +709,7 @@
             this.tabCustomize.Location = new System.Drawing.Point(4, 24);
             this.tabCustomize.Name = "tabCustomize";
             this.tabCustomize.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCustomize.Size = new System.Drawing.Size(520, 257);
+            this.tabCustomize.Size = new System.Drawing.Size(457, 247);
             this.tabCustomize.TabIndex = 2;
             this.tabCustomize.Text = "Customize";
             this.tabCustomize.UseVisualStyleBackColor = true;
@@ -551,7 +718,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(341, 20);
+            this.label3.Location = new System.Drawing.Point(333, 20);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 15);
             this.label3.TabIndex = 15;
@@ -566,9 +733,9 @@
             "Default - Dark",
             "Custom",
             "Custom - Dark"});
-            this.comboBox1.Location = new System.Drawing.Point(389, 17);
+            this.comboBox1.Location = new System.Drawing.Point(381, 17);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 23);
+            this.comboBox1.Size = new System.Drawing.Size(66, 23);
             this.comboBox1.TabIndex = 18;
             this.comboBox1.Visible = false;
             // 
@@ -608,37 +775,43 @@
             this.dgSyntax.Location = new System.Drawing.Point(8, 55);
             this.dgSyntax.Name = "dgSyntax";
             this.dgSyntax.RowHeadersVisible = false;
+            this.dgSyntax.RowHeadersWidth = 51;
             this.dgSyntax.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dgSyntax.Size = new System.Drawing.Size(502, 173);
+            this.dgSyntax.Size = new System.Drawing.Size(439, 173);
             this.dgSyntax.TabIndex = 14;
             // 
             // Column1
             // 
             this.Column1.HeaderText = "Element";
+            this.Column1.MinimumWidth = 6;
             this.Column1.Name = "Column1";
             this.Column1.Width = 75;
             // 
             // Column2
             // 
             this.Column2.HeaderText = "Text";
+            this.Column2.MinimumWidth = 6;
             this.Column2.Name = "Column2";
             this.Column2.Width = 34;
             // 
             // Column3
             // 
             this.Column3.HeaderText = "Text Color";
+            this.Column3.MinimumWidth = 6;
             this.Column3.Name = "Column3";
             this.Column3.Width = 85;
             // 
             // Column4
             // 
             this.Column4.HeaderText = "Back";
+            this.Column4.MinimumWidth = 6;
             this.Column4.Name = "Column4";
             this.Column4.Width = 38;
             // 
             // Column5
             // 
             this.Column5.HeaderText = "Back Color";
+            this.Column5.MinimumWidth = 6;
             this.Column5.Name = "Column5";
             this.Column5.Width = 89;
             // 
@@ -646,6 +819,7 @@
             // 
             this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column6.HeaderText = "Sample";
+            this.Column6.MinimumWidth = 6;
             this.Column6.Name = "Column6";
             // 
             // fontDialog
@@ -663,23 +837,11 @@
             this.colorDialog.FullOpen = true;
             this.colorDialog.SolidColorOnly = true;
             // 
-            // chkComments
-            // 
-            this.chkSyntaxComments.AutoSize = true;
-            this.chkSyntaxComments.Checked = true;
-            this.chkSyntaxComments.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSyntaxComments.Location = new System.Drawing.Point(14, 91);
-            this.chkSyntaxComments.Name = "chkComments";
-            this.chkSyntaxComments.Size = new System.Drawing.Size(193, 19);
-            this.chkSyntaxComments.TabIndex = 13;
-            this.chkSyntaxComments.Text = "Comment lines starting with ##";
-            this.chkSyntaxComments.UseVisualStyleBackColor = true;
-            // 
             // SettingsUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 323);
+            this.ClientSize = new System.Drawing.Size(465, 313);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnSave);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -688,11 +850,16 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SettingsUI";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ZELDA Settings";
             this.Load += new System.EventHandler(this.SettingsUI_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SettingsUI_KeyPress);
             this.tabControl1.ResumeLayout(false);
+            this.tabConnection.ResumeLayout(false);
+            this.tabConnection.PerformLayout();
+            this.panelMCWS.ResumeLayout(false);
+            this.panelMCWS.PerformLayout();
             this.tabPrefs.ResumeLayout(false);
             this.tabPrefs.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaySlide)).EndInit();
@@ -712,11 +879,8 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPrefs;
-        private System.Windows.Forms.TrackBar delaySlide;
         private System.Windows.Forms.CheckBox chkLoadPlaylist;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label lblDelay;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TabPage tabColors;
         private System.Windows.Forms.DataGridView dgSyntax;
         private System.Windows.Forms.CheckBox chkSyntax;
@@ -750,12 +914,27 @@
         private System.Windows.Forms.FontDialog fontDialog;
         private System.Windows.Forms.ColorDialog colorDialog;
         private System.Windows.Forms.LinkLabel btnFont;
-        private System.Windows.Forms.TextBox txtTooltip;
-        private System.Windows.Forms.CheckBox chkTooltip;
-        private System.Windows.Forms.TextBox txtPlaylistFilter;
-        private System.Windows.Forms.CheckBox chkPlaylistFilter;
         private System.Windows.Forms.CheckBox chkFastStart;
         private System.Windows.Forms.TabPage tabCustomize;
         private System.Windows.Forms.CheckBox chkSyntaxComments;
+        private System.Windows.Forms.TabPage tabConnection;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblServer;
+        private System.Windows.Forms.TextBox txtUsername;
+        private System.Windows.Forms.TextBox txtServer;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.RadioButton optMCWS;
+        private System.Windows.Forms.RadioButton optAutomation;
+        private System.Windows.Forms.TrackBar delaySlide;
+        private System.Windows.Forms.Label lblDelay;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox txtPlaylistFilter;
+        private System.Windows.Forms.TextBox txtTooltip;
+        private System.Windows.Forms.CheckBox chkPlaylistFilter;
+        private System.Windows.Forms.CheckBox chkTooltip;
+        private System.Windows.Forms.Panel panelMCWS;
+        private System.Windows.Forms.Button btnTestConnection;
+        private System.Windows.Forms.Label label1;
     }
 }

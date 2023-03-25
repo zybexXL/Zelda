@@ -17,7 +17,7 @@ namespace Zelda
         {
             InitializeComponent();
             Icon = Properties.Resources.ZeldaIcon;
-            lblVersion.Text = $"Version {Program.version.ToString()}";
+            lblVersion.Text = $"Version {Program.version.ToString(3)}";
         }
 
         private void button1_Click(object sender, EventArgs e)

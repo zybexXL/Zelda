@@ -40,6 +40,9 @@ namespace Zelda
         [DataMember] public int Zoom = 0;
         [DataMember] public string Playlist;
         [DataMember] public string Filename;
+        [DataMember] public Rectangle Dimensions = Rectangle.Empty;
+        [DataMember] public bool Maximized = false;
+        [DataMember] public int SplitPosition = 0;
 
         public State()
         {

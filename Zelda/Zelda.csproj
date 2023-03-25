@@ -46,12 +46,18 @@
       <HintPath>.\MediaCenter24.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Scintilla.NET, Version=5.3.2.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scintilla.NET.5.3.2.3\lib\net45\Scintilla.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -129,8 +135,12 @@
     <Compile Include="GUI\ZeldaUI.Designer.cs">
       <DependentUpon>ZeldaUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="JRiver\IJRiverAPI.cs" />
+    <Compile Include="JRiver\JAutomation.cs" />
+    <Compile Include="JRiver\JRField.cs" />
     <Compile Include="JRiver\JRiverAPI.cs" />
     <Compile Include="JRiver\JRPlaylist.cs" />
+    <Compile Include="JRiver\MCWS.cs" />
     <Compile Include="Settings\State.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="TextEditor.cs">
@@ -144,6 +154,7 @@
     <Compile Include="Util\Logger.cs" />
     <Compile Include="JRiver\JRFile.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Util\OSProtect.cs" />
     <Compile Include="Util\ProgressInfo.cs" />
     <Compile Include="GUI\ProgressUI.cs">
       <SubType>Form</SubType>
@@ -215,9 +226,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\cog32.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\refresh_2a2b2c.png" />
   </ItemGroup>
   <ItemGroup>
@@ -231,9 +239,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Play-1-Normal-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\help.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arrow_left.png" />
@@ -263,9 +268,6 @@
     <None Include="Resources\play_red.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\cog.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\redo_2a2b2c_24.png" />
     <None Include="Resources\undo_2a2b2c_24.png" />
     <None Include="Resources\Rename2.png" />
@@ -290,6 +292,11 @@
     <None Include="Resources\font_bw.png" />
     <None Include="Resources\font16.png" />
     <None Include="Resources\folder.png" />
+    <None Include="Resources\help32.png" />
+    <None Include="Resources\cog24.png" />
+    <None Include="Resources\help.png" />
+    <None Include="Resources\cog.png" />
+    <None Include="Resources\cog32.png" />
     <Content Include="Zelda.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -116,5 +116,92 @@ namespace Zelda
             using (RegistryKey key = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion"))
                 return (string)key.GetValue("ProductName", "Windows");
         }
+
+        /*
+        // reads embedded resource file as string
+        internal static string getEmbeddedResourceString(string resourcePath, bool isGzip = false)
+        {
+            Stream resource = getEmbeddedResourceStream(resourcePath, isGzip);
+            if (resource == null) return null;
+
+            try
+            {
+                using (StreamReader reader = new StreamReader(resource))
+                    return reader.ReadToEnd();
+            }
+            catch { }
+            finally { if (resource != null && resource.CanRead) try { resource.Close(); } catch { } }
+            return null;
+        }
+        
+        internal static Stream getEmbeddedResourceStream(string resourcePath, bool isGzip = false)
+        {
+            Stream stream = null;
+            resourcePath = resourcePath.Replace('\\', '.').Replace('/', '.');
+            try
+            {
+                stream = findResourceStream(Assembly.GetEntryAssembly(), resourcePath);
+                if (stream == null) stream = findResourceStream(Assembly.GetExecutingAssembly(), resourcePath);
+                if (stream == null) return null;
+
+                if (isGzip)
+                {
+                    GZipStream gzip = new GZipStream(stream, CompressionMode.Decompress, false);
+                    return gzip;
+                }
+                return stream;
+            }
+            catch { }
+            return null;
+        }
+
+        internal static bool ExtractResource(string resource, string fileName, bool isGZip = false, bool overwrite = true)
+        {
+            Stream resStream = getEmbeddedResourceStream(resource, isGZip);
+            if (resStream == null)
+                return false;
+            try
+            {
+                FileInfo fi = new FileInfo(fileName);
+                if (overwrite || !fi.Exists || fi.Length != resStream.Length)
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+                    using (StreamWriter sw = new StreamWriter(fileName))
+                        resStream.CopyTo(sw.BaseStream);
+                }
+                else
+                {
+                    //Console.WriteLine($"Resource '{resource}' is up to date ('{fileName}')");
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                if (resStream != null) resStream.Close();
+            }
+        }
+
+        private static Stream findResourceStream(Assembly assembly, string resourcePath)
+        {
+            try
+            {
+                Stream stream = assembly.GetManifestResourceStream(resourcePath);
+                if (stream == null)
+                {
+                    string res = assembly.GetManifestResourceNames().Where(r => r.EndsWith(resourcePath)).FirstOrDefault();
+                    if (res != null)
+                        stream = assembly.GetManifestResourceStream(res);
+                }
+                return stream;
+            }
+            catch { }
+            return null;
+        }
+        */
     }
 }
+

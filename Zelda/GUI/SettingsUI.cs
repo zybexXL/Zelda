@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Zelda
@@ -16,6 +10,7 @@ namespace Zelda
     {
         Settings settings;
         CustomFont[] fonts = new CustomFont[3];
+        public bool ConnectionOptionsChanged = false;
 
         public SettingsUI(Settings settings)
         {
@@ -42,6 +37,14 @@ namespace Zelda
             chkSyntaxDelim.Checked    = settings.HighlightDelimiters;
             chkSyntaxComments.Checked = settings.HighlightComments;
 
+            optMCWS.Checked = panelMCWS.Enabled = settings.UseMCWS;
+            optAutomation.Checked = !settings.UseMCWS;
+            txtServer.Text = settings.MCWSServer;
+            if (string.IsNullOrEmpty(txtServer.Text))
+                txtServer.Text = "http://localhost:52199";
+            txtUsername.Text = settings.MCWSUsername;
+            txtPassword.Text = OSProtect.Unprotect(settings.MCWSPassword);
+
             chkTooltip.Checked = txtTooltip.Enabled = !string.IsNullOrEmpty(settings.TooltipFolder);
             txtTooltip.Text = chkTooltip.Checked ? settings.TooltipFolder : JRiverAPI.TooltipFolder;
             chkPlaylistFilter.Checked = txtPlaylistFilter.Enabled = !string.IsNullOrEmpty(settings.PlaylistFilter);
@@ -54,6 +57,8 @@ namespace Zelda
             fonts[1] = settings.OutputFont;
             fonts[2] = settings.RenderFont;
             ShowCustomFont();
+
+            ConnectionOptionsChanged = false;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -76,6 +81,11 @@ namespace Zelda
             settings.EvaluateDelay = delaySlide.Value;
             settings.TooltipFolder = chkTooltip.Checked ? txtTooltip.Text?.TrimEnd('\\') : null;
             settings.PlaylistFilter = chkPlaylistFilter.Checked && !string.IsNullOrWhiteSpace(txtPlaylistFilter.Text) ? txtPlaylistFilter.Text : null;
+
+            settings.UseMCWS = optMCWS.Checked;
+            settings.MCWSServer = txtServer.Text;
+            settings.MCWSUsername = txtUsername.Text;
+            settings.MCWSPassword = OSProtect.Protect(txtPassword.Text);
 
             string funcs = Regex.Replace(txtExtraFuncs.Text ?? "", "[,;()\r\n]+", " ");
             settings.ExtraFunctions = funcs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -210,6 +220,44 @@ namespace Zelda
             txtPlaylistFilter.Enabled = chkPlaylistFilter.Checked; 
             txtTooltip.Enabled = chkTooltip.Checked;
             txtTooltip.Text = chkTooltip.Checked ? settings.TooltipFolder : JRiverAPI.TooltipFolder;
+        }
+
+        private void optMCWS_CheckedChanged(object sender, EventArgs e)
+        {
+            panelMCWS.Enabled = optMCWS.Checked;
+            ConnectionOptionsChanged = true;
+        }
+
+        private void btnTestConnection_Click(object sender, EventArgs e)
+        {
+            bool ok = false;
+            JRiverAPI api;
+            if (optAutomation.Checked)
+                api = new JRiverAPI();
+            else
+                api = new JRiverAPI(txtServer.Text, txtUsername.Text, txtPassword.Text);
+
+            try
+            {
+                ok = api.Connect();
+            }
+            catch { }
+
+            if (!ok)
+                MessageBox.Show("Failed to connect!", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                MessageBox.Show("Connection successful!", "Connected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void connection_Changed(object sender, EventArgs e)
+        {
+            ConnectionOptionsChanged = true;
+        }
+
+        private void lblServer_Click(object sender, EventArgs e)
+        {
+            string help = toolTip1.GetToolTip(lblServer);
+            toolTip1.Show(help, lblServer);
         }
     }
 }

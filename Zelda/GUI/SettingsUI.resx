@@ -120,6 +120,19 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="lblServer.ToolTip" xml:space="preserve">
+    <value>Examples:
+http://localhost:52199
+http://192.168.1.20:52199
+https://myhtpc:52200
+https://myhtpc.mydomain.net:52200
+
+A simple hostname/IP also works::
+myhtpc                    (assumes port 52199)
+192.168.1.20             (assumes port 52199)
+http://myhtpc         (assumes port 52199)
+https://myhtpc       (assumes port 52200)</value>
+  </data>
   <data name="chkPlaylistFilter.ToolTip" xml:space="preserve">
     <value>Filter to select which playlists to load.
 Only playlists containing one of the filter strings will be loaded.

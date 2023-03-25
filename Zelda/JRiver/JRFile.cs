@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -18,7 +19,7 @@ namespace Zelda
 
     public class JRFile
     {
-        public int JRKey { get; set; }
+        public int Key { get; set; }
         public string Name { get { return this["name"]; } }
         public string Year { get { return this["date (year)"]; } }
         public string Filename { get { return this["filename"]; } }
@@ -43,7 +44,7 @@ namespace Zelda
         //    }
         //}
 
-        Dictionary<string, string> fields = new Dictionary<string, string>();       // current values
+        public Dictionary<string, string> fields { get; private set; } = new Dictionary<string, string>();       // current values
 
         public string this[string field]
         {
@@ -51,34 +52,58 @@ namespace Zelda
             set { fields[field.ToLower()] = value; }
         }
 
-
         public JRFile(int key, Dictionary<string, string> values)
         {
-            JRKey = key;
+            Key = key;
             if (values != null)
                 foreach (var pair in values)
                     fields[pair.Key.ToLower()] = pair.Value;
         }
 
-        public void updateFields(List<string> names, JRiverAPI api, bool formatted = true, bool refreshAll = false)
+        public static List<JRFile> FromJsonArray(string json)
+        {
+            List<JRFile> files = new List<JRFile>();
+
+            try
+            {
+                if (!json.Trim().StartsWith("[")) json = $"[{json}]";
+                var objList = JArray.Parse(json ?? "[ ]");
+                foreach (JObject obj in objList)
+                {
+                    Dictionary<string, string> data = new Dictionary<string, string>();
+                    var values = obj.Properties().ToDictionary(p => p.Name.ToLower(), p => p.Value.ToString());
+                    if (!int.TryParse(values["key"], out int key))
+                        key = 0;
+                    files.Add(new JRFile(key, values));
+                }
+                return files;
+            }
+            catch (Exception ex) { Logger.Log(ex); }
+            return null;
+        }
+        
+        public static JRFile FromJson(string json)
         {
             try
             {
-                List<string> fetch = refreshAll ? names : new List<string>();
-                if (!refreshAll)
-                    foreach (var field in names)
-                        if (!fields.ContainsKey(field.ToLower()))
-                            fetch.Add(field.ToLower());
+                if (json.Trim().StartsWith("["))
+                    return FromJsonArray(json)?.FirstOrDefault();
 
-                if (fetch.Count > 0)
-                {
-                    Dictionary<string, string> values = api.getFieldValues(JRKey, fetch, formatted);
-                    if (values == null) return;
-                    foreach (var key in values.Keys)
-                        fields[key.ToLower()] = values[key];
-                }
+                var obj = JObject.Parse(json);
+                Dictionary<string, string> data = new Dictionary<string, string>();
+                var values = obj.Properties().ToDictionary(p => p.Name.ToLower(), p => p.Value.ToString());
+                if (!int.TryParse(values["key"], out int key))
+                    key = 0;
+                return new JRFile(key, values);
             }
-            catch { }
+            catch (Exception ex) { Logger.Log(ex); }
+            return null;
+        }
+
+        public void copyFrom(JRFile otherFile)
+        {
+            if (otherFile != null)
+                fields = otherFile.fields;
         }
 
         public override string ToString()

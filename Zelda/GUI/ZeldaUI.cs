@@ -1,13 +1,10 @@
 ﻿using ScintillaNET;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -41,18 +38,19 @@ namespace Zelda
         public ZeldaUI()
         {
             InitializeComponent();
-
+            txtOutput.CaretLineVisible = false;     // scintillaNET bug
+            
             settings = Settings.Load();
             state = State.Load();
 
             Icon = Properties.Resources.ZeldaIcon;
-            this.Text = $"ZELDA v{Program.version.ToString()}";
+            this.Text = $"ZELDA v{Program.version.ToString(3)}";
+            lblZoom.Visible = false;
+
             gridFiles.DoubleBuffered(true);
             gridFiles.Columns.Clear();
 
-            jrAPI = new JRiverAPI();
             tabsLeft.TabPages.Clear();
-
             txtOutput.Margins[1].Width = 0;             // remove default margin
             SetOutputStyle();
 
@@ -61,25 +59,29 @@ namespace Zelda
 
             comboLists.DrawMode = DrawMode.OwnerDrawFixed;
             comboLists.DrawItem += drawCombobox;
-
-            // this doesn't work, looks like a bug in the Scintilla native control
-            // it's supposed to change the representation of [CR] and [LF] symbols
-            //int SCI_SETREPRESENTATION = 2665;
-            //txtExpression.DirectMessage(SCI_SETREPRESENTATION, Marshal.StringToBSTR("\n"), Marshal.StringToBSTR("\xC2\xB6"));
-            //txtExpression.DirectMessage(SCI_SETREPRESENTATION, Marshal.StringToBSTR("\r"), Marshal.StringToBSTR("\xC2\xA4"));
         }
 
         private void ZeldaUI_Load(object sender, EventArgs e)
         {
-
-            if (!GetPlayLists(true))
-                this.Close();
+            if (!Connect(true))
+                Close();
             else
             {
+                GetPlayLists();
                 initialized = true;
                 LoadState();
-                if (settings.StartMaximized)
-                    this.WindowState = FormWindowState.Maximized;
+
+                // restore size and position, ensure visibility
+                var desktop = SystemInformation.VirtualScreen;
+                if (state.Dimensions != Rectangle.Empty && state.Dimensions.Right > 300 && state.Dimensions.X < desktop.Width - 300
+                    && state.Dimensions.Y >= 0 && state.Dimensions.Y < desktop.Height - 300)
+                    DesktopBounds = state.Dimensions;
+
+                if (state.Maximized)
+                    WindowState = FormWindowState.Maximized;
+
+                if (state.SplitPosition > 0)
+                    splitContainer1.SplitterDistance = state.SplitPosition;
             }
         }
 
@@ -152,6 +154,11 @@ namespace Zelda
                 state.Tabs = new List<TabExpression>();
                 foreach (var tab in expressionTabs)
                     state.Tabs.Add(new TabExpression(tab.Text, tab.scintilla.Text, tab.scintilla.CurrentPosition));
+
+                state.Maximized = WindowState == FormWindowState.Maximized;
+                state.Dimensions = state.Maximized ? RestoreBounds : DesktopBounds;
+                state.SplitPosition = splitContainer1.SplitterDistance;
+
                 state.Save();
             }
         }
@@ -160,35 +167,56 @@ namespace Zelda
 
         #region JRiver connect
 
-        private void btnReconnect_Click(object sender, EventArgs e)
+        private bool Connect(bool isStartup = false)
         {
-            GetPlayLists();
-        }
-
-        private bool GetPlayLists(bool startup = false)
-        {
-            var progressUI = new ProgressUI("Connecting to MediaCenter...", ConnectJRiver, false);
-            if (startup)
-                progressUI.StartPosition = FormStartPosition.CenterScreen;
-
-            progressUI.ShowDialog(this);
-
-            if (!jrAPI.Connected)
+            while (true)
             {
+                string password = OSProtect.Unprotect(settings.MCWSPassword);
+                jrAPI = settings.UseMCWS ? new JRiverAPI(settings.MCWSServer, settings.MCWSUsername, password) : new JRiverAPI();
+
+                var progressUI = new ProgressUI("Connecting to MediaCenter...", ConnectJRiver, false);
+                if (isStartup)
+                    progressUI.StartPosition = FormStartPosition.CenterScreen;
+
+                progressUI.ShowDialog(this);
                 progressUI.Close();
-                MessageBox.Show("Cannot connect to MediaCenter, please make sure it's installed on this PC", "No MediaCenter!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+
+                if (jrAPI.Connected)
+                    break;
+
+                string method = settings.UseMCWS ? "MCWS" : "Automation";
+                if (DialogResult.No == MessageBox.Show($"Cannot connect to MediaCenter ({method})!\nDo you want to open the Connection Settings?",
+                    "Failed to Connect", MessageBoxButtons.YesNo, MessageBoxIcon.Error))
+                    return false;
+
+                ShowSettings(out _);
             }
+
             if (jrAPI.Playlists.Count == 0)
             {
                 string filtered = !string.IsNullOrEmpty(settings.PlaylistFilter) ? "\nPlease check the Playlist Filter in settings." : "";
                 MessageBox.Show($"Failed to load list of Playlists from MediaCenter!{filtered}", "No playlists", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            lblStatus.Text = $"Connected to MediaCenter v{jrAPI.Version} - {jrAPI.Library}";
-            loading = true;
+            lblStatus.Text = $"Connected to MediaCenter v{jrAPI.MCVersion} - {jrAPI.Library} ({jrAPI.Server})";
+            return jrAPI.Connected;
+        }
+
+        private void btnReconnect_Click(object sender, EventArgs e)
+        {
+            if (Connect())
+                GetPlayLists();
+            else
+                Close();
+        }
+
+        private bool GetPlayLists(bool startup = false)
+        {
+            if (!jrAPI.Connected)
+                return false;
 
             // update datagrid column/field list
+            loading = true;
             List<string> columns = new List<string>();
             foreach (var f in state.TableFields)
                 if (jrAPI.FieldDisplayNames.Contains(f, StringComparer.InvariantCultureIgnoreCase))
@@ -229,7 +257,7 @@ namespace Zelda
 
             progress.subtitle = "Reading playlists";
             progress.Update(true);
-            var lists = jrAPI.getPlaylists(settings.PlaylistFilter, !settings.FastStart).ToList();
+            jrAPI.getPlaylists(settings.PlaylistFilter, !settings.FastStart).ToList();
 
             progress.result = true;
         }
@@ -348,7 +376,9 @@ namespace Zelda
             tab.ExpressionChanged += expression_TextChanged;
             tab.FunctionChanged += expression_FunctionChanged;
 
-            if (content != null) tab.scintilla.Text = content;
+            if (content != null)
+                tab.SetContent(content);
+
             if (pos >= 0) tab.scintilla.GotoPosition(pos);
             tabsLeft.TabPages.Add(tab);
             
@@ -379,7 +409,8 @@ namespace Zelda
 
         void LoadWiki(string name, ELFunction func)
         {
-            webBrowser.Stop();
+            if (webBrowser.IsBusy)
+                webBrowser.Stop();
             if (name == null)
                 webBrowser.DocumentText = $"no function highlighted";
             else if (string.IsNullOrEmpty(func?.wikiUrl))
@@ -436,7 +467,7 @@ namespace Zelda
                 latency = currentTab.APItime;
                 lblLatency.Text = $"{latency:0.00} ms";
             }
-            LoadDocument(currentTab.Result ?? "");
+            LoadDocument(currentTab.Result ?? "evaluation error");
         }
 
         #region HTML Renderer
@@ -574,12 +605,26 @@ namespace Zelda
 
         #region form buttons
 
-        private void btnSettings_Click(object sender, EventArgs e)
+        private bool ShowSettings(out bool connectionChanged)
         {
-            string filter = settings.PlaylistFilter ?? "";
-            if (DialogResult.OK == new SettingsUI(settings).ShowDialog(this))
+            var settingsUI = new SettingsUI(settings);
+            connectionChanged = false;
+            if (DialogResult.OK == settingsUI.ShowDialog(this))
             {
                 settings.Save();
+                connectionChanged = settingsUI.ConnectionOptionsChanged;
+                return true;
+            }
+            return false;
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            if (ShowSettings(out bool reconnect))
+            {
+                if (reconnect)
+                    btnReconnect_Click(null, EventArgs.Empty);
+                
                 SetOutputStyle();
                 if (!paused)
                     currentTab?.Evaluate(true);
@@ -589,9 +634,6 @@ namespace Zelda
                     tab.Config(settings);
                 if (gridFiles.Columns["API"] != null)
                     gridFiles.Columns["API"].Visible = settings.ShowAPICallTime;
-
-                if (filter != (settings.PlaylistFilter ?? ""))
-                    GetPlayLists();
             }
         }
 
@@ -735,7 +777,7 @@ namespace Zelda
         {
             if (currentFile == null) return;
 
-            currentFile.updateFields(jrAPI.FieldDisplayNames, jrAPI);
+            jrAPI.updateFile(currentFile);
             var dialog = new InsertField(jrAPI.FieldDisplayNames, currentFile, jrAPI);
             if (DialogResult.OK == dialog.ShowDialog(this))
                 currentTab?.InsertText("[", $"{dialog.selected}{(dialog.unformatted ? ",0":"")}", "]", false, replace: true);
@@ -775,7 +817,7 @@ namespace Zelda
             if (!isEvaluated) return;
 
             lblChanged.Visible = false;
-            if (latencyChecks++ < 5)
+            if (latencyChecks++ < 5 || latencyChecks % 10 == 0)
                 getAPILatency();
 
             ShowResults();
