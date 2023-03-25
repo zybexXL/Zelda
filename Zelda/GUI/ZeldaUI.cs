@@ -39,7 +39,8 @@ namespace Zelda
         {
             InitializeComponent();
             txtOutput.CaretLineVisible = false;     // scintillaNET bug
-            
+            txtOutput.CaretStyle = CaretStyle.Invisible;
+
             settings = Settings.Load();
             state = State.Load();
 

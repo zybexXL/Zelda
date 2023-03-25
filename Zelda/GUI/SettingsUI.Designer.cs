@@ -166,7 +166,7 @@
             this.panelMCWS.Location = new System.Drawing.Point(8, 89);
             this.panelMCWS.Name = "panelMCWS";
             this.panelMCWS.Size = new System.Drawing.Size(434, 111);
-            this.panelMCWS.TabIndex = 16;
+            this.panelMCWS.TabIndex = 3;
             // 
             // label6
             // 
@@ -308,6 +308,7 @@
             this.delaySlide.TickStyle = System.Windows.Forms.TickStyle.None;
             this.toolTip1.SetToolTip(this.delaySlide, "Delay after typing stops before recalculating the expression result");
             this.delaySlide.Value = 500;
+            this.delaySlide.ValueChanged += new System.EventHandler(this.delaySlide_ValueChanged);
             // 
             // lblDelay
             // 
@@ -359,6 +360,7 @@
             this.chkPlaylistFilter.Text = "Playlist Filter:";
             this.toolTip1.SetToolTip(this.chkPlaylistFilter, resources.GetString("chkPlaylistFilter.ToolTip"));
             this.chkPlaylistFilter.UseVisualStyleBackColor = true;
+            this.chkPlaylistFilter.CheckedChanged += new System.EventHandler(this.chkbox_CheckedChanged);
             this.chkPlaylistFilter.TextChanged += new System.EventHandler(this.connection_Changed);
             // 
             // chkTooltip
@@ -372,6 +374,7 @@
             this.toolTip1.SetToolTip(this.chkTooltip, "Set this path in case Zelda doesn\'t detect the Tooltip: location correctly.\r\nLeav" +
         "e blank to autodetect the Tooltip folder.");
             this.chkTooltip.UseVisualStyleBackColor = true;
+            this.chkTooltip.CheckedChanged += new System.EventHandler(this.chkbox_CheckedChanged);
             // 
             // chkSaveTabs
             // 
