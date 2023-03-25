@@ -779,9 +779,8 @@ namespace Zelda
 
         private void btnInsertField_Click(object sender, EventArgs e)
         {
-            if (currentFile == null) return;
-
-            jrAPI.updateFile(currentFile);
+            if (currentFile != null)
+                jrAPI.updateFile(currentFile);
             var dialog = new InsertField(jrAPI.FieldDisplayNames, currentFile, jrAPI);
             if (DialogResult.OK == dialog.ShowDialog(this))
                 currentTab?.InsertText("[", $"{dialog.selected}{(dialog.unformatted ? ",0":"")}", "]", false, replace: true);

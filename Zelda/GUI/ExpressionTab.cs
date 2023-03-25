@@ -389,8 +389,10 @@ namespace Zelda
 
         private void MCopySinglePreserve_Click(object sender, System.EventArgs e)
         {
-            string stripped = Regex.Replace(scintilla.Text, @"(,\s*)\n", "$1");
-            stripped = Regex.Replace(stripped, @"/?\r?\n", "char(10)");
+            string stripped = Regex.Replace(scintilla.Text ?? "", @"^##.*$\r?\n?", "", RegexOptions.Multiline);
+            stripped = Regex.Replace(stripped, @"(,\s*)\n", "$1");
+            stripped = Regex.Replace(stripped, @"/[\r\n\s]+", "", RegexOptions.Singleline);
+            stripped = Regex.Replace(stripped, @"\r?\n", "char(10)");
             try
             {
                 Clipboard.SetText(stripped, TextDataFormat.UnicodeText);
@@ -400,7 +402,8 @@ namespace Zelda
 
         private void MCopySingleStrip_Click(object sender, System.EventArgs e)
         {
-            string stripped = Regex.Replace(scintilla.Text, @"/?\r?\n", "");
+            string stripped = Regex.Replace(scintilla.Text ?? "", @"^##.*$\r?\n?", "", RegexOptions.Multiline);
+            stripped = Regex.Replace(stripped, @"/?\r?\n", "");
             try
             {
                 Clipboard.SetText(stripped, TextDataFormat.UnicodeText);

@@ -24,7 +24,7 @@ namespace Zelda
             dt.Columns.Add("field");
             dt.Columns.Add("value");
             foreach (var f in fields.OrderBy(f => f))
-                dt.Rows.Add(f, file[f]);
+                dt.Rows.Add(f, file == null ? null : file[f]);
 
             BindingSource bs = new BindingSource();
             bs.DataSource = dt;

@@ -250,7 +250,7 @@
             this.optAutomation.Text = "Automation API";
             this.toolTip1.SetToolTip(this.optAutomation, "MC must be installed in this computer");
             this.optAutomation.UseVisualStyleBackColor = true;
-            this.optAutomation.CheckedChanged += new System.EventHandler(this.optMCWS_CheckedChanged);
+            this.optAutomation.CheckedChanged += new System.EventHandler(this.connectionOptionChanged);
             // 
             // optMCWS
             // 
@@ -262,7 +262,7 @@
             this.optMCWS.Text = "MCWS";
             this.toolTip1.SetToolTip(this.optMCWS, "Connect to Network or Local MC server");
             this.optMCWS.UseVisualStyleBackColor = true;
-            this.optMCWS.CheckedChanged += new System.EventHandler(this.optMCWS_CheckedChanged);
+            this.optMCWS.CheckedChanged += new System.EventHandler(this.connectionOptionChanged);
             // 
             // tabPrefs
             // 
@@ -360,7 +360,7 @@
             this.chkPlaylistFilter.Text = "Playlist Filter:";
             this.toolTip1.SetToolTip(this.chkPlaylistFilter, resources.GetString("chkPlaylistFilter.ToolTip"));
             this.chkPlaylistFilter.UseVisualStyleBackColor = true;
-            this.chkPlaylistFilter.CheckedChanged += new System.EventHandler(this.chkbox_CheckedChanged);
+            this.chkPlaylistFilter.CheckedChanged += new System.EventHandler(this.connectionOptionChanged);
             this.chkPlaylistFilter.TextChanged += new System.EventHandler(this.connection_Changed);
             // 
             // chkTooltip

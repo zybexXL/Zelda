@@ -217,13 +217,13 @@ namespace Zelda
 
         private void chkbox_CheckedChanged(object sender, EventArgs e)
         {
-            txtPlaylistFilter.Enabled = chkPlaylistFilter.Checked; 
             txtTooltip.Enabled = chkTooltip.Checked;
             txtTooltip.Text = chkTooltip.Checked ? settings.TooltipFolder : JRiverAPI.TooltipFolder;
         }
 
-        private void optMCWS_CheckedChanged(object sender, EventArgs e)
+        private void connectionOptionChanged(object sender, EventArgs e)
         {
+            txtPlaylistFilter.Enabled = chkPlaylistFilter.Checked;
             panelMCWS.Enabled = optMCWS.Checked;
             ConnectionOptionsChanged = true;
         }

@@ -86,7 +86,7 @@ namespace Zelda
             if (HttpGet("Playlists/List", out string xml) != 200)
                 yield break;
 
-            var ids = Regex.Matches(xml, @"<Field Name=""ID"">(\d+)").Cast<Match>().Select(m => int.Parse(m.Groups[1].Value)).ToList();
+            var ids = Regex.Matches(xml, @"<Field Name=""ID"">(-?\d+)").Cast<Match>().Select(m => int.Parse(m.Groups[1].Value)).ToList();
             var names = Regex.Matches(xml, @"<Field Name=""Name"">(.+?)<").Cast<Match>().Select(m => m.Groups[1].Value).ToList();
             var paths = Regex.Matches(xml, @"<Field Name=""Path"">(.+?)<").Cast<Match>().Select(m => m.Groups[1].Value).ToList();
             var types = Regex.Matches(xml, @"<Field Name=""Type"">(.+?)<").Cast<Match>().Select(m => m.Groups[1].Value).ToList();
@@ -124,7 +124,7 @@ namespace Zelda
             fields.AddRange(new string[] { "key", "date", "date imported", "date (release)", "date (year)", "name", "filename", "file size", "media sub type", "media type" });
             fields = fields.Distinct(StringComparer.InvariantCultureIgnoreCase).ToList();
 
-            string fieldList = fields == null ? "&fields=calculated" : $"&fields={string.Join(",", fields.Select(f => Uri.EscapeDataString(f)))}";
+            string fieldList = $"&fields={string.Join(",", fields.Select(f => Uri.EscapeDataString(f)))}";
             if (HttpGet($"Playlist/Files?playlist={playlist.ID}&action=JSON{fieldList}", out string json) != 200)
                 yield break;
 
@@ -284,7 +284,7 @@ namespace Zelda
             string mode = overwrite ? "Overwrite" : "Rename";
             if (HttpGet($"Playlists/Add?Type=Playlist&Path={Uri.EscapeUriString(name)}&CreateMode={mode}", out string xml) != 200)
                 return false;
-            var m = Regex.Match(xml ?? "", @"""PlaylistID"">(\d+)<");
+            var m = Regex.Match(xml ?? "", @"""PlaylistID"">(-?\d+)<");
             return m.Success && int.TryParse(m.Groups[1].Value, out playlistID);
         }
 
@@ -309,7 +309,7 @@ namespace Zelda
             string keys = string.Join(",", fileIDs);
             if (HttpGet($"Playlist/Build?Playlist={Uri.EscapeUriString(name)}&Keys={keys}", out string xml) != 200)
                 return false;
-            var m = Regex.Match(xml ?? "", @"""PlaylistID"">(\d+)<");
+            var m = Regex.Match(xml ?? "", @"""PlaylistID"">(-?\d+)<");
             return m.Success && int.TryParse(m.Groups[1].Value, out playlistID);
         }
 
