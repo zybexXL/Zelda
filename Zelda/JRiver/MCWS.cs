@@ -149,8 +149,9 @@ namespace Zelda
         public JRFile GetFile(int fileKey, List<string> fields = null, bool formatted = true)
         {
             string fieldList = fields == null ? "&fields=calculated" : $"&fields={string.Join(",", fields.Select(f=>HttpUtility.UrlEncode(f)))}";
-            
-            if (HttpGet($"File/GetInfo?file={fileKey}&action=JSON{fieldList}", out string json) != 200)
+            string format = formatted ? "&formatted=1" : "";
+
+            if (HttpGet($"File/GetInfo?file={fileKey}&action=JSON{format}{fieldList}", out string json) != 200)
                 return null;
 
             return JRFile.FromJson(json);

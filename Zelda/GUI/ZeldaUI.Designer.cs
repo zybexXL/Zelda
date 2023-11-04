@@ -36,12 +36,12 @@
             this.tabsLeft = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.webBrowser = new System.Windows.Forms.WebBrowser();
+            this.wikiBrowser = new System.Windows.Forms.WebBrowser();
             this.tabsRight = new System.Windows.Forms.TabControl();
             this.tabText = new System.Windows.Forms.TabPage();
             this.txtOutput = new ScintillaNET.Scintilla();
             this.tabRendered = new System.Windows.Forms.TabPage();
-            this.browser = new System.Windows.Forms.WebBrowser();
+            this.renderBrowser = new System.Windows.Forms.WebBrowser();
             this.tabDatagrid = new System.Windows.Forms.TabPage();
             this.gridFiles = new System.Windows.Forms.DataGridView();
             this.cFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -154,7 +154,7 @@
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.webBrowser);
+            this.splitContainer3.Panel2.Controls.Add(this.wikiBrowser);
             this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(8, 0, 0, 4);
             this.splitContainer3.Panel2MinSize = 50;
             this.splitContainer3.Size = new System.Drawing.Size(688, 560);
@@ -198,20 +198,20 @@
             this.tabPage6.Text = "expr2";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
-            // webBrowser
+            // wikiBrowser
             // 
-            this.webBrowser.AllowWebBrowserDrop = false;
-            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser.IsWebBrowserContextMenuEnabled = false;
-            this.webBrowser.Location = new System.Drawing.Point(8, 0);
-            this.webBrowser.Margin = new System.Windows.Forms.Padding(2);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(15, 15);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.Size = new System.Drawing.Size(680, 196);
-            this.webBrowser.TabIndex = 9;
-            this.webBrowser.WebBrowserShortcutsEnabled = false;
-            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
+            this.wikiBrowser.AllowWebBrowserDrop = false;
+            this.wikiBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wikiBrowser.Location = new System.Drawing.Point(8, 0);
+            this.wikiBrowser.Margin = new System.Windows.Forms.Padding(2);
+            this.wikiBrowser.MinimumSize = new System.Drawing.Size(15, 15);
+            this.wikiBrowser.Name = "wikiBrowser";
+            this.wikiBrowser.ScriptErrorsSuppressed = true;
+            this.wikiBrowser.Size = new System.Drawing.Size(680, 196);
+            this.wikiBrowser.TabIndex = 9;
+            this.wikiBrowser.WebBrowserShortcutsEnabled = false;
+            this.wikiBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wikiBrowser_DocumentCompleted);
+            this.wikiBrowser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.browser_PreviewKeyDown);
             // 
             // tabsRight
             // 
@@ -265,7 +265,7 @@
             // 
             // tabRendered
             // 
-            this.tabRendered.Controls.Add(this.browser);
+            this.tabRendered.Controls.Add(this.renderBrowser);
             this.tabRendered.Location = new System.Drawing.Point(4, 24);
             this.tabRendered.Margin = new System.Windows.Forms.Padding(2);
             this.tabRendered.Name = "tabRendered";
@@ -275,18 +275,18 @@
             this.tabRendered.Text = "Rendered output";
             this.tabRendered.UseVisualStyleBackColor = true;
             // 
-            // browser
+            // renderBrowser
             // 
-            this.browser.AllowWebBrowserDrop = false;
-            this.browser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.browser.IsWebBrowserContextMenuEnabled = false;
-            this.browser.Location = new System.Drawing.Point(2, 2);
-            this.browser.Margin = new System.Windows.Forms.Padding(2);
-            this.browser.MinimumSize = new System.Drawing.Size(15, 15);
-            this.browser.Name = "browser";
-            this.browser.Size = new System.Drawing.Size(480, 528);
-            this.browser.TabIndex = 0;
-            this.browser.WebBrowserShortcutsEnabled = false;
+            this.renderBrowser.AllowWebBrowserDrop = false;
+            this.renderBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.renderBrowser.Location = new System.Drawing.Point(2, 2);
+            this.renderBrowser.Margin = new System.Windows.Forms.Padding(2);
+            this.renderBrowser.MinimumSize = new System.Drawing.Size(15, 15);
+            this.renderBrowser.Name = "renderBrowser";
+            this.renderBrowser.Size = new System.Drawing.Size(480, 528);
+            this.renderBrowser.TabIndex = 0;
+            this.renderBrowser.WebBrowserShortcutsEnabled = false;
+            this.renderBrowser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.browser_PreviewKeyDown);
             // 
             // tabDatagrid
             // 
@@ -986,7 +986,7 @@
 
         #endregion
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.WebBrowser browser;
+        private System.Windows.Forms.WebBrowser renderBrowser;
         private System.Windows.Forms.TabControl tabsRight;
         private System.Windows.Forms.TabPage tabRendered;
         private System.Windows.Forms.TabPage tabText;
@@ -1047,7 +1047,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolStripLabel lblChanged;
         private System.Windows.Forms.ToolStripButton btnInsertField;
-        private System.Windows.Forms.WebBrowser webBrowser;
+        private System.Windows.Forms.WebBrowser wikiBrowser;
         private System.Windows.Forms.ToolStripStatusLabel lblZoom;
         private System.Windows.Forms.ToolStripStatusLabel lblUpgrade;
     }

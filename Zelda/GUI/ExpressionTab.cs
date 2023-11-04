@@ -73,6 +73,7 @@ namespace Zelda
             scintilla.WrapStartIndent = settings.WrapIndent ? 2 : 0;
             scintilla.UseTabs = !settings.ReplaceTabs;
             scintilla.Margins[0].Width = settings.ShowLineNumbers ? 25 : 0;
+            scintilla.Margins[0].Type = MarginType.Number;
 
             scintilla.Styles[Style.Default].Font = settings.EditorFont.family;
             scintilla.Styles[Style.Default].Bold = settings.EditorFont.isBold;
@@ -82,17 +83,23 @@ namespace Zelda
             scintilla.Styles[Style.Default].BackColor = settings.EditorFont.BackColor;
             scintilla.StyleClearAll();
 
-            scintilla.Styles[(int)ELTokenType.Field].ForeColor = Color.DarkGreen;
+            scintilla.Styles[(int)ELTokenType.Field].ForeColor = Color.Green;
+            scintilla.Styles[(int)ELTokenType.Variable].ForeColor = Color.MediumSeaGreen;
             scintilla.Styles[(int)ELTokenType.Math].ForeColor = Color.DarkCyan;
             scintilla.Styles[(int)ELTokenType.Function].ForeColor = Color.Blue;
             scintilla.Styles[(int)ELTokenType.HTML].ForeColor = Color.DarkMagenta;
-            scintilla.Styles[(int)ELTokenType.Literal].BackColor = Color.PaleGoldenrod;
-            scintilla.Styles[(int)ELTokenType.Escaped].BackColor = Color.PaleGoldenrod;
-            scintilla.Styles[(int)ELTokenType.Literal].ForeColor = Color.Black;
-            scintilla.Styles[(int)ELTokenType.Escaped].ForeColor = Color.Black;
-            scintilla.Styles[(int)ELTokenType.Number].ForeColor = Color.DarkOrange;
+            scintilla.Styles[(int)ELTokenType.Literal].ForeColor = Color.OrangeRed;
+            scintilla.Styles[(int)ELTokenType.Escaped].ForeColor = Color.MediumPurple;
+            //scintilla.Styles[(int)ELTokenType.Literal].BackColor = Color.PaleGoldenrod;   // bg
+            //scintilla.Styles[(int)ELTokenType.Escaped].BackColor = Color.PaleGoldenrod;   // bg
+            scintilla.Styles[(int)ELTokenType.Number].ForeColor = Color.Orange;
             scintilla.Styles[(int)ELTokenType.Symbol].ForeColor = Color.Red;
             scintilla.Styles[(int)ELTokenType.Comment].ForeColor = Color.Gray;
+
+            scintilla.Styles[Style.LineNumber].BackColor = Color.WhiteSmoke;
+            scintilla.Styles[Style.LineNumber].ForeColor = Color.DimGray;
+
+            scintilla.SetSelectionBackColor(true, Color.PaleGoldenrod);
 
             // change CR/LF representation
             //scintilla.SetRepresentation("\n", "LF");
@@ -231,7 +238,11 @@ namespace Zelda
 
             if ((changed && !forced) || !IsHandleCreated) return;
 
-            //txtExpression.ClearDocumentStyle();       // causes problems with Word wrap!
+            var wrap = scintilla.WrapMode;
+            scintilla.WrapMode = WrapMode.None;
+            scintilla.ClearDocumentStyle();       // causes problems with Word wrap!
+            scintilla.WrapMode = wrap; 
+            
             scintilla.StartStyling(0);
             scintilla.SetStyling(scintilla.TextLength, 0);
 
@@ -272,7 +283,7 @@ namespace Zelda
             scintilla.IndicatorClearRange(0, scintilla.TextLength);
             scintilla.IndicatorCurrent = 2;
             scintilla.IndicatorClearRange(0, scintilla.TextLength);
-            if (currFunc != null)
+            if (currFunc != null && string.IsNullOrEmpty(scintilla.SelectedText))
             {
                 scintilla.IndicatorCurrent = 1;
                 scintilla.Indicators[1].Style = IndicatorStyle.StraightBox;

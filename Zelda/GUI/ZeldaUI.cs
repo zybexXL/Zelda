@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using mshtml;
 
 namespace Zelda
 {
@@ -16,7 +17,7 @@ namespace Zelda
     {
         internal static Settings settings;
         internal static string TooltipDir {
-            get { return string.IsNullOrEmpty(settings?.TooltipFolder) ? JRiverAPI.TooltipFolder : settings.TooltipFolder.TrimEnd('\\');  } }
+            get { return string.IsNullOrEmpty(settings?.TooltipFolder) ? JRiverAPI.TooltipFolder : settings.TooltipFolder.TrimEnd('\\'); } }
 
         State state;
         JRiverAPI jrAPI;
@@ -38,7 +39,7 @@ namespace Zelda
         public ZeldaUI()
         {
             InitializeComponent();
-            
+
             settings = Settings.Load();
             state = State.Load();
 
@@ -69,18 +70,6 @@ namespace Zelda
                 GetPlayLists();
                 initialized = true;
                 LoadState();
-
-                // restore size and position, ensure visibility
-                var desktop = SystemInformation.VirtualScreen;
-                if (state.Dimensions != Rectangle.Empty && state.Dimensions.Right > 300 && state.Dimensions.X < desktop.Width - 300
-                    && state.Dimensions.Y >= 0 && state.Dimensions.Y < desktop.Height - 300)
-                    DesktopBounds = state.Dimensions;
-
-                if (state.Maximized)
-                    WindowState = FormWindowState.Maximized;
-
-                if (state.SplitPosition > 0)
-                    splitContainer1.SplitterDistance = state.SplitPosition;
             }
         }
 
@@ -104,6 +93,18 @@ namespace Zelda
                 tabsRight.SelectedIndex = state.OutputTab;
                 showFunctionHelper(state.FunctionHelper);
                 txtOutput.Zoom = state.Zoom;        // triggers zoom change on expression tabs too
+
+                // restore size and position, ensure visibility
+                var desktop = SystemInformation.VirtualScreen;
+                if (state.Dimensions != Rectangle.Empty && state.Dimensions.Right > 300 && state.Dimensions.X < desktop.Width - 300
+                    && state.Dimensions.Y >= 0 && state.Dimensions.Y < desktop.Height - 300)
+                    DesktopBounds = state.Dimensions;
+
+                if (state.Maximized)
+                    WindowState = FormWindowState.Maximized;
+
+                if (state.SplitPosition > 0)
+                    splitContainer1.SplitterDistance = state.SplitPosition;
             }
             resizeGridColumns();
             tabsLeft.ResumeLayout();
@@ -118,15 +119,20 @@ namespace Zelda
             txtOutput.Styles[Style.Default].ForeColor = settings.OutputFont.ForeColor;
             txtOutput.Styles[Style.Default].BackColor = settings.OutputFont.BackColor;
             txtOutput.StyleClearAll();
+            // scintillaNET bugs
+            txtOutput.CaretLineVisible = false;
+            txtOutput.CaretStyle = CaretStyle.Invisible;
         }
 
         private void ZeldaUI_Shown(object sender, EventArgs e)
         {
             // scintillaNET bugs
-            txtOutput.CaretLineVisible = false;     
+            txtOutput.CaretLineVisible = false;
             txtOutput.CaretStyle = CaretStyle.Invisible;
             txtOutput.Focus();
 
+            tabsLeft.SelectedIndex = state.CurrentTab == -1 ? 0 : state.CurrentTab;
+            currentTab?.Invalidate();
             currentTab?.scintilla.Focus();
             if (settings.isDefault)
                 btnAbout_Click(null, EventArgs.Empty);
@@ -271,7 +277,7 @@ namespace Zelda
             if (progress == null)
                 progress = new ProgressUI($"Loading playlist '{list.Name}'", LoadPlaylist, false, list);
             progress.ShowDialog(this);
-            
+
             LoadDataTable();
         }
 
@@ -298,7 +304,7 @@ namespace Zelda
 
         // adds playlist filecount to each combobox entry
         private void drawCombobox(object cmb, DrawItemEventArgs args)
-        {    
+        {
             args.DrawBackground();
             if (args.Index < 0) return;
 
@@ -385,7 +391,7 @@ namespace Zelda
 
             if (pos >= 0) tab.scintilla.GotoPosition(pos);
             tabsLeft.TabPages.Add(tab);
-            
+
             DataTable dt = gridFiles.DataSource as DataTable;
             if (dt != null)
             {
@@ -413,14 +419,14 @@ namespace Zelda
 
         void LoadWiki(string name, ELFunction func)
         {
-            if (webBrowser.IsBusy)
-                webBrowser.Stop();
+            if (wikiBrowser.IsBusy)
+                wikiBrowser.Stop();
             if (name == null)
-                webBrowser.DocumentText = $"no function highlighted";
+                wikiBrowser.DocumentText = $"no function highlighted";
             else if (string.IsNullOrEmpty(func?.wikiUrl))
-                webBrowser.DocumentText = $"<b>{name}():</b> Wiki not available for this function";
+                wikiBrowser.DocumentText = $"<b>{name}():</b> Wiki not available for this function";
             else
-                webBrowser.Navigate(func?.wikiUrl);
+                wikiBrowser.Navigate(func?.wikiUrl);
         }
 
         void reorderDatagridColumns()
@@ -485,12 +491,12 @@ namespace Zelda
             string html = getHTML(text);
             //htmlOutput.Text = html;
 
-            if (browser.IsBusy)
+            if (renderBrowser.IsBusy)
             {
-                browser.Stop();
+                renderBrowser.Stop();
                 Application.DoEvents();
             }
-            browser.DocumentText = html;
+            renderBrowser.DocumentText = html;
         }
 
         string fixFont(string expression)
@@ -506,7 +512,7 @@ namespace Zelda
                 {
                     ELFont font = ELFont.Parse(m.Value);
                     string html = font.ToHTML();
-                   
+
                     text = text.Remove(m.Index, m.Length);
                     text = text.Insert(m.Index, html);
 
@@ -553,7 +559,7 @@ namespace Zelda
                 Match m = r1.Match(text, pos);
                 if (m.Success)
                 {
-                    sb.Append(fixEntities(text.Substring(pos, m.Index-pos)));
+                    sb.Append(fixEntities(text.Substring(pos, m.Index - pos)));
                     sb.Append(m.ToString());
                     pos = m.Index + m.Length;
                 }
@@ -628,7 +634,7 @@ namespace Zelda
             {
                 if (reconnect)
                     btnReconnect_Click(null, EventArgs.Empty);
-                
+
                 SetOutputStyle();
                 if (!paused)
                     currentTab?.Evaluate(true);
@@ -665,8 +671,8 @@ namespace Zelda
         #endregion
 
         #region toolbar buttons
-        
-        
+
+
         private void btnNew_Click(object sender, EventArgs e)
         {
             AddExpressionTab();
@@ -709,7 +715,7 @@ namespace Zelda
 
         private void btnZoomUp_Click(object sender, EventArgs e)
         {
-            if(txtOutput.Zoom < 20)
+            if (txtOutput.Zoom < 20)
                 txtOutput.Zoom++;       // triggers zoom change on all exprssion tabs
         }
 
@@ -783,7 +789,7 @@ namespace Zelda
                 jrAPI.updateFile(currentFile);
             var dialog = new InsertField(jrAPI.FieldDisplayNames, currentFile, jrAPI);
             if (DialogResult.OK == dialog.ShowDialog(this))
-                currentTab?.InsertText("[", $"{dialog.selected}{(dialog.unformatted ? ",0":"")}", "]", false, replace: true);
+                currentTab?.InsertText("[", $"{dialog.selected}{(dialog.unformatted ? ",0" : "")}", "]", false, replace: true);
         }
 
         private void btnInsertFunction_Click(object sender, EventArgs e)
@@ -863,7 +869,7 @@ namespace Zelda
             if (tabsRight.SelectedTab != tabDatagrid) return;
             if (!gridFiles.Columns.Contains(tab.ID) || !gridFiles.Columns[tab.ID].Visible)
                 return;
-            
+
             // get visible rows to fetch them first
             int first = gridFiles.FirstDisplayedScrollingRowIndex;
             int count = gridFiles.DisplayedRowCount(true);
@@ -943,7 +949,7 @@ namespace Zelda
             var index = new Dictionary<JRFile, DataRow>();
 
             // add rows
-            foreach (var file in playlist.Files.OrderBy(f=>f.ToString()))
+            foreach (var file in playlist.Files.OrderBy(f => f.ToString()))
             {
                 List<object> items = new List<object>();
                 items.Add(file);
@@ -966,7 +972,7 @@ namespace Zelda
         void LoadDataTable()
         {
             var dt = getDataTable(currentPlaylist);
-            
+
             gridFiles.DataSource = null;
             gridFiles.Columns.Clear();
             gridFiles.AutoGenerateColumns = true;
@@ -1070,29 +1076,29 @@ namespace Zelda
                 AddExpressionTab();
 
             if (index >= tabsLeft.TabCount)
-                index = tabsLeft.TabCount-1;
+                index = tabsLeft.TabCount - 1;
             tabsLeft.SelectedIndex = index;
 
             reorderDatagridColumns();
         }
 
-        private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void wikiBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            var node = webBrowser.Document.GetElementById("column-one");
+            var node = wikiBrowser.Document.GetElementById("column-one");
             if (node != null) node.OuterHtml = "";
-            node = webBrowser.Document.GetElementById("footer");
+            node = wikiBrowser.Document.GetElementById("footer");
             if (node != null) node.OuterHtml = "";
-            node = webBrowser.Document.GetElementById("catlinks");
+            node = wikiBrowser.Document.GetElementById("catlinks");
             if (node != null) node.OuterHtml = "";
 
-            node = webBrowser.Document.GetElementById("content");
+            node = wikiBrowser.Document.GetElementById("content");
             if (node != null)
                 node.Style = "margin: 0 0 0 0; border:0; padding: 0;";
 
             Match m = Regex.Match(e.Url.ToString(), "([^#]+)#?(.+)?");
             if (m.Success && !string.IsNullOrEmpty(m.Groups[2].Value))
             {
-                node = webBrowser.Document.GetElementById(m.Groups[2].Value);
+                node = wikiBrowser.Document.GetElementById(m.Groups[2].Value);
                 node?.ScrollIntoView(true);
             }
         }
@@ -1112,6 +1118,26 @@ namespace Zelda
             AutoUpgrade.CheckUpgrade();
             lblUpgrade.Visible = false;
             lblStatus.Visible = true;
+        }
+
+        private void browser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if ((e.KeyCode == Keys.C || e.KeyCode == Keys.X) && e.Modifiers.HasFlag(Keys.Control))
+                ClipboardCopySelection(sender as WebBrowser);
+        }
+
+        public void ClipboardCopySelection(WebBrowser browser)
+        {
+            try
+            {
+                IHTMLDocument2 htmlDocument = browser?.Document?.DomDocument as IHTMLDocument2;
+                IHTMLSelectionObject currentSelection = htmlDocument?.selection;
+                IHTMLTxtRange range = currentSelection?.createRange() as IHTMLTxtRange;
+
+                if (!string.IsNullOrEmpty(range?.text))
+                    Clipboard.SetText(range.text);
+            }
+            catch { }
         }
     }
 }
