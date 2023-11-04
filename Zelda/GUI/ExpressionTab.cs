@@ -38,12 +38,16 @@ namespace Zelda
         public ExpressionTab(Settings settings)
         {
             InitializeComponent();
+
+            this.Padding = new Padding(2, 2, 2, 2);
+
             this.settings = settings;
             ID = $"expr{++uniqueID}";
             scintilla.LexerName = null;
 
             this.Controls.Add(scintilla);
             Config(settings);
+
         }
 
         public ExpressionTab(string title, Settings settings) : this(settings)
@@ -63,36 +67,49 @@ namespace Zelda
         public void Config(Settings settings)
         {
             this.settings = settings;
+            this.BackColor = settings.DarkTheme ? Color.FromArgb(32, 32, 32) : SystemColors.Window;
+
+            scintilla.StyleClearAll();
 
             scintilla.SetWhitespaceForeColor(true, Color.DimGray);
             scintilla.WhitespaceSize = 2;           // larger spaces for visibility
             scintilla.EolMode = Eol.Lf;             // LF only
-            scintilla.Margins[1].Width = 10;
-
             scintilla.CaretLineVisible = false;
             scintilla.WrapStartIndent = settings.WrapIndent ? 2 : 0;
             scintilla.UseTabs = !settings.ReplaceTabs;
-            scintilla.Margins[0].Width = settings.ShowLineNumbers ? 25 : 0;
+            scintilla.CaretForeColor = settings.DarkTheme ? Color.White : Color.Black;
 
+            scintilla.Margins[1].Width = 5;
+            scintilla.Margins[1].Type = MarginType.BackColor;
+            scintilla.Margins[1].BackColor = settings.DarkTheme ? Color.FromArgb(16, 16, 16) : settings.EditorFont.BackColor;
+
+            scintilla.Margins[0].Width = settings.ShowLineNumbers ? 25 : 0;
+            scintilla.Margins[0].Type = MarginType.Number;
+            
             scintilla.Styles[Style.Default].Font = settings.EditorFont.family;
             scintilla.Styles[Style.Default].Bold = settings.EditorFont.isBold;
             scintilla.Styles[Style.Default].Italic = settings.EditorFont.isItalic;
             scintilla.Styles[Style.Default].SizeF = settings.EditorFont.size;
-            scintilla.Styles[Style.Default].ForeColor = settings.EditorFont.ForeColor;
-            scintilla.Styles[Style.Default].BackColor = settings.EditorFont.BackColor;
+            scintilla.Styles[Style.Default].ForeColor = settings.DarkTheme ? Color.White : settings.EditorFont.ForeColor;
+            scintilla.Styles[Style.Default].BackColor = settings.DarkTheme ? Color.FromArgb(16,16,16) : settings.EditorFont.BackColor;
+
             scintilla.StyleClearAll();
 
-            scintilla.Styles[(int)ELTokenType.Field].ForeColor = Color.DarkGreen;
-            scintilla.Styles[(int)ELTokenType.Math].ForeColor = Color.DarkCyan;
-            scintilla.Styles[(int)ELTokenType.Function].ForeColor = Color.Blue;
-            scintilla.Styles[(int)ELTokenType.HTML].ForeColor = Color.DarkMagenta;
-            scintilla.Styles[(int)ELTokenType.Literal].BackColor = Color.PaleGoldenrod;
-            scintilla.Styles[(int)ELTokenType.Escaped].BackColor = Color.PaleGoldenrod;
-            scintilla.Styles[(int)ELTokenType.Literal].ForeColor = Color.Black;
-            scintilla.Styles[(int)ELTokenType.Escaped].ForeColor = Color.Black;
-            scintilla.Styles[(int)ELTokenType.Number].ForeColor = Color.DarkOrange;
-            scintilla.Styles[(int)ELTokenType.Symbol].ForeColor = Color.Red;
-            scintilla.Styles[(int)ELTokenType.Comment].ForeColor = Color.Gray;
+            scintilla.Styles[(int)ELTokenType.Field].ForeColor = settings.DarkTheme ? Color.LawnGreen : Color.Green;
+            scintilla.Styles[(int)ELTokenType.Variable].ForeColor = settings.DarkTheme ? Color.SeaGreen : Color.DarkSeaGreen;
+            scintilla.Styles[(int)ELTokenType.Math].ForeColor = settings.DarkTheme ? Color.RoyalBlue : Color.DarkCyan;
+            scintilla.Styles[(int)ELTokenType.Function].ForeColor = settings.DarkTheme ? Color.DeepSkyBlue : Color.Blue;
+            scintilla.Styles[(int)ELTokenType.HTML].ForeColor = settings.DarkTheme ? Color.HotPink : Color.DarkMagenta;
+            scintilla.Styles[(int)ELTokenType.Literal].ForeColor = settings.DarkTheme ? Color.OrangeRed : Color.OrangeRed;
+            scintilla.Styles[(int)ELTokenType.Escaped].ForeColor = settings.DarkTheme ? Color.OrangeRed : Color.OrangeRed;
+            scintilla.Styles[(int)ELTokenType.Number].ForeColor = settings.DarkTheme ? Color.Cyan : Color.Orange;
+            scintilla.Styles[(int)ELTokenType.Symbol].ForeColor = settings.DarkTheme ? Color.Orange : Color.Red;
+            scintilla.Styles[(int)ELTokenType.Comment].ForeColor = settings.DarkTheme ? Color.Gray : Color.Gray;
+
+            scintilla.Styles[Style.LineNumber].BackColor = settings.DarkTheme ? Color.FromArgb(64,64,64) : Color.Silver;
+            scintilla.Styles[Style.LineNumber].ForeColor = settings.DarkTheme ? Color.Silver : Color.DimGray;
+
+            scintilla.SetSelectionBackColor(true, settings.DarkTheme ? Color.DarkSlateGray : Color.LightGray);
 
             // change CR/LF representation
             //scintilla.SetRepresentation("\n", "LF");
@@ -231,7 +248,11 @@ namespace Zelda
 
             if ((changed && !forced) || !IsHandleCreated) return;
 
-            //txtExpression.ClearDocumentStyle();       // causes problems with Word wrap!
+            var wrap = scintilla.WrapMode;
+            scintilla.WrapMode = WrapMode.None;
+            scintilla.ClearDocumentStyle();       // causes problems with Word wrap!
+            scintilla.WrapMode = wrap;
+
             scintilla.StartStyling(0);
             scintilla.SetStyling(scintilla.TextLength, 0);
 
@@ -272,10 +293,12 @@ namespace Zelda
             scintilla.IndicatorClearRange(0, scintilla.TextLength);
             scintilla.IndicatorCurrent = 2;
             scintilla.IndicatorClearRange(0, scintilla.TextLength);
-            if (currFunc != null)
+            if (currFunc != null && string.IsNullOrEmpty(scintilla.SelectedText))
             {
                 scintilla.IndicatorCurrent = 1;
                 scintilla.Indicators[1].Style = IndicatorStyle.StraightBox;
+                scintilla.Indicators[1].ForeColor = settings.DarkTheme ? Color.Cyan : Color.Blue;
+                scintilla.Indicators[1].Alpha = settings.DarkTheme ? 30 : 50;
                 scintilla.IndicatorClearRange(0, scintilla.TextLength);
                 // don't highlight the entire text (first function, usually)
                 if (settings.HighlightFunction)
@@ -284,8 +307,8 @@ namespace Zelda
 
                 scintilla.IndicatorCurrent = 2;
                 scintilla.Indicators[2].Style = IndicatorStyle.FullBox;
-                scintilla.Indicators[2].ForeColor = Color.Red;
-                scintilla.Indicators[2].Alpha = 60;
+                scintilla.Indicators[2].ForeColor = settings.DarkTheme ? Color.Yellow : Color.Red;
+                scintilla.Indicators[2].Alpha = settings.DarkTheme ? 100 : 70;
                 scintilla.IndicatorClearRange(0, scintilla.TextLength);
 
                 if (settings.HighlightDelimiters)

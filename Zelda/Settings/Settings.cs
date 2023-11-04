@@ -25,6 +25,7 @@ namespace Zelda
         [DataMember] public bool ReplaceTabs = true;
         [DataMember] public bool ShowAPICallTime = true;
         [DataMember] public bool FastStart = false;
+        [DataMember] public bool DarkTheme = false;
         [DataMember] public bool UseMCWS = false;
         [DataMember] public string MCWSServer = "http://localhost:52199";
         [DataMember] public string MCWSUsername = null;

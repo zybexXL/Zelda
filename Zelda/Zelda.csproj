@@ -9,12 +9,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Zelda</RootNamespace>
     <AssemblyName>Zelda</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -41,9 +42,15 @@
   <PropertyGroup>
     <ApplicationIcon>Zelda.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MediaCenter24">
       <HintPath>.\MediaCenter24.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -151,6 +158,7 @@
     </Compile>
     <Compile Include="Upgrade\AutoUpgrade.cs" />
     <Compile Include="Upgrade\VersionInfo.cs" />
+    <Compile Include="Util\DarkForm.cs" />
     <Compile Include="Util\Logger.cs" />
     <Compile Include="JRiver\JRFile.cs" />
     <Compile Include="Program.cs" />
@@ -211,6 +219,7 @@
     <EmbeddedResource Include="TextEditor.resx">
       <DependentUpon>TextEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -298,6 +307,12 @@
     <None Include="Resources\cog.png" />
     <None Include="Resources\cog32.png" />
     <Content Include="Zelda.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomTabControl\CustomTabControl.csproj">
+      <Project>{4dbfe2cf-45e4-4594-8e6a-5ebc2eef85ae}</Project>
+      <Name>CustomTabControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

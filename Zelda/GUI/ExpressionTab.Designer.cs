@@ -49,15 +49,23 @@
             // 
             // scintilla
             // 
+            this.scintilla.AutoCMaxHeight = 9;
+            this.scintilla.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.Disabled;
             this.scintilla.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.scintilla.CaretLineBackColor = System.Drawing.Color.Black;
             this.scintilla.ContextMenuStrip = this.menuEditor;
             this.scintilla.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scintilla.EolMode = ScintillaNET.Eol.Lf;
+            this.scintilla.LexerName = null;
             this.scintilla.Location = new System.Drawing.Point(0, 0);
             this.scintilla.Name = "scintilla";
+            this.scintilla.ScrollWidth = 1;
             this.scintilla.Size = new System.Drawing.Size(200, 100);
+            this.scintilla.TabIndents = true;
             this.scintilla.TabIndex = 0;
+            this.scintilla.UseRightToLeftReadingLayout = false;
             this.scintilla.WhitespaceSize = 2;
+            this.scintilla.WrapMode = ScintillaNET.WrapMode.None;
             this.scintilla.WrapStartIndent = 2;
             this.scintilla.WrapVisualFlagLocation = ScintillaNET.WrapVisualFlagLocation.StartByText;
             this.scintilla.WrapVisualFlags = ScintillaNET.WrapVisualFlags.End;
@@ -86,61 +94,54 @@
             // mUndo
             // 
             this.mUndo.Name = "mUndo";
-            this.mUndo.Size = new System.Drawing.Size(261, 22);
+            this.mUndo.Size = new System.Drawing.Size(254, 22);
             this.mUndo.Text = "Undo";
-            this.mUndo.Click += mUndo_Click;
             // 
             // mRedo
             // 
             this.mRedo.Name = "mRedo";
-            this.mRedo.Size = new System.Drawing.Size(261, 22);
+            this.mRedo.Size = new System.Drawing.Size(254, 22);
             this.mRedo.Text = "Redo";
-            this.mRedo.Click += MRedo_Click;
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(258, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(251, 6);
             // 
             // mCut
             // 
             this.mCut.Name = "mCut";
             this.mCut.Size = new System.Drawing.Size(254, 22);
             this.mCut.Text = "Cut";
-            this.mCut.Click += MCut_Click;
             // 
             // mCopy
             // 
             this.mCopy.Name = "mCopy";
-            this.mCopy.Size = new System.Drawing.Size(261, 22);
+            this.mCopy.Size = new System.Drawing.Size(254, 22);
             this.mCopy.Text = "Copy";
-            this.mCopy.Click += MCopy_Click;
             // 
             // mPaste
             // 
             this.mPaste.Name = "mPaste";
-            this.mPaste.Size = new System.Drawing.Size(261, 22);
+            this.mPaste.Size = new System.Drawing.Size(254, 22);
             this.mPaste.Text = "Paste";
-            this.mPaste.Click += MPaste_Click;
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(258, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(251, 6);
             // 
             // mSelectAll
             // 
             this.mSelectAll.Name = "mSelectAll";
-            this.mSelectAll.Size = new System.Drawing.Size(261, 22);
+            this.mSelectAll.Size = new System.Drawing.Size(254, 22);
             this.mSelectAll.Text = "Select All";
-            this.mSelectAll.Click += MSelectAll_Click;
             // 
             // mCopyAll
             // 
             this.mCopyAll.Name = "mCopyAll";
-            this.mCopyAll.Size = new System.Drawing.Size(261, 22);
+            this.mCopyAll.Size = new System.Drawing.Size(254, 22);
             this.mCopyAll.Text = "Copy All";
-            this.mCopyAll.Click += MCopyAll_Click;
             // 
             // mCopySingleStrip
             // 
@@ -150,7 +151,6 @@
             this.mCopySingleStrip.ShowShortcutKeys = false;
             this.mCopySingleStrip.Size = new System.Drawing.Size(254, 22);
             this.mCopySingleStrip.Text = "Copy as Single Line - Strip CRLF";
-            this.mCopySingleStrip.Click += MCopySingleStrip_Click;
             // 
             // mCopySinglePreserve
             // 
@@ -160,7 +160,6 @@
             this.mCopySinglePreserve.ShowShortcutKeys = false;
             this.mCopySinglePreserve.Size = new System.Drawing.Size(254, 22);
             this.mCopySinglePreserve.Text = "Copy as Single Line - Preserve CRLF";
-            this.mCopySinglePreserve.Click += MCopySinglePreserve_Click;
             // 
             // syntaxTimer
             // 

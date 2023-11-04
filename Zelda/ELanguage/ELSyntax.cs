@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Zelda
 {
-    public enum ELTokenType { Default = 0, Function = 1, Math, Field, Number, HTML, Symbol, Escaped, Literal, Comment }
+    public enum ELTokenType { Default = 0, Function = 1, Math, Field, Variable, Number, HTML, Symbol, Escaped, Literal, Comment }
 
     public class ELToken
     {
@@ -125,10 +125,28 @@ namespace Zelda
             string expr = expression + " ";  // prevent overflow
             foreach (var f in funcs)
             {
+                // mark function parenthesis and commas
                 scanFunction(f, expr);
                 for (int i = 0; i < f.separators.Count; i++)
                     tokens.Add(new ELToken(ELTokenType.Symbol, expression.Substring(f.separators[i], 1), f.separators[i]));
+
+                // find user variables created with save() function
+                if (f.text.ToLower() == "save" && f.separators.Count>=3)
+                {
+                    string saveVar = expression.Substring(f.separators[1] + 1, f.separators[2] - f.separators[1] - 1);
+                    int offset = saveVar.IndexOf(saveVar.Trim());
+                    saveVar = saveVar.Trim();
+                    if (!string.IsNullOrEmpty(saveVar) && Regex.IsMatch(saveVar, @"[\w\d_]+"))
+                        tokens.Add(new ELToken(ELTokenType.Variable, saveVar, f.separators[1] + 1 + offset));
+                }
             }
+
+            // user saved variables
+            List<string> userVars = tokens.Where(t=>t.type == ELTokenType.Variable).Select(t=>t.text).ToList();
+            Regex reVars = new Regex($@"\[(N|L\d|R\d|{string.Join("|", userVars)})(\s*,[^\]]*)?\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            hits = reVars.Matches(expression);
+            foreach (Match m in hits)
+                tokens.Add(new ELToken(ELTokenType.Variable, m.Value, m.Index));
 
             // type casts - paint as function but don't include in function list
             hits = reTypeCast.Matches(expression);

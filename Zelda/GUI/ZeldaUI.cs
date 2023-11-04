@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using mshtml;
 
 namespace Zelda
 {
@@ -41,7 +42,9 @@ namespace Zelda
             
             settings = Settings.Load();
             state = State.Load();
-
+            
+            settings.DarkTheme = true;                      // REMOVE
+            
             Icon = Properties.Resources.ZeldaIcon;
             this.Text = $"ZELDA v{Program.version.ToString(3)}";
             lblZoom.Visible = false;
@@ -69,19 +72,10 @@ namespace Zelda
                 GetPlayLists();
                 initialized = true;
                 LoadState();
-
-                // restore size and position, ensure visibility
-                var desktop = SystemInformation.VirtualScreen;
-                if (state.Dimensions != Rectangle.Empty && state.Dimensions.Right > 300 && state.Dimensions.X < desktop.Width - 300
-                    && state.Dimensions.Y >= 0 && state.Dimensions.Y < desktop.Height - 300)
-                    DesktopBounds = state.Dimensions;
-
-                if (state.Maximized)
-                    WindowState = FormWindowState.Maximized;
-
-                if (state.SplitPosition > 0)
-                    splitContainer1.SplitterDistance = state.SplitPosition;
             }
+
+            if (settings.DarkTheme)
+                DarkTheme();
         }
 
         void LoadState()
@@ -104,6 +98,18 @@ namespace Zelda
                 tabsRight.SelectedIndex = state.OutputTab;
                 showFunctionHelper(state.FunctionHelper);
                 txtOutput.Zoom = state.Zoom;        // triggers zoom change on expression tabs too
+
+                // restore size and position, ensure visibility
+                var desktop = SystemInformation.VirtualScreen;
+                if (state.Dimensions != Rectangle.Empty && state.Dimensions.Right > 300 && state.Dimensions.X < desktop.Width - 300
+                    && state.Dimensions.Y >= 0 && state.Dimensions.Y < desktop.Height - 300)
+                    DesktopBounds = state.Dimensions;
+
+                if (state.Maximized)
+                    WindowState = FormWindowState.Maximized;
+
+                if (state.SplitPosition > 0)
+                    splitContainer1.SplitterDistance = state.SplitPosition;
             }
             resizeGridColumns();
             tabsLeft.ResumeLayout();
@@ -115,9 +121,49 @@ namespace Zelda
             txtOutput.Styles[Style.Default].Bold = settings.OutputFont.isBold;
             txtOutput.Styles[Style.Default].Italic = settings.OutputFont.isItalic;
             txtOutput.Styles[Style.Default].SizeF = settings.OutputFont.size;
-            txtOutput.Styles[Style.Default].ForeColor = settings.OutputFont.ForeColor;
-            txtOutput.Styles[Style.Default].BackColor = settings.OutputFont.BackColor;
+            txtOutput.Styles[Style.Default].ForeColor = settings.DarkTheme ? Color.White : settings.OutputFont.ForeColor;
+            txtOutput.Styles[Style.Default].BackColor = settings.DarkTheme ? Color.FromArgb(16,16,16) : settings.OutputFont.BackColor;
+
+            txtOutput.Margins[1].Width = 5;
+            txtOutput.Margins[1].Type = MarginType.BackColor;
+            txtOutput.Margins[1].BackColor = settings.DarkTheme ? Color.FromArgb(16, 16, 16) : settings.EditorFont.BackColor;
+
             txtOutput.StyleClearAll();
+        }
+
+        private void DarkTheme()
+        {
+            if (IsHandleCreated)
+            {
+                DarkTitleBarClass.UseImmersiveDarkMode(this.Handle, true);
+                //DarkTitleBarClass.UseImmersiveDarkMode(comboFiles.Handle, true);
+            }
+            
+            Color bgForm = Color.FromArgb(32, 32, 32);
+            Color bgFields = Color.FromArgb(64, 64, 64);
+            this.BackColor = bgForm;
+            splitContainer1.BackColor = bgForm;
+            splitContainer2.BackColor = bgForm;
+            splitContainer3.BackColor = bgForm;
+            statusStrip1.BackColor = bgForm;
+            toolStrip1.BackColor = bgForm;
+
+            comboFiles.BackColor = bgFields;
+            comboFiles.ForeColor = Color.White;
+            comboLists.BackColor = bgFields;
+            comboLists.ForeColor = Color.White;
+            
+            label1.ForeColor = Color.White;
+            label2.ForeColor = Color.White;
+            lblOverhead.ForeColor = Color.White;
+            lblCall.ForeColor = Color.White;
+            lblZoom.ForeColor = Color.White;
+            lblCalltime.ForeColor = Color.White;
+            lblLatency.ForeColor = Color.White;
+            lblStatus.ForeColor = Color.White;
+            lblUpgrade.ForeColor = Color.Orange;
+
+            tabText.BackColor = bgForm;
         }
 
         private void ZeldaUI_Shown(object sender, EventArgs e)
@@ -127,6 +173,8 @@ namespace Zelda
             txtOutput.CaretStyle = CaretStyle.Invisible;
             txtOutput.Focus();
 
+            tabsLeft.SelectedIndex = state.CurrentTab == -1 ? 0 : state.CurrentTab;
+            currentTab?.Invalidate();
             currentTab?.scintilla.Focus();
             if (settings.isDefault)
                 btnAbout_Click(null, EventArgs.Empty);
@@ -1078,6 +1126,7 @@ namespace Zelda
 
         private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            //webBrowser.SuspendLayout();
             var node = webBrowser.Document.GetElementById("column-one");
             if (node != null) node.OuterHtml = "";
             node = webBrowser.Document.GetElementById("footer");
@@ -1089,12 +1138,51 @@ namespace Zelda
             if (node != null)
                 node.Style = "margin: 0 0 0 0; border:0; padding: 0;";
 
+            mshtml.IHTMLDocument2 doc = (mshtml.IHTMLDocument2)webBrowser.Document.DomDocument;
+            List<string> newCss = new List<string>();
+            int count = doc.styleSheets.length;
+            for (int i = count; i > 0; i--)
+            {
+                IHTMLStyleSheet css = doc.styleSheets.item(i-1);
+                string darkCss = Regex.Replace(css.cssText, @"rgb\((\d+), ?(\d+), ?(\d+)\)", DarkenRGB, RegexOptions.IgnoreCase);
+                newCss.Add(darkCss);
+            }
+
+            string doctype = webBrowser.Document?.All[0].OuterHtml;
+            string html = webBrowser.Document?.All[1].OuterHtml;
+            if (html != null)
+            {
+                html = Regex.Replace(html, @"rgb\((\d+), ?(\d+), ?(\d+)\)", DarkenRGB, RegexOptions.IgnoreCase);
+                html = Regex.Replace(html, @"<link.*?rel=""stylesheet"".*?>", "", RegexOptions.IgnoreCase);
+                int pos = html.IndexOf("</HEAD>", StringComparison.InvariantCultureIgnoreCase);
+                foreach (var css in newCss)
+                    html = html.Insert(pos, $"<style>\n{css}\n</style>");
+
+                webBrowser.Document.All[1].InnerHtml = html;
+                webBrowser2.DocumentText = doctype + html;
+            }
+
+            //for (int i = 0; i < count; i++)
+            //{
+            //    IHTMLStyleSheet dcss = doc.createStyleSheet($"/dark{i+1}.css", i);
+            //    dcss.cssText = newCss[i];
+            //}
+
             Match m = Regex.Match(e.Url.ToString(), "([^#]+)#?(.+)?");
             if (m.Success && !string.IsNullOrEmpty(m.Groups[2].Value))
             {
                 node = webBrowser.Document.GetElementById(m.Groups[2].Value);
                 node?.ScrollIntoView(true);
             }
+            //webBrowser.ResumeLayout();
+        }
+
+        private string DarkenRGB(Match m)
+        {
+            int r = int.Parse(m.Groups[1].Value);
+            int g = int.Parse(m.Groups[2].Value);
+            int b = int.Parse(m.Groups[3].Value);
+            return $"rgb({255-r},{255-g},{255-b})";
         }
 
         private void lblZoom_Click(object sender, EventArgs e)
@@ -1112,6 +1200,15 @@ namespace Zelda
             AutoUpgrade.CheckUpgrade();
             lblUpgrade.Visible = false;
             lblStatus.Visible = true;
+        }
+
+        private void webBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+            
+        }
+
+        private void webBrowser_FileDownload(object sender, EventArgs e)
+        {
         }
     }
 }
