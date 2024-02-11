@@ -1139,5 +1139,80 @@ namespace Zelda
             }
             catch { }
         }
+
+        private void ZeldaUI_KeyDown(object sender, KeyEventArgs e)
+        {
+            Action<object, EventArgs> action = null;
+            switch (e.KeyCode)
+            {
+                case Keys.N:
+                    if (e.Control)
+                        action = btnNew_Click;
+                    break;
+                case Keys.W:
+                    if (e.Control)
+                        action = btnClose_Click;
+                    break;
+                case Keys.I:
+                    if (e.Control)
+                        action = btnItalic_Click;
+                    break;
+                case Keys.B:
+                    if (e.Control)
+                        action = btnBold_Click;
+                    break;
+                case Keys.U:
+                    if (e.Control)
+                        action = btnUnderline_Click;
+                    break;
+                case Keys.Z:
+                    if (e.Control && e.Shift)
+                    {
+                        currentTab?.scintilla?.Redo();
+                        e.Handled = e.SuppressKeyPress = true;
+                    }
+                    break;
+                case Keys.F1:
+                    action = btnAbout_Click;
+                    break;
+                case Keys.F2:
+                    action = btnRename_Click;
+                    break;
+                case Keys.F3:
+                    action = btnInsertField_Click;
+                    break;
+                case Keys.F4:
+                    action = btnInsertFunction_Click;
+                    break;
+                case Keys.F5:
+                    action = btnAutorun_Click;
+                    break;
+                case Keys.F10:
+                    action = btnSettings_Click;
+                    break;
+                case Keys.F11:
+                    WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;
+                    break;
+            }
+
+            if (action != null)
+            {
+                e.Handled = e.SuppressKeyPress = true;
+                BeginInvoke((MethodInvoker) delegate { action(null, EventArgs.Empty); });
+            }
+        }
+
+        private void wikiBrowser_NewWindow(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            string target = wikiBrowser.Document.ActiveElement.GetAttribute("href");
+            if (string.IsNullOrEmpty(target))
+                target = wikiBrowser.StatusText;
+            if (!string.IsNullOrEmpty(target))
+            {
+                e.Cancel = true;
+                try { Process.Start(target); }
+                catch { }
+            }
+        }
     }
 }

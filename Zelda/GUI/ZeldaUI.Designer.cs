@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ZeldaUI));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -211,6 +211,7 @@
             this.wikiBrowser.TabIndex = 9;
             this.wikiBrowser.WebBrowserShortcutsEnabled = false;
             this.wikiBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wikiBrowser_DocumentCompleted);
+            this.wikiBrowser.NewWindow += new System.ComponentModel.CancelEventHandler(this.wikiBrowser_NewWindow);
             this.wikiBrowser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.browser_PreviewKeyDown);
             // 
             // tabsRight
@@ -310,14 +311,14 @@
             this.gridFiles.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gridFiles.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.gridFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridFiles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cFile,
@@ -407,6 +408,7 @@
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(24, 26);
             this.btnNew.Text = "&New tab";
+            this.btnNew.ToolTipText = "New tab (Ctrl+N)";
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
             // btnOpen
@@ -439,7 +441,7 @@
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(24, 26);
             this.btnClose.Text = "Close tab &W";
-            this.btnClose.ToolTipText = "Close tab";
+            this.btnClose.ToolTipText = "Close tab (Ctrl+W)";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // btnRename
@@ -450,6 +452,7 @@
             this.btnRename.Name = "btnRename";
             this.btnRename.Size = new System.Drawing.Size(24, 26);
             this.btnRename.Text = "&Rename tab";
+            this.btnRename.ToolTipText = "Rename tab (F2)";
             this.btnRename.Click += new System.EventHandler(this.btnRename_Click);
             // 
             // toolStripSeparator1
@@ -465,6 +468,7 @@
             this.btnUndo.Name = "btnUndo";
             this.btnUndo.Size = new System.Drawing.Size(24, 26);
             this.btnUndo.Text = "Undo";
+            this.btnUndo.ToolTipText = "Undo (Ctrl+Z)";
             this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
             // 
             // btnRedo
@@ -475,6 +479,7 @@
             this.btnRedo.Name = "btnRedo";
             this.btnRedo.Size = new System.Drawing.Size(24, 26);
             this.btnRedo.Text = "Redo";
+            this.btnRedo.ToolTipText = "Redo (Ctrl+Y)";
             this.btnRedo.Click += new System.EventHandler(this.btnRedo_Click);
             // 
             // toolStripSeparator5
@@ -494,7 +499,7 @@
             this.btnInsertField.Size = new System.Drawing.Size(28, 26);
             this.btnInsertField.Text = "[x]";
             this.btnInsertField.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnInsertField.ToolTipText = "Insert Field";
+            this.btnInsertField.ToolTipText = "Insert Field (F3)";
             this.btnInsertField.Click += new System.EventHandler(this.btnInsertField_Click);
             // 
             // btnInsertFunction
@@ -509,7 +514,7 @@
             this.btnInsertFunction.Size = new System.Drawing.Size(32, 26);
             this.btnInsertFunction.Text = "f(x)";
             this.btnInsertFunction.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnInsertFunction.ToolTipText = "Insert Function";
+            this.btnInsertFunction.ToolTipText = "Insert Function (F4)";
             this.btnInsertFunction.Click += new System.EventHandler(this.btnInsertFunction_Click);
             // 
             // btnFunctionHelp
@@ -539,7 +544,7 @@
             this.btnBold.Name = "btnBold";
             this.btnBold.Size = new System.Drawing.Size(25, 26);
             this.btnBold.Text = "B";
-            this.btnBold.ToolTipText = "Bold tag";
+            this.btnBold.ToolTipText = "Bold tag (Ctrl+B)";
             this.btnBold.Click += new System.EventHandler(this.btnBold_Click);
             // 
             // btnItalic
@@ -551,7 +556,7 @@
             this.btnItalic.Name = "btnItalic";
             this.btnItalic.Size = new System.Drawing.Size(25, 26);
             this.btnItalic.Text = "I";
-            this.btnItalic.ToolTipText = "Italic tag";
+            this.btnItalic.ToolTipText = "Italic tag (Ctrl+I)";
             this.btnItalic.Click += new System.EventHandler(this.btnItalic_Click);
             // 
             // btnUnderline
@@ -563,7 +568,7 @@
             this.btnUnderline.Name = "btnUnderline";
             this.btnUnderline.Size = new System.Drawing.Size(25, 26);
             this.btnUnderline.Text = "U";
-            this.btnUnderline.ToolTipText = "Underline tag";
+            this.btnUnderline.ToolTipText = "Underline tag (Ctr+U)";
             this.btnUnderline.Click += new System.EventHandler(this.btnUnderline_Click);
             // 
             // btnFont
@@ -667,7 +672,8 @@
             this.btnAutorun.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAutorun.Name = "btnAutorun";
             this.btnAutorun.Size = new System.Drawing.Size(24, 26);
-            this.btnAutorun.ToolTipText = "Enable or disable automatic expression evaluation after typing stops";
+            this.btnAutorun.Text = "Automatic execution";
+            this.btnAutorun.ToolTipText = "Toggle automatic execution (F5)";
             this.btnAutorun.Click += new System.EventHandler(this.btnAutorun_Click);
             // 
             // lblChanged
@@ -786,6 +792,7 @@
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.ShowDropDownArrow = false;
             this.btnSettings.Size = new System.Drawing.Size(24, 28);
+            this.btnSettings.ToolTipText = "Settings (F10)";
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // btnAbout
@@ -797,6 +804,7 @@
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.ShowDropDownArrow = false;
             this.btnAbout.Size = new System.Drawing.Size(24, 28);
+            this.btnAbout.ToolTipText = "About (F1)";
             this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
             // splitContainer2
@@ -955,6 +963,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ZeldaUI_FormClosing);
             this.Load += new System.EventHandler(this.ZeldaUI_Load);
             this.Shown += new System.EventHandler(this.ZeldaUI_Shown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ZeldaUI_KeyDown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

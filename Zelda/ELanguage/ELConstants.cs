@@ -16,7 +16,7 @@ namespace Zelda
         // date and time
         ConvertDate, FormatDate, Now, DateInRange,
         // file path and identifier
-        DBLocation, Enviro, FileDBLocation, FileFolder, FileKey, FileLookup, FileName, FilePath, FileVolume,
+        DBLocation, Enviro, FileDBLocation, FileExtension, FileFolder, FileKey, FileLookup, FileName, FilePath, FileVolume,
         // formatting
         Delimit, FormatBoolean, FormatDuration, FormatFileSize, FormatNumber,
         FormatRange, Orientation, PadNumber, RatingStars, RatingStars10, Watched,
@@ -80,7 +80,8 @@ namespace Zelda
             new ELFunction(ELCategory.Identifier, ELFunctions.DBLocation, "Returns the current database location", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#DBLocation"),
             new ELFunction(ELCategory.Identifier, ELFunctions.Enviro, "Retrieves the value of an environment variable", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#Enviro"),
             new ELFunction(ELCategory.Identifier, ELFunctions.FileDBLocation, "Identifies a file's databases", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#FileDBLocation"),
-            new ELFunction(ELCategory.Identifier, ELFunctions.FileFolder, "Returns the name of a file's parent", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#FileFolder"),
+            new ELFunction(ELCategory.Identifier, ELFunctions.FileExtension, "Returns the file's extension", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#FileExtension"),
+            new ELFunction(ELCategory.Identifier, ELFunctions.FileFolder, "Returns the name of a file's parent folder", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#FileFolder"),
             new ELFunction(ELCategory.Identifier, ELFunctions.FileKey, "Returns a file's unique internal identifier", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#FileKey"),
             new ELFunction(ELCategory.Identifier, ELFunctions.FileLookup, "Looks up a file based on its filename", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#FileLookup"),
             new ELFunction(ELCategory.Identifier, ELFunctions.FileName, "Returns a file's name component", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#FileName"),
