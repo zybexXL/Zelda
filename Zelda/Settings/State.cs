@@ -15,12 +15,14 @@ namespace Zelda
         [DataMember] public string name;
         [DataMember] public string content;
         [DataMember] public int position;
+        [DataMember] public string linkedField;
 
-        public TabExpression(string title, string text, int pos)
+        public TabExpression(string title, string text, int pos, string field = null)
         {
             name = title;
             content = text;
             position = pos;
+            linkedField = field;
         }
     }
 

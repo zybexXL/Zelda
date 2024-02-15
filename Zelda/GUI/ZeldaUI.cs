@@ -29,6 +29,8 @@ namespace Zelda
         bool loading;
         int lastResize = 0;
         bool initialized = false;
+        TabPage addTab;
+        bool LinkedFieldsEnabled = false;
 
         public Dictionary<JRFile, DataRow> rowIndex = new Dictionary<JRFile, DataRow>();
         ExpressionTab currentTab { get { return tabsLeft.SelectedTab as ExpressionTab; } }
@@ -50,6 +52,7 @@ namespace Zelda
             gridFiles.DoubleBuffered(true);
             gridFiles.Columns.Clear();
 
+            tabsLeft.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             tabsLeft.TabPages.Clear();
             txtOutput.Margins[1].Width = 10;             // remove default margin
             SetOutputStyle();
@@ -70,6 +73,7 @@ namespace Zelda
                 GetPlayLists();
                 initialized = true;
                 LoadState();
+                UpdateLinkedTabs();
             }
         }
 
@@ -80,7 +84,12 @@ namespace Zelda
             {
                 int current = state.CurrentTab;
                 foreach (var exp in state.Tabs)
-                    AddExpressionTab(exp.name, exp.content, exp.position);
+                {
+                    // recover linked field if State was re-saved by an older version
+                    if (string.IsNullOrEmpty(exp.linkedField) && Regex.IsMatch(exp.name, @"🔗 \[.+\]$"))
+                        exp.linkedField = exp.name.Substring(exp.name.IndexOf('[')+1).TrimEnd(']');
+                    AddExpressionTab(exp.name, exp.content, exp.position, exp.linkedField);
+                }
                 tabsLeft.SelectedIndex = current;
             }
             else
@@ -163,7 +172,7 @@ namespace Zelda
             {
                 state.Tabs = new List<TabExpression>();
                 foreach (var tab in expressionTabs)
-                    state.Tabs.Add(new TabExpression(tab.Text, tab.scintilla.Text, tab.scintilla.CurrentPosition));
+                    state.Tabs.Add(new TabExpression(tab.Text, tab.scintilla.Text, tab.scintilla.CurrentPosition, tab.linkedField));
 
                 state.Maximized = WindowState == FormWindowState.Maximized;
                 state.Dimensions = state.Maximized ? RestoreBounds : DesktopBounds;
@@ -209,21 +218,43 @@ namespace Zelda
             }
 
             lblStatus.Text = $"Connected to MediaCenter v{jrAPI.MCVersion} - {jrAPI.Library} ({jrAPI.Server})";
+            lblReadOnly.Visible = jrAPI.ReadOnly;
+
             return jrAPI.Connected;
         }
 
         private void btnReconnect_Click(object sender, EventArgs e)
         {
             if (Connect())
+            {
                 GetPlayLists();
+                UpdateLinkedTabs();
+            }
             else
                 Close();
         }
 
+        private void UpdateLinkedTabs()
+        {
+            foreach (ExpressionTab tab in tabsLeft.TabPages)
+                if (tab.isLinkedTab)
+                {
+                    var field = jrAPI.Fields.FirstOrDefault(f => f.Name.ToLower() == tab.linkedField.ToLower());
+                    tab.SetSavedExpression(field?.Expression);
+                }
+            
+            tabsLeft.Invalidate();
+            tabsLeft_SelectedIndexChanged(null, EventArgs.Empty);
+        }
+
         private bool GetPlayLists(bool startup = false)
         {
+            LinkedFieldsEnabled = false;
+
             if (!jrAPI.Connected)
                 return false;
+
+            LinkedFieldsEnabled = settings.UseMCWS && new Version(jrAPI.MCVersion) >= new Version(32, 0, 17);
 
             // update datagrid column/field list
             loading = true;
@@ -289,16 +320,43 @@ namespace Zelda
             int i = 0;
 
             List<string> fields = new List<string>();
-            foreach (var f in state.TableFields)
-                if (jrAPI.FieldMap.TryGetValue(f.ToLower(), out string name))
-                    fields.Add(name);
 
-            foreach (var file in jrAPI.getFiles(pl, fields))
+            try
             {
-                pl.Files.Add(file);
-                progress.currentItem = ++i;
-                progress.subtitle = $"{file.Name} ({file.Year})";
-                progress.Update(false);
+                foreach (var f in state.TableFields)
+                    if (jrAPI.FieldMap.TryGetValue(f.ToLower(), out string name))
+                        fields.Add(name);
+
+                foreach (var file in jrAPI.getFiles(pl, fields))
+                {
+                    pl.Files.Add(file);
+                    progress.currentItem = ++i;
+                    progress.subtitle = $"{file.Name} ({file.Year})";
+                    progress.Update(false);
+                }
+            }
+            catch (Exception ex) { Logger.Log(ex); }
+        }
+
+        // draw colored tab headers
+        private void tabsLeft_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            ExpressionTab tab = tabsLeft.TabPages[e.Index] as ExpressionTab;
+
+            e.DrawBackground();
+            bool selected = e.State == DrawItemState.Selected;
+
+            Color back = selected ? SystemColors.ControlLightLight : SystemColors.Control;
+            Color fore = tab.isLinkedTab ? (tab.isSaved ? Color.Green : Color.Red) : Color.Black;
+
+            using (Brush br = new SolidBrush(back))
+            {
+                e.Graphics.FillRectangle(br, e.Bounds);
+                if (selected)
+                    e.Graphics.DrawLine(new Pen(Color.Orange, 2), e.Bounds.Left + 4, e.Bounds.Top + 3, e.Bounds.Right - 3, e.Bounds.Top + 3);
+
+                TextRenderer.DrawText(e.Graphics, tab.Text, e.Font, e.Bounds, fore, back);
+                e.DrawFocusRectangle();
             }
         }
 
@@ -367,7 +425,7 @@ namespace Zelda
 
         #endregion
 
-        private ExpressionTab AddExpressionTab(string name = null, string content = null, int pos = -1)
+        private ExpressionTab AddExpressionTab(string name = null, string content = null, int pos = -1, string linkedField = null)
         {
             if (name == null)
             {
@@ -385,6 +443,8 @@ namespace Zelda
             tab.ZoomChanged += expression_ZoomChanged;
             tab.ExpressionChanged += expression_TextChanged;
             tab.FunctionChanged += expression_FunctionChanged;
+            tab.NeedsSavingChanged += (sender, saved) => { if (((ExpressionTab)sender).isLinkedTab) tabsLeft.Invalidate(); };
+            tab.linkedField = linkedField;
 
             if (content != null)
                 tab.SetContent(content);
@@ -402,6 +462,9 @@ namespace Zelda
             }
 
             tabsLeft.SelectedTab = tab;
+            tab.scintilla.WrapMode = chkWrap.Checked ? WrapMode.Word : WrapMode.None;
+            tab.scintilla.ViewWhitespace = chkWhitespace.Checked ? WhitespaceMode.VisibleAlways : WhitespaceMode.Invisible;
+            tab.scintilla.ViewEol = chkWhitespace.Checked;
             tab.scintilla.EmptyUndoBuffer();
             tab.scintilla.Focus();
             tab.Evaluate(currentFile);
@@ -747,6 +810,7 @@ namespace Zelda
 
         private void btnRename_Click(object sender, EventArgs e)
         {
+            if (currentTab == null || currentTab.isLinkedTab) return;
             currentTab?.Rename();
             gridFiles.Columns[currentTab.ID].HeaderText = currentTab.Text;
         }
@@ -822,10 +886,11 @@ namespace Zelda
                 return;
             }
 
-            lblChanged.Visible = paused && currentTab.isModified;
-            if (!isEvaluated) return;
+            if (currentTab == null) return;
 
-            lblChanged.Visible = false;
+            lblChanged.Visible = paused && currentTab.needsEvaluation;
+            if (currentTab.needsEvaluation) return;
+
             if (latencyChecks++ < 5 || latencyChecks % 10 == 0)
                 getAPILatency();
 
@@ -900,8 +965,8 @@ namespace Zelda
                 bool isEmpty = string.IsNullOrWhiteSpace(expression);
                 foreach (DataRow row in rows)
                 {
-                    if (tab.changed) return;
-                    //if (changed) return;  // TODO!!!! cancel current processing on changes
+                    if (tab.Paused || tab.needsEvaluation) return;
+                    
                     if (settings.ShowAPICallTime) sw.Restart();
                     string value = isEmpty ? expression : jrAPI.resolveExpression(row[0] as JRFile, expression, settings.HighlightComments);
                     if (settings.ShowAPICallTime) sw.Stop();
@@ -1043,7 +1108,10 @@ namespace Zelda
             state.CurrentTab = tabsLeft.SelectedIndex;
             if (currentTab == null) return;
             ShowResults();
-            lblChanged.Visible = paused && currentTab.isModified;
+            lblChanged.Visible = paused && currentTab.needsEvaluation;
+            btnRevert.Enabled = btnSave.Enabled = btnLink.Enabled = LinkedFieldsEnabled && currentTab.isLinkedTab;
+            btnLink.Enabled = LinkedFieldsEnabled;
+            btnRename.Enabled = !currentTab.isLinkedTab;
 
             // datagrid: show column for current tab
             if (!state.TableShowAll & gridFiles.Columns.Count > 0)
@@ -1052,20 +1120,32 @@ namespace Zelda
                         gridFiles.Columns[tab.ID].Visible = tab.ID == currentTab.ID;
 
             currentTab.scintilla.Focus();
-            if (!paused && currentTab.isModified)
-                currentTab.Evaluate(true);
+            currentTab.Evaluate();
 
             expression_FunctionChanged(currentTab, currentTab.selectedFunction);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(currentTab?.scintilla.Text))
-                if (DialogResult.OK != MessageBox.Show(this, "Close this tab will delete its current contents, are you sure?", "Please confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning))
+            if (currentTab == null) return;
+            if (currentTab.isLinkedTab && !currentTab.isSaved)
+            {
+                if (DialogResult.OK != MessageBox.Show(this, "Changes to this linked expression are not yet saved to MC and will be lost!\nAre you sure you want to close?",
+                    "Please confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning))
                     return;
+            }
+            else if (!currentTab.isLinkedTab && !string.IsNullOrWhiteSpace(currentTab?.scintilla.Text))
+                if (DialogResult.OK != MessageBox.Show(this, "Closing this tab will delete its current contents, are you sure?",
+                    "Please confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning))
+                    return;
+
             ExpressionTab tab = currentTab;
 
-            int index = tabsLeft.SelectedIndex;
+            int index = tabsLeft.SelectedIndex + 1;
+            if (index >= tabsLeft.TabCount)
+                index = tabsLeft.SelectedIndex - 1;
+            if (index >= 0)
+                tabsLeft.SelectedIndex = index;
 
             tabsLeft.Controls.Remove(tab);
             DataTable dt = gridFiles.DataSource as DataTable;
@@ -1074,10 +1154,6 @@ namespace Zelda
 
             if (tabsLeft.TabCount == 0)
                 AddExpressionTab();
-
-            if (index >= tabsLeft.TabCount)
-                index = tabsLeft.TabCount - 1;
-            tabsLeft.SelectedIndex = index;
 
             reorderDatagridColumns();
         }
@@ -1143,57 +1219,44 @@ namespace Zelda
         private void ZeldaUI_KeyDown(object sender, KeyEventArgs e)
         {
             Action<object, EventArgs> action = null;
-            switch (e.KeyCode)
+            if (e.Shift && e.Control && e.KeyCode == Keys.Z)
             {
-                case Keys.N:
-                    if (e.Control)
-                        action = btnNew_Click;
-                    break;
-                case Keys.W:
-                    if (e.Control)
-                        action = btnClose_Click;
-                    break;
-                case Keys.I:
-                    if (e.Control)
-                        action = btnItalic_Click;
-                    break;
-                case Keys.B:
-                    if (e.Control)
-                        action = btnBold_Click;
-                    break;
-                case Keys.U:
-                    if (e.Control)
-                        action = btnUnderline_Click;
-                    break;
-                case Keys.Z:
-                    if (e.Control && e.Shift)
-                    {
-                        currentTab?.scintilla?.Redo();
-                        e.Handled = e.SuppressKeyPress = true;
-                    }
-                    break;
-                case Keys.F1:
-                    action = btnAbout_Click;
-                    break;
-                case Keys.F2:
-                    action = btnRename_Click;
-                    break;
-                case Keys.F3:
-                    action = btnInsertField_Click;
-                    break;
-                case Keys.F4:
-                    action = btnInsertFunction_Click;
-                    break;
-                case Keys.F5:
-                    action = btnAutorun_Click;
-                    break;
-                case Keys.F10:
-                    action = btnSettings_Click;
-                    break;
-                case Keys.F11:
-                    WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;
-                    break;
+                currentTab?.scintilla?.Redo();
+                e.Handled = e.SuppressKeyPress = true;
             }
+            else if (e.Control)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.N: action = btnNew_Click; break;
+                    case Keys.W: action = btnClose_Click; break;
+                    case Keys.I: action = btnItalic_Click; break;
+                    case Keys.B: action = btnBold_Click; break;
+                    case Keys.U: action = btnUnderline_Click; break;
+                    case Keys.L: action = btnLink_Click; break;
+                    case Keys.S: action = btnSave_Click; break;
+                    case Keys.R: action = btnRevert_Click; break;
+                }
+            }
+            else if (e.Alt)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Right: action = btnNextFile_Click; break;
+                    case Keys.Left: action = btnPrevFile_Click; break;
+                }
+            }
+            else
+                switch (e.KeyCode)
+                {
+                    case Keys.F1: action = btnAbout_Click; break;
+                    case Keys.F2: action = btnRename_Click; break;
+                    case Keys.F3: action = btnInsertField_Click; break;
+                    case Keys.F4: action = btnInsertFunction_Click; break;
+                    case Keys.F5: action = btnAutorun_Click; break;
+                    case Keys.F10: action = btnSettings_Click; break;
+                    case Keys.F11: WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized; break;
+                }
 
             if (action != null)
             {
@@ -1212,6 +1275,92 @@ namespace Zelda
                 e.Cancel = true;
                 try { Process.Start(target); }
                 catch { }
+            }
+        }
+
+        private void btnLink_Click(object sender, EventArgs e)
+        {
+            if (!LinkedFieldsEnabled || currentTab == null) return;
+
+            var fields = jrAPI.Fields.Where(f => f.isCalculated && f.FieldType != null && f.FieldType.ToLower().Contains("user")).OrderBy(f => f.Name).ToList();
+            if (fields == null || fields.Count == 0)
+            {
+                MessageBox.Show("No user-defined calculated fields found in MC. Please add a field in MC first.", "No calculated fields", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            menuFieldList.Items.Clear();
+            foreach (var f in fields)
+            {
+                var item = menuFieldList.Items.Add(f.Name);
+                item.Tag = f.Expression;
+            }
+
+            var point = PointToClient(new Point(btnLink.Bounds.Left, splitContainer2.Panel1.Height + toolStrip1.Height));
+            menuFieldList.Show(toolStrip1, new Point(btnLink.Bounds.Left, btnLink.Bounds.Height));
+        }
+
+        private void menuFieldList_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            string name = $"🔗 [{e.ClickedItem.Text}]";
+            string exp = e.ClickedItem.Tag as string;
+            AddExpressionTab(name, exp, linkedField: e.ClickedItem.Text);
+        }
+
+        private void btnRevert_Click(object sender, EventArgs e)
+        {
+            if (!LinkedFieldsEnabled || currentTab == null || !currentTab.isLinkedTab) return;
+
+            if (!currentTab.isSaved)
+            {
+                if (DialogResult.Yes != MessageBox.Show("Discard current changes and reload field expression from MC?", "Discard changes", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                    return;
+            }
+
+            var field = jrAPI.Fields.SingleOrDefault(f => f.isCalculated && f.Name.ToLower() == currentTab.linkedField.ToLower());
+            if (field == null)
+            {
+                MessageBox.Show($"Field [{currentTab.linkedField}] not found in MC!", "Field not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            currentTab.SetContent(field.Expression);
+            tabsLeft.Invalidate();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (!LinkedFieldsEnabled || currentTab == null || !currentTab.isLinkedTab) return;
+            if (jrAPI.ReadOnly)
+            {
+                MessageBox.Show("Please connect MCWS with a non-readonly username and password.",
+                    "MCWS in read-only mode", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var field = jrAPI.Fields.SingleOrDefault(f => f.Name == currentTab.linkedField);
+            if (field == null)
+                field = new JRField(currentTab.linkedField, currentTab.linkedField);
+
+            field.Expression = Util.StripComments(currentTab.scintilla.Text);
+            if (currentTab.Result == null || currentTab.Result.ToLower().StartsWith("expression error"))
+            {
+                if (DialogResult.Yes != MessageBox.Show("This seems to be an invalid expression!\nAre you sure you want to save it to MC?", "Expression error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+                    return;
+            }
+
+            bool ok = jrAPI.CreateField(field);
+            var newField = jrAPI.getFields()?.FirstOrDefault(f => f.Name == field.Name);
+            ok &= Util.isSameExpression(field.Expression, newField?.Expression);
+
+            if (!ok)
+                MessageBox.Show($"Failed to save expression to linked MC field!", "Save failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            UpdateLinkedTabs();
+            if (!ok)
+            {
+                currentTab.savedExpression = "";
+                currentTab.isSaved = false;
             }
         }
     }

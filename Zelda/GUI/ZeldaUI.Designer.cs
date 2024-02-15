@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ZeldaUI));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.tabsLeft = new System.Windows.Forms.TabControl();
+            this.tabsLeft = new System.Windows.Forms.DraggableTabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.wikiBrowser = new System.Windows.Forms.WebBrowser();
@@ -49,10 +49,10 @@
             this.cCalltime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnNew = new System.Windows.Forms.ToolStripButton();
-            this.btnOpen = new System.Windows.Forms.ToolStripButton();
+            this.btnLink = new System.Windows.Forms.ToolStripButton();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
+            this.btnRevert = new System.Windows.Forms.ToolStripButton();
             this.btnClose = new System.Windows.Forms.ToolStripButton();
-            this.btnRename = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnUndo = new System.Windows.Forms.ToolStripButton();
             this.btnRedo = new System.Windows.Forms.ToolStripButton();
@@ -62,11 +62,12 @@
             this.btnFunctionHelp = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnBold = new System.Windows.Forms.ToolStripButton();
-            this.btnItalic = new System.Windows.Forms.ToolStripButton();
             this.btnUnderline = new System.Windows.Forms.ToolStripButton();
+            this.btnItalic = new System.Windows.Forms.ToolStripButton();
             this.btnFont = new System.Windows.Forms.ToolStripButton();
             this.btnImage = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnRename = new System.Windows.Forms.ToolStripButton();
             this.chkWrap = new System.Windows.Forms.ToolStripButton();
             this.chkWhitespace = new System.Windows.Forms.ToolStripButton();
             this.btnZoomUp = new System.Windows.Forms.ToolStripButton();
@@ -77,6 +78,7 @@
             this.lblChanged = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblReadOnly = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblUpgrade = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblZoom = new System.Windows.Forms.ToolStripStatusLabel();
@@ -87,8 +89,8 @@
             this.btnSettings = new System.Windows.Forms.ToolStripDropDownButton();
             this.btnAbout = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnPrevFile = new System.Windows.Forms.Button();
+            this.btnNextFile = new System.Windows.Forms.Button();
             this.btnReconnect = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -96,6 +98,10 @@
             this.comboLists = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.menuFieldList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.field1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.field2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.field3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -116,12 +122,13 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.menuFieldList.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 29);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 36);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -134,7 +141,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabsRight);
             this.splitContainer1.Panel2MinSize = 300;
-            this.splitContainer1.Size = new System.Drawing.Size(1184, 560);
+            this.splitContainer1.Size = new System.Drawing.Size(1184, 553);
             this.splitContainer1.SplitterDistance = 688;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -157,8 +164,8 @@
             this.splitContainer3.Panel2.Controls.Add(this.wikiBrowser);
             this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(8, 0, 0, 4);
             this.splitContainer3.Panel2MinSize = 50;
-            this.splitContainer3.Size = new System.Drawing.Size(688, 560);
-            this.splitContainer3.SplitterDistance = 356;
+            this.splitContainer3.Size = new System.Drawing.Size(688, 553);
+            this.splitContainer3.SplitterDistance = 349;
             this.splitContainer3.TabIndex = 2;
             // 
             // tabsLeft
@@ -166,36 +173,37 @@
             this.tabsLeft.Controls.Add(this.tabPage5);
             this.tabsLeft.Controls.Add(this.tabPage6);
             this.tabsLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabsLeft.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabsLeft.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabsLeft.Location = new System.Drawing.Point(0, 0);
             this.tabsLeft.Margin = new System.Windows.Forms.Padding(2);
             this.tabsLeft.Name = "tabsLeft";
             this.tabsLeft.SelectedIndex = 0;
-            this.tabsLeft.Size = new System.Drawing.Size(688, 356);
-            this.tabsLeft.TabIndex = 2;
+            this.tabsLeft.Size = new System.Drawing.Size(688, 349);
+            this.tabsLeft.TabIndex = 1;
+            this.tabsLeft.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabsLeft_DrawItem);
             this.tabsLeft.SelectedIndexChanged += new System.EventHandler(this.tabsLeft_SelectedIndexChanged);
             this.tabsLeft.DoubleClick += new System.EventHandler(this.tabsLeft_DoubleClick);
             // 
             // tabPage5
             // 
-            this.tabPage5.Location = new System.Drawing.Point(4, 24);
+            this.tabPage5.Location = new System.Drawing.Point(4, 26);
             this.tabPage5.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage5.Size = new System.Drawing.Size(680, 328);
+            this.tabPage5.Size = new System.Drawing.Size(680, 319);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "expr1";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // tabPage6
             // 
-            this.tabPage6.Location = new System.Drawing.Point(4, 24);
+            this.tabPage6.Location = new System.Drawing.Point(4, 26);
             this.tabPage6.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage6.Size = new System.Drawing.Size(680, 328);
+            this.tabPage6.Size = new System.Drawing.Size(680, 319);
             this.tabPage6.TabIndex = 1;
-            this.tabPage6.Text = "expr2";
+            this.tabPage6.Text = "🔗 [expr2] ❎";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // wikiBrowser
@@ -220,23 +228,23 @@
             this.tabsRight.Controls.Add(this.tabRendered);
             this.tabsRight.Controls.Add(this.tabDatagrid);
             this.tabsRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabsRight.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabsRight.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabsRight.Location = new System.Drawing.Point(0, 0);
             this.tabsRight.Margin = new System.Windows.Forms.Padding(2);
             this.tabsRight.Name = "tabsRight";
             this.tabsRight.SelectedIndex = 0;
-            this.tabsRight.Size = new System.Drawing.Size(492, 560);
-            this.tabsRight.TabIndex = 1;
+            this.tabsRight.Size = new System.Drawing.Size(492, 553);
+            this.tabsRight.TabIndex = 2;
             this.tabsRight.SelectedIndexChanged += new System.EventHandler(this.tabsRight_SelectedIndexChanged);
             // 
             // tabText
             // 
             this.tabText.Controls.Add(this.txtOutput);
-            this.tabText.Location = new System.Drawing.Point(4, 24);
+            this.tabText.Location = new System.Drawing.Point(4, 26);
             this.tabText.Margin = new System.Windows.Forms.Padding(2);
             this.tabText.Name = "tabText";
             this.tabText.Padding = new System.Windows.Forms.Padding(2);
-            this.tabText.Size = new System.Drawing.Size(484, 532);
+            this.tabText.Size = new System.Drawing.Size(484, 523);
             this.tabText.TabIndex = 1;
             this.tabText.Text = "Text output";
             this.tabText.UseVisualStyleBackColor = true;
@@ -246,7 +254,7 @@
             this.txtOutput.AutoCMaxHeight = 9;
             this.txtOutput.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.Disabled;
             this.txtOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtOutput.CaretLineBackColor = System.Drawing.Color.Black;
+            this.txtOutput.CaretLineBackColor = System.Drawing.Color.White;
             this.txtOutput.CaretLineVisible = true;
             this.txtOutput.CaretStyle = ScintillaNET.CaretStyle.Invisible;
             this.txtOutput.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -256,7 +264,7 @@
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ReadOnly = true;
             this.txtOutput.ScrollWidth = 1;
-            this.txtOutput.Size = new System.Drawing.Size(480, 528);
+            this.txtOutput.Size = new System.Drawing.Size(480, 519);
             this.txtOutput.TabIndents = true;
             this.txtOutput.TabIndex = 0;
             this.txtOutput.UseRightToLeftReadingLayout = false;
@@ -267,11 +275,11 @@
             // tabRendered
             // 
             this.tabRendered.Controls.Add(this.renderBrowser);
-            this.tabRendered.Location = new System.Drawing.Point(4, 24);
+            this.tabRendered.Location = new System.Drawing.Point(4, 26);
             this.tabRendered.Margin = new System.Windows.Forms.Padding(2);
             this.tabRendered.Name = "tabRendered";
             this.tabRendered.Padding = new System.Windows.Forms.Padding(2);
-            this.tabRendered.Size = new System.Drawing.Size(484, 532);
+            this.tabRendered.Size = new System.Drawing.Size(484, 523);
             this.tabRendered.TabIndex = 0;
             this.tabRendered.Text = "Rendered output";
             this.tabRendered.UseVisualStyleBackColor = true;
@@ -284,7 +292,7 @@
             this.renderBrowser.Margin = new System.Windows.Forms.Padding(2);
             this.renderBrowser.MinimumSize = new System.Drawing.Size(15, 15);
             this.renderBrowser.Name = "renderBrowser";
-            this.renderBrowser.Size = new System.Drawing.Size(480, 528);
+            this.renderBrowser.Size = new System.Drawing.Size(480, 519);
             this.renderBrowser.TabIndex = 0;
             this.renderBrowser.WebBrowserShortcutsEnabled = false;
             this.renderBrowser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.browser_PreviewKeyDown);
@@ -292,11 +300,11 @@
             // tabDatagrid
             // 
             this.tabDatagrid.Controls.Add(this.gridFiles);
-            this.tabDatagrid.Location = new System.Drawing.Point(4, 24);
+            this.tabDatagrid.Location = new System.Drawing.Point(4, 26);
             this.tabDatagrid.Margin = new System.Windows.Forms.Padding(2);
             this.tabDatagrid.Name = "tabDatagrid";
             this.tabDatagrid.Padding = new System.Windows.Forms.Padding(2);
-            this.tabDatagrid.Size = new System.Drawing.Size(484, 532);
+            this.tabDatagrid.Size = new System.Drawing.Size(484, 523);
             this.tabDatagrid.TabIndex = 3;
             this.tabDatagrid.Text = "Playlist";
             this.tabDatagrid.UseVisualStyleBackColor = true;
@@ -311,14 +319,14 @@
             this.gridFiles.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gridFiles.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridFiles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cFile,
@@ -332,7 +340,7 @@
             this.gridFiles.RowHeadersVisible = false;
             this.gridFiles.RowHeadersWidth = 51;
             this.gridFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridFiles.Size = new System.Drawing.Size(480, 528);
+            this.gridFiles.Size = new System.Drawing.Size(480, 519);
             this.gridFiles.TabIndex = 0;
             // 
             // cFile
@@ -363,14 +371,15 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.AutoSize = false;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnNew,
-            this.btnOpen,
+            this.btnLink,
             this.btnSave,
+            this.btnRevert,
             this.btnClose,
-            this.btnRename,
             this.toolStripSeparator1,
             this.btnUndo,
             this.btnRedo,
@@ -380,11 +389,12 @@
             this.btnFunctionHelp,
             this.toolStripSeparator2,
             this.btnBold,
-            this.btnItalic,
             this.btnUnderline,
+            this.btnItalic,
             this.btnFont,
             this.btnImage,
             this.toolStripSeparator3,
+            this.btnRename,
             this.chkWrap,
             this.chkWhitespace,
             this.btnZoomUp,
@@ -395,89 +405,96 @@
             this.lblChanged});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(4, 0, 8, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1184, 29);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(4, 0, 8, 2);
+            this.toolStrip1.Size = new System.Drawing.Size(1184, 36);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // btnNew
             // 
+            this.btnNew.AutoSize = false;
             this.btnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNew.Image = ((System.Drawing.Image)(resources.GetObject("btnNew.Image")));
+            this.btnNew.Image = global::Zelda.Properties.Resources.script_add;
             this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(24, 26);
+            this.btnNew.Size = new System.Drawing.Size(32, 32);
             this.btnNew.Text = "&New tab";
             this.btnNew.ToolTipText = "New tab (Ctrl+N)";
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
-            // btnOpen
+            // btnLink
             // 
-            this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("btnOpen.Image")));
-            this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(24, 26);
-            this.btnOpen.Text = "Open";
-            this.btnOpen.Visible = false;
-            this.btnOpen.Click += new System.EventHandler(this.notImplemented);
+            this.btnLink.AutoSize = false;
+            this.btnLink.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnLink.Image = global::Zelda.Properties.Resources.link_add;
+            this.btnLink.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLink.Name = "btnLink";
+            this.btnLink.Size = new System.Drawing.Size(32, 32);
+            this.btnLink.Text = "New Linked tab";
+            this.btnLink.ToolTipText = "New tab linked to MC field (Ctrl+L)\r\n\r\n[MC v32.0.18 or above required]";
+            this.btnLink.Click += new System.EventHandler(this.btnLink_Click);
             // 
             // btnSave
             // 
+            this.btnSave.AutoSize = false;
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
+            this.btnSave.Image = global::Zelda.Properties.Resources.disk;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(24, 26);
+            this.btnSave.Size = new System.Drawing.Size(32, 32);
             this.btnSave.Text = "Save";
-            this.btnSave.Visible = false;
-            this.btnSave.Click += new System.EventHandler(this.notImplemented);
+            this.btnSave.ToolTipText = "Save to linked MC field (Ctrl+S)";
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnRevert
+            // 
+            this.btnRevert.AutoSize = false;
+            this.btnRevert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRevert.Image = global::Zelda.Properties.Resources.reset_red_32;
+            this.btnRevert.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRevert.Name = "btnRevert";
+            this.btnRevert.Size = new System.Drawing.Size(32, 32);
+            this.btnRevert.Text = "Revert";
+            this.btnRevert.ToolTipText = "Reload expression from linked MC field (discard changes)";
+            this.btnRevert.Click += new System.EventHandler(this.btnRevert_Click);
             // 
             // btnClose
             // 
+            this.btnClose.AutoSize = false;
             this.btnClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClose.Image = global::Zelda.Properties.Resources.cross;
+            this.btnClose.Image = global::Zelda.Properties.Resources.cross1;
             this.btnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(24, 26);
-            this.btnClose.Text = "Close tab &W";
+            this.btnClose.Size = new System.Drawing.Size(32, 32);
+            this.btnClose.Text = "Close tab";
             this.btnClose.ToolTipText = "Close tab (Ctrl+W)";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // btnRename
-            // 
-            this.btnRename.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRename.Image = global::Zelda.Properties.Resources.Rename;
-            this.btnRename.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRename.Name = "btnRename";
-            this.btnRename.Size = new System.Drawing.Size(24, 26);
-            this.btnRename.Text = "&Rename tab";
-            this.btnRename.ToolTipText = "Rename tab (F2)";
-            this.btnRename.Click += new System.EventHandler(this.btnRename_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 29);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 34);
             // 
             // btnUndo
             // 
+            this.btnUndo.AutoSize = false;
             this.btnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnUndo.Image = global::Zelda.Properties.Resources.undo_2a2b2c_24;
+            this.btnUndo.Image = global::Zelda.Properties.Resources.undo_2a2b2c_32;
             this.btnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUndo.Name = "btnUndo";
-            this.btnUndo.Size = new System.Drawing.Size(24, 26);
+            this.btnUndo.Size = new System.Drawing.Size(32, 32);
             this.btnUndo.Text = "Undo";
             this.btnUndo.ToolTipText = "Undo (Ctrl+Z)";
             this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
             // 
             // btnRedo
             // 
+            this.btnRedo.AutoSize = false;
             this.btnRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRedo.Image = global::Zelda.Properties.Resources.redo_2a2b2c_24;
+            this.btnRedo.Image = global::Zelda.Properties.Resources.redo_2a2b2c_32;
             this.btnRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRedo.Name = "btnRedo";
-            this.btnRedo.Size = new System.Drawing.Size(24, 26);
+            this.btnRedo.Size = new System.Drawing.Size(32, 32);
             this.btnRedo.Text = "Redo";
             this.btnRedo.ToolTipText = "Redo (Ctrl+Y)";
             this.btnRedo.Click += new System.EventHandler(this.btnRedo_Click);
@@ -485,20 +502,20 @@
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 29);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 34);
             // 
             // btnInsertField
             // 
             this.btnInsertField.AutoSize = false;
             this.btnInsertField.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnInsertField.Font = new System.Drawing.Font("Lucida Sans", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInsertField.Font = new System.Drawing.Font("Lucida Sans", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnInsertField.ForeColor = System.Drawing.Color.Green;
-            this.btnInsertField.Image = ((System.Drawing.Image)(resources.GetObject("btnInsertField.Image")));
             this.btnInsertField.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnInsertField.Margin = new System.Windows.Forms.Padding(-2, 0, 0, 0);
             this.btnInsertField.Name = "btnInsertField";
-            this.btnInsertField.Size = new System.Drawing.Size(28, 26);
+            this.btnInsertField.Size = new System.Drawing.Size(36, 30);
             this.btnInsertField.Text = "[x]";
-            this.btnInsertField.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnInsertField.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.btnInsertField.ToolTipText = "Insert Field (F3)";
             this.btnInsertField.Click += new System.EventHandler(this.btnInsertField_Click);
             // 
@@ -506,12 +523,12 @@
             // 
             this.btnInsertFunction.AutoSize = false;
             this.btnInsertFunction.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnInsertFunction.Font = new System.Drawing.Font("Lucida Sans", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInsertFunction.Font = new System.Drawing.Font("Segoe Condensed", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnInsertFunction.ForeColor = System.Drawing.Color.Blue;
-            this.btnInsertFunction.Image = ((System.Drawing.Image)(resources.GetObject("btnInsertFunction.Image")));
             this.btnInsertFunction.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnInsertFunction.Margin = new System.Windows.Forms.Padding(-2, 0, 0, 0);
             this.btnInsertFunction.Name = "btnInsertFunction";
-            this.btnInsertFunction.Size = new System.Drawing.Size(32, 26);
+            this.btnInsertFunction.Size = new System.Drawing.Size(38, 32);
             this.btnInsertFunction.Text = "f(x)";
             this.btnInsertFunction.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnInsertFunction.ToolTipText = "Insert Function (F4)";
@@ -524,8 +541,9 @@
             this.btnFunctionHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnFunctionHelp.Image = global::Zelda.Properties.Resources.book_open;
             this.btnFunctionHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFunctionHelp.Margin = new System.Windows.Forms.Padding(0);
             this.btnFunctionHelp.Name = "btnFunctionHelp";
-            this.btnFunctionHelp.Size = new System.Drawing.Size(26, 26);
+            this.btnFunctionHelp.Size = new System.Drawing.Size(32, 32);
             this.btnFunctionHelp.Text = "Function syntax helper";
             this.btnFunctionHelp.ToolTipText = "Toggle the Function syntax helper panel";
             this.btnFunctionHelp.Click += new System.EventHandler(this.btnFunctionHelp_Click);
@@ -533,64 +551,69 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 29);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 34);
             // 
             // btnBold
             // 
+            this.btnBold.AutoSize = false;
             this.btnBold.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnBold.Font = new System.Drawing.Font("Lucida Sans Typewriter", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBold.Image = global::Zelda.Properties.Resources.text_bold_2a2b2c;
+            this.btnBold.Font = new System.Drawing.Font("Lucida Sans Typewriter", 18.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBold.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBold.Margin = new System.Windows.Forms.Padding(0);
             this.btnBold.Name = "btnBold";
-            this.btnBold.Size = new System.Drawing.Size(25, 26);
+            this.btnBold.Size = new System.Drawing.Size(28, 32);
             this.btnBold.Text = "B";
             this.btnBold.ToolTipText = "Bold tag (Ctrl+B)";
             this.btnBold.Click += new System.EventHandler(this.btnBold_Click);
             // 
-            // btnItalic
-            // 
-            this.btnItalic.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnItalic.Font = new System.Drawing.Font("Lucida Sans Typewriter", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnItalic.Image = global::Zelda.Properties.Resources.text_italic_2a2b2c;
-            this.btnItalic.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnItalic.Name = "btnItalic";
-            this.btnItalic.Size = new System.Drawing.Size(25, 26);
-            this.btnItalic.Text = "I";
-            this.btnItalic.ToolTipText = "Italic tag (Ctrl+I)";
-            this.btnItalic.Click += new System.EventHandler(this.btnItalic_Click);
-            // 
             // btnUnderline
             // 
+            this.btnUnderline.AutoSize = false;
             this.btnUnderline.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnUnderline.Font = new System.Drawing.Font("Lucida Sans Typewriter", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUnderline.Image = global::Zelda.Properties.Resources.text_underline_2a2b2c;
+            this.btnUnderline.Font = new System.Drawing.Font("Lucida Sans Typewriter", 18.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUnderline.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUnderline.Margin = new System.Windows.Forms.Padding(0);
             this.btnUnderline.Name = "btnUnderline";
-            this.btnUnderline.Size = new System.Drawing.Size(25, 26);
+            this.btnUnderline.Size = new System.Drawing.Size(28, 32);
             this.btnUnderline.Text = "U";
             this.btnUnderline.ToolTipText = "Underline tag (Ctr+U)";
             this.btnUnderline.Click += new System.EventHandler(this.btnUnderline_Click);
             // 
+            // btnItalic
+            // 
+            this.btnItalic.AutoSize = false;
+            this.btnItalic.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnItalic.Font = new System.Drawing.Font("Lucida Sans Typewriter", 18.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnItalic.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnItalic.Margin = new System.Windows.Forms.Padding(0);
+            this.btnItalic.Name = "btnItalic";
+            this.btnItalic.Size = new System.Drawing.Size(28, 32);
+            this.btnItalic.Text = "I";
+            this.btnItalic.ToolTipText = "Italic tag (Ctrl+I)";
+            this.btnItalic.Click += new System.EventHandler(this.btnItalic_Click);
+            // 
             // btnFont
             // 
-            this.btnFont.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnFont.Font = new System.Drawing.Font("Lucida Sans Typewriter", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFont.AutoSize = false;
+            this.btnFont.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnFont.Font = new System.Drawing.Font("Segoe Condensed", 18.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFont.ForeColor = System.Drawing.Color.Maroon;
-            this.btnFont.Image = global::Zelda.Properties.Resources.font16;
             this.btnFont.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFont.Margin = new System.Windows.Forms.Padding(0);
             this.btnFont.Name = "btnFont";
-            this.btnFont.Size = new System.Drawing.Size(24, 26);
+            this.btnFont.Size = new System.Drawing.Size(32, 32);
             this.btnFont.Text = "Aa";
             this.btnFont.ToolTipText = "Font tag";
             this.btnFont.Click += new System.EventHandler(this.btnFont_Click);
             // 
             // btnImage
             // 
+            this.btnImage.AutoSize = false;
             this.btnImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnImage.Image = global::Zelda.Properties.Resources.portrait;
+            this.btnImage.Image = global::Zelda.Properties.Resources.picture;
             this.btnImage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImage.Name = "btnImage";
-            this.btnImage.Size = new System.Drawing.Size(24, 26);
+            this.btnImage.Size = new System.Drawing.Size(32, 32);
             this.btnImage.Text = "Img";
             this.btnImage.ToolTipText = "Image tag";
             this.btnImage.Click += new System.EventHandler(this.btnImage_Click);
@@ -598,68 +621,85 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 29);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 34);
+            // 
+            // btnRename
+            // 
+            this.btnRename.AutoSize = false;
+            this.btnRename.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRename.Image = global::Zelda.Properties.Resources.rename_32_clear;
+            this.btnRename.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRename.Name = "btnRename";
+            this.btnRename.Size = new System.Drawing.Size(32, 32);
+            this.btnRename.Text = "&Rename tab";
+            this.btnRename.ToolTipText = "Rename tab (F2)";
+            this.btnRename.Click += new System.EventHandler(this.btnRename_Click);
             // 
             // chkWrap
             // 
+            this.chkWrap.AutoSize = false;
             this.chkWrap.CheckOnClick = true;
             this.chkWrap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.chkWrap.Image = global::Zelda.Properties.Resources.wrap16;
+            this.chkWrap.Image = global::Zelda.Properties.Resources.text_wrap_32;
             this.chkWrap.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.chkWrap.Name = "chkWrap";
-            this.chkWrap.Size = new System.Drawing.Size(24, 26);
+            this.chkWrap.Size = new System.Drawing.Size(32, 32);
             this.chkWrap.Text = "Line wrap";
             this.chkWrap.ToolTipText = "Toggle line wrap";
             this.chkWrap.CheckedChanged += new System.EventHandler(this.btnWrap_CheckedChanged);
             // 
             // chkWhitespace
             // 
+            this.chkWhitespace.AutoSize = false;
             this.chkWhitespace.CheckOnClick = true;
             this.chkWhitespace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.chkWhitespace.Font = new System.Drawing.Font("Lucida Sans Typewriter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkWhitespace.Image = global::Zelda.Properties.Resources.pilcrow_bw;
+            this.chkWhitespace.Font = new System.Drawing.Font("Lucida Sans", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkWhitespace.Image = global::Zelda.Properties.Resources.Pilcrow32;
             this.chkWhitespace.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.chkWhitespace.Margin = new System.Windows.Forms.Padding(0);
             this.chkWhitespace.Name = "chkWhitespace";
-            this.chkWhitespace.Size = new System.Drawing.Size(24, 26);
+            this.chkWhitespace.Size = new System.Drawing.Size(32, 32);
             this.chkWhitespace.Text = "¶";
             this.chkWhitespace.ToolTipText = "Show/hide whitespace";
             this.chkWhitespace.CheckedChanged += new System.EventHandler(this.btnWhitespace_CheckedChanged);
             // 
             // btnZoomUp
             // 
+            this.btnZoomUp.AutoSize = false;
             this.btnZoomUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnZoomUp.Font = new System.Drawing.Font("Lucida Sans", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnZoomUp.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomUp.Image")));
+            this.btnZoomUp.Image = global::Zelda.Properties.Resources.zoom_in_2a2b2c_32;
             this.btnZoomUp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnZoomUp.Name = "btnZoomUp";
-            this.btnZoomUp.Size = new System.Drawing.Size(24, 26);
+            this.btnZoomUp.Size = new System.Drawing.Size(32, 32);
             this.btnZoomUp.Text = "Increase zoom";
             this.btnZoomUp.Click += new System.EventHandler(this.btnZoomUp_Click);
             // 
             // btnZoomDown
             // 
+            this.btnZoomDown.AutoSize = false;
             this.btnZoomDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnZoomDown.Font = new System.Drawing.Font("Lucida Sans", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnZoomDown.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomDown.Image")));
+            this.btnZoomDown.Image = global::Zelda.Properties.Resources.zoom_out_2a2b2c_32;
             this.btnZoomDown.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnZoomDown.Name = "btnZoomDown";
-            this.btnZoomDown.Size = new System.Drawing.Size(24, 26);
+            this.btnZoomDown.Size = new System.Drawing.Size(32, 32);
             this.btnZoomDown.Text = "Decrease zoom";
             this.btnZoomDown.Click += new System.EventHandler(this.btnZoomDown_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 29);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 34);
             // 
             // btnColumns
             // 
             this.btnColumns.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.btnColumns.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnColumns.Image = global::Zelda.Properties.Resources.table1;
+            this.btnColumns.Image = global::Zelda.Properties.Resources.table;
             this.btnColumns.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnColumns.Name = "btnColumns";
-            this.btnColumns.Size = new System.Drawing.Size(24, 26);
+            this.btnColumns.Size = new System.Drawing.Size(36, 31);
             this.btnColumns.Text = "Columns";
             this.btnColumns.ToolTipText = "Select datagrid columns and fields";
             this.btnColumns.Visible = false;
@@ -667,11 +707,12 @@
             // 
             // btnAutorun
             // 
+            this.btnAutorun.AutoSize = false;
             this.btnAutorun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAutorun.Image = global::Zelda.Properties.Resources.Play16;
+            this.btnAutorun.Image = global::Zelda.Properties.Resources.Play;
             this.btnAutorun.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAutorun.Name = "btnAutorun";
-            this.btnAutorun.Size = new System.Drawing.Size(24, 26);
+            this.btnAutorun.Size = new System.Drawing.Size(32, 32);
             this.btnAutorun.Text = "Automatic execution";
             this.btnAutorun.ToolTipText = "Toggle automatic execution (F5)";
             this.btnAutorun.Click += new System.EventHandler(this.btnAutorun_Click);
@@ -681,7 +722,7 @@
             this.lblChanged.Font = new System.Drawing.Font("Segoe UI", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblChanged.ForeColor = System.Drawing.Color.Red;
             this.lblChanged.Name = "lblChanged";
-            this.lblChanged.Size = new System.Drawing.Size(62, 26);
+            this.lblChanged.Size = new System.Drawing.Size(62, 31);
             this.lblChanged.Text = "modified!";
             this.lblChanged.Visible = false;
             // 
@@ -690,6 +731,7 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus,
+            this.lblReadOnly,
             this.lblUpgrade,
             this.toolStripStatusLabel3,
             this.lblZoom,
@@ -713,6 +755,17 @@
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(79, 25);
             this.lblStatus.Text = "Disconnected";
+            // 
+            // lblReadOnly
+            // 
+            this.lblReadOnly.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReadOnly.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblReadOnly.Margin = new System.Windows.Forms.Padding(10, 3, 20, 2);
+            this.lblReadOnly.Name = "lblReadOnly";
+            this.lblReadOnly.Size = new System.Drawing.Size(65, 25);
+            this.lblReadOnly.Text = "Read-Only";
+            this.lblReadOnly.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblReadOnly.Visible = false;
             // 
             // lblUpgrade
             // 
@@ -819,8 +872,8 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.button2);
-            this.splitContainer2.Panel1.Controls.Add(this.button3);
+            this.splitContainer2.Panel1.Controls.Add(this.btnPrevFile);
+            this.splitContainer2.Panel1.Controls.Add(this.btnNextFile);
             this.splitContainer2.Panel1.Controls.Add(this.btnReconnect);
             this.splitContainer2.Panel1.Controls.Add(this.label2);
             this.splitContainer2.Panel1.Controls.Add(this.label1);
@@ -836,39 +889,39 @@
             this.splitContainer2.SplitterWidth = 2;
             this.splitContainer2.TabIndex = 3;
             // 
-            // button2
+            // btnPrevFile
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.BackColor = System.Drawing.Color.Transparent;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.PowderBlue;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Image = global::Zelda.Properties.Resources.ArrowLeft;
-            this.button2.Location = new System.Drawing.Point(1148, 7);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(15, 15);
-            this.button2.TabIndex = 12;
-            this.toolTip1.SetToolTip(this.button2, "Previous file");
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.btnPrevFile_Click);
+            this.btnPrevFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrevFile.BackColor = System.Drawing.Color.Transparent;
+            this.btnPrevFile.FlatAppearance.BorderSize = 0;
+            this.btnPrevFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.PowderBlue;
+            this.btnPrevFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPrevFile.Image = global::Zelda.Properties.Resources.ArrowLeft;
+            this.btnPrevFile.Location = new System.Drawing.Point(1148, 9);
+            this.btnPrevFile.Margin = new System.Windows.Forms.Padding(2);
+            this.btnPrevFile.Name = "btnPrevFile";
+            this.btnPrevFile.Size = new System.Drawing.Size(15, 15);
+            this.btnPrevFile.TabIndex = 12;
+            this.toolTip1.SetToolTip(this.btnPrevFile, "Previous file (Alt+Left)");
+            this.btnPrevFile.UseVisualStyleBackColor = true;
+            this.btnPrevFile.Click += new System.EventHandler(this.btnPrevFile_Click);
             // 
-            // button3
+            // btnNextFile
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.BackColor = System.Drawing.Color.Transparent;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.PowderBlue;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Image = global::Zelda.Properties.Resources.ArrowRight;
-            this.button3.Location = new System.Drawing.Point(1165, 7);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(14, 15);
-            this.button3.TabIndex = 12;
-            this.toolTip1.SetToolTip(this.button3, "Next File");
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.btnNextFile_Click);
+            this.btnNextFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNextFile.BackColor = System.Drawing.Color.Transparent;
+            this.btnNextFile.FlatAppearance.BorderSize = 0;
+            this.btnNextFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.PowderBlue;
+            this.btnNextFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNextFile.Image = global::Zelda.Properties.Resources.ArrowRight;
+            this.btnNextFile.Location = new System.Drawing.Point(1165, 9);
+            this.btnNextFile.Margin = new System.Windows.Forms.Padding(2);
+            this.btnNextFile.Name = "btnNextFile";
+            this.btnNextFile.Size = new System.Drawing.Size(14, 15);
+            this.btnNextFile.TabIndex = 12;
+            this.toolTip1.SetToolTip(this.btnNextFile, "Next File (Alt+Right)");
+            this.btnNextFile.UseVisualStyleBackColor = true;
+            this.btnNextFile.Click += new System.EventHandler(this.btnNextFile_Click);
             // 
             // btnReconnect
             // 
@@ -946,6 +999,35 @@
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // menuFieldList
+            // 
+            this.menuFieldList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.field1ToolStripMenuItem,
+            this.field2ToolStripMenuItem,
+            this.field3ToolStripMenuItem});
+            this.menuFieldList.Name = "menuFieldList";
+            this.menuFieldList.ShowImageMargin = false;
+            this.menuFieldList.Size = new System.Drawing.Size(81, 70);
+            this.menuFieldList.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuFieldList_ItemClicked);
+            // 
+            // field1ToolStripMenuItem
+            // 
+            this.field1ToolStripMenuItem.Name = "field1ToolStripMenuItem";
+            this.field1ToolStripMenuItem.Size = new System.Drawing.Size(80, 22);
+            this.field1ToolStripMenuItem.Text = "Field1";
+            // 
+            // field2ToolStripMenuItem
+            // 
+            this.field2ToolStripMenuItem.Name = "field2ToolStripMenuItem";
+            this.field2ToolStripMenuItem.Size = new System.Drawing.Size(80, 22);
+            this.field2ToolStripMenuItem.Text = "Field2";
+            // 
+            // field3ToolStripMenuItem
+            // 
+            this.field3ToolStripMenuItem.Name = "field3ToolStripMenuItem";
+            this.field3ToolStripMenuItem.Size = new System.Drawing.Size(80, 22);
+            this.field3ToolStripMenuItem.Text = "Field3";
+            // 
             // ZeldaUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -985,9 +1067,9 @@
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.menuFieldList.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1020,14 +1102,14 @@
         private System.Windows.Forms.ToolStripButton btnImage;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnInsertFunction;
-        private System.Windows.Forms.TabControl tabsLeft;
+        private System.Windows.Forms.DraggableTabControl tabsLeft;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnReconnect;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnNew;
-        private System.Windows.Forms.ToolStripButton btnOpen;
+        private System.Windows.Forms.ToolStripButton btnLink;
         private System.Windows.Forms.ToolStripButton btnSave;
         private System.Windows.Forms.ToolStripButton btnClose;
         private System.Windows.Forms.ToolStripButton btnZoomUp;
@@ -1052,13 +1134,19 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton btnUndo;
         private System.Windows.Forms.ToolStripButton btnRedo;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnPrevFile;
+        private System.Windows.Forms.Button btnNextFile;
         private System.Windows.Forms.ToolStripLabel lblChanged;
         private System.Windows.Forms.ToolStripButton btnInsertField;
         private System.Windows.Forms.WebBrowser wikiBrowser;
         private System.Windows.Forms.ToolStripStatusLabel lblZoom;
         private System.Windows.Forms.ToolStripStatusLabel lblUpgrade;
+        private System.Windows.Forms.ToolStripButton btnRevert;
+        private System.Windows.Forms.ContextMenuStrip menuFieldList;
+        private System.Windows.Forms.ToolStripMenuItem field1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem field2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem field3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel lblReadOnly;
     }
 }
 
