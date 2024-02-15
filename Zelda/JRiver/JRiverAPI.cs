@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Zelda
 {
@@ -30,6 +29,7 @@ namespace Zelda
         public string LibraryPath => api?.LibraryPath;
         public int APIlevel => api == null ? 0 : api.APIlevel;
         public string Server { get; private set; }
+        public bool ReadOnly => api == null ? true : api.ReadOnly;
 
         public List<JRPlaylist> Playlists { get; set; }
         public List<JRField> Fields { get; set; }
@@ -108,12 +108,12 @@ namespace Zelda
                 Fields = api.GetFields();
                 foreach (var f in Fields)
                 {
-                    if (!string.IsNullOrEmpty(f.displayName) && !string.IsNullOrEmpty(f.name) && !FieldMap.ContainsKey(f.displayName.ToLower()))
+                    if (!string.IsNullOrEmpty(f.DisplayName) && !string.IsNullOrEmpty(f.Name) && !FieldMap.ContainsKey(f.DisplayName.ToLower()))
                     {
-                        FieldMap[f.displayName.ToLower()] = f.name;
-                        FieldsHighlight.Add(f.displayName);
-                        FieldsHighlight.Add(f.name);
-                        FieldDisplayNames.Add(f.displayName);
+                        FieldMap[f.DisplayName.ToLower()] = f.Name;
+                        FieldsHighlight.Add(f.DisplayName);
+                        FieldsHighlight.Add(f.Name);
+                        FieldDisplayNames.Add(f.DisplayName);
                     }
                 }
             }
@@ -122,6 +122,16 @@ namespace Zelda
             FieldsHighlight.Sort();
             FieldDisplayNames.Sort();
             return Fields;
+        }
+
+        public bool CreateField(JRField field)
+        {
+            try
+            {
+                return api.CreateField(field);
+            }
+            catch (Exception ex) { Logger.Log(ex, "getInstallFolder"); }
+            return false;
         }
 
         public IEnumerable<JRPlaylist> getPlaylists(string filter = null, bool countFiles = true)
@@ -163,8 +173,8 @@ namespace Zelda
         public string resolveExpression(JRFile jrFile, string expression, bool stripComments = true)
         {
             if (stripComments)
-                expression = Regex.Replace(expression ?? "", @"^##.*$\r?\n?", "", RegexOptions.Multiline);
-
+                expression = Util.StripComments(expression);
+            
             if (jrFile == null) return null;
             return api.ResolveExpression(jrFile.Key, expression);
         }

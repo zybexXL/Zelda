@@ -1,22 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Zelda
 {
+    [XmlRoot("Response")]
+    public class JRFieldList
+    {
+        [XmlArrayItem(),
+        XmlArrayItem(typeof(JRField), ElementName = "Field")]
+        public JRField[] Fields { get; set; }
+
+        public JRFieldList() { }
+    }
+
     public class JRField
     {
-        public string name;
-        public string displayName;
-        public string value;
+        [XmlAttribute] public string Name { get; set; }
+        [XmlAttribute] public string DisplayName { get; set; }
+        [XmlAttribute] public string Expression { get; set; }
+        [XmlAttribute] public string DataType { get; set; }
+        [XmlAttribute] public string EditType { get; set; }
+        [XmlAttribute("Type")] public string FieldType { get; set; }
+        
+        [XmlIgnore] public string Value { get; set; }
+        [XmlIgnore] public bool isCalculated => !string.IsNullOrEmpty(Expression);
 
-        public JRField(string name, string displayName = null, string value = null)
+        public JRField() { }
+
+        public JRField(string name, string displayName, string value = null)
         {
-            this.name = name;
-            this.displayName = displayName;
-            this.value = value;
+            this.Name = name;
+            this.DisplayName = displayName;
+            this.Value = value;
+        }
+
+        public static JRField[] Parse(string xml)
+        {
+            try
+            {
+                var xmlSerializer = new XmlSerializer(typeof(JRFieldList));
+                var xmlReader = new XmlTextReader(xml, XmlNodeType.Document, null);
+                var fields = (JRFieldList)xmlSerializer.Deserialize(xmlReader);
+                return fields?.Fields;
+            }
+            catch (Exception ex) { 
+                Console.WriteLine(ex); }
+            return null;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}{(isCalculated?" [Calculated]: " : ": ")} Type={FieldType}, Data={DataType}, Edit={EditType}, Expr={Expression}";
         }
     }
 }

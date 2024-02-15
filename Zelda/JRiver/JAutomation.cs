@@ -19,6 +19,7 @@ namespace Zelda
         public string Library { get; set; }
         public int APIlevel { get; set; }
         public string LibraryPath { get; set; }
+        public bool ReadOnly { get { return false; } set { } }
 
         public JAutomation()
         {
@@ -75,6 +76,8 @@ namespace Zelda
             catch { }
         }
 
+
+
         public List<JRField> GetFields()
         {
             var fields = new List<JRField>();
@@ -94,6 +97,10 @@ namespace Zelda
             }
             catch (Exception ex) { Logger.Log(ex, "JRiverAPI.getFields()"); }
             return fields;
+        }
+        public bool CreateField(JRField field)
+        {
+            return false;       // not supported, only on MCWS
         }
 
         public IEnumerable<JRPlaylist> GetPlaylists(bool countFiles = true)

@@ -9,13 +9,15 @@ namespace Zelda
         string Library { get; set; }
         string LibraryPath { get; set; }
         int APIlevel { get; set; }
-
+        bool ReadOnly { get; set; }
 
         bool Connect();
 
         void Disconnect();
 
         List<JRField> GetFields();
+
+        bool CreateField(JRField field);
 
         IEnumerable<JRPlaylist> GetPlaylists(bool countFiles = true);
 

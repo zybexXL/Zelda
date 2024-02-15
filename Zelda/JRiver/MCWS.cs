@@ -26,7 +26,7 @@ namespace Zelda
         public string LibraryPath { get; set; }
         public string Platform { get; set; }
         public string ServerName { get; set; }
-
+        public bool ReadOnly { get; set; }
 
         public MCWS(string server, string username, string password, bool verbose = false)
         {
@@ -56,7 +56,6 @@ namespace Zelda
 
         public bool Connect()
         {
-            HttpClientHandler handler = new HttpClientHandler();
             http = new HttpClient();
             http.BaseAddress = new Uri(hostURL);
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
@@ -77,8 +76,21 @@ namespace Zelda
             if (HttpGet("Library/Fields", out string xml) != 200)
                 return null;
 
+            var fields = JRField.Parse(xml);
+            if (fields != null) return fields.ToList();
+
+            // Field Name="Album Artist (auto)" Expression="AlbumArtist()" DataType="String" EditType="Standard" Type="" DisplayName="Album Artist (auto)"/>
             var matches = Regex.Matches(xml, "<Field Name=\"(.+?)\".+?DisplayName=\"(.+?)\"", RegexOptions.Singleline);
             return matches.Cast<Match>().Select(f => new JRField(f.Groups[1].Value, f.Groups[2].Value)).ToList();
+        }
+
+        public bool CreateField(JRField field)
+        {
+            string name = Uri.EscapeDataString(field.Name);
+            string type = string.IsNullOrEmpty(field.DataType) ? "string" : Uri.EscapeDataString(field.DataType);
+            string expression = field.isCalculated ? $"&Expression={Uri.EscapeDataString(field.Expression ?? "")}" : "";
+
+            return HttpGet($"Library/CreateField?Name={name}&Type={type}{expression}", out string xml) == 200;
         }
 
         public IEnumerable<JRPlaylist> GetPlaylists(bool countFiles = true)
@@ -205,7 +217,9 @@ namespace Zelda
 
         private bool Authenticate()
         {
-            return HttpGet("Authenticate", out string xml) == 200;
+            int code = HttpGet("Authenticate", out string xml);
+            ReadOnly = xml.Contains("Name=\"ReadOnly\">1");
+            return code == 200;
         }
 
         private bool GetLibraryName()
@@ -314,14 +328,7 @@ namespace Zelda
             return m.Success && int.TryParse(m.Groups[1].Value, out playlistID);
         }
 
-        public bool CreateField(string name)
-        {
-            Console.WriteLine($"  Creating field '{name}'");
-            name = Uri.EscapeUriString(name);
-            return HttpGet($"Library/CreateField?Name={name}", out string xml) == 200;
-        }
-
-        */
+         */
         #endregion
     }
 }
