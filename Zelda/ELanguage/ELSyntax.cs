@@ -159,15 +159,15 @@ namespace Zelda
                 else
                     tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[3].Value, m.Groups[3].Index));
 
-            // HTML
-            hits = reHTML.Matches(expression);
-            foreach (Match m in hits)
-                tokens.Add(new ELToken(ELTokenType.HTML, m.Value, m.Index));
-
             // Numbers
             hits = reNumbers.Matches(expression);
             foreach (Match m in hits)
                 tokens.Add(new ELToken(ELTokenType.Number, m.Groups[1].Value, m.Groups[1].Index));
+
+            // HTML
+            hits = reHTML.Matches(expression);
+            foreach (Match m in hits)
+                tokens.Add(new ELToken(ELTokenType.HTML, m.Value, m.Index));
 
             // literals (escaped)
             hits = reLiteral.Matches(expression);
