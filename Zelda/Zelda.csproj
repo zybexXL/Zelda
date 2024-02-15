@@ -43,10 +43,6 @@
     <ApplicationIcon>Zelda.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MediaCenter24">
-      <HintPath>.\MediaCenter24.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -327,6 +323,15 @@
     <Content Include="Zelda.ico" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="MediaCenter">
+      <Guid>{03457D73-676C-4BB0-A275-D12D30ADB89A}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="MSHTML">
       <Guid>{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}</Guid>
       <VersionMajor>4</VersionMajor>

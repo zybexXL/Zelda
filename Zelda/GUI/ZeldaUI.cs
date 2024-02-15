@@ -29,7 +29,6 @@ namespace Zelda
         bool loading;
         int lastResize = 0;
         bool initialized = false;
-        TabPage addTab;
         bool LinkedFieldsEnabled = false;
 
         public Dictionary<JRFile, DataRow> rowIndex = new Dictionary<JRFile, DataRow>();

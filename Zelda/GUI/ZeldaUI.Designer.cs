@@ -170,6 +170,7 @@
             // 
             // tabsLeft
             // 
+            this.tabsLeft.AllowDrop = true;
             this.tabsLeft.Controls.Add(this.tabPage5);
             this.tabsLeft.Controls.Add(this.tabPage6);
             this.tabsLeft.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -431,7 +432,8 @@
             this.btnLink.Name = "btnLink";
             this.btnLink.Size = new System.Drawing.Size(32, 32);
             this.btnLink.Text = "New Linked tab";
-            this.btnLink.ToolTipText = "New tab linked to MC field (Ctrl+L)\r\n\r\n[MC v32.0.18 or above required]";
+            this.btnLink.ToolTipText = "New tab linked to MC field (Ctrl+L)\r\n\r\n[Requires MC v32.0.18 or above with MCWS c" +
+    "onnection]";
             this.btnLink.Click += new System.EventHandler(this.btnLink_Click);
             // 
             // btnSave
