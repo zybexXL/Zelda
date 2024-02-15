@@ -34,6 +34,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblContact = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblForum = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,9 +56,9 @@
             this.label7.Location = new System.Drawing.Point(271, 212);
             this.label7.Margin = new System.Windows.Forms.Padding(3);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(128, 15);
+            this.label7.Size = new System.Drawing.Size(125, 15);
             this.label7.TabIndex = 2;
-            this.label7.Text = "© 2020  Pedro Fonseca";
+            this.label7.Text = "© 2024 Pedro Fonseca";
             // 
             // lblVersion
             // 
@@ -78,7 +79,7 @@
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.label6.Location = new System.Drawing.Point(252, 15);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(477, 128);
+            this.label6.Size = new System.Drawing.Size(476, 128);
             this.label6.TabIndex = 4;
             this.label6.Text = "Z.E.L.D.A.";
             // 
@@ -109,11 +110,27 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Zybex\'s Expression Language Debug Assistant";
             // 
+            // lblForum
+            // 
+            this.lblForum.AutoSize = true;
+            this.lblForum.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblForum.LinkColor = System.Drawing.Color.Teal;
+            this.lblForum.Location = new System.Drawing.Point(594, 212);
+            this.lblForum.Margin = new System.Windows.Forms.Padding(3);
+            this.lblForum.Name = "lblForum";
+            this.lblForum.Size = new System.Drawing.Size(42, 15);
+            this.lblForum.TabIndex = 6;
+            this.lblForum.TabStop = true;
+            this.lblForum.Tag = "";
+            this.lblForum.Text = "Forum";
+            this.lblForum.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblForum_LinkClicked);
+            // 
             // AboutUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(716, 248);
+            this.Controls.Add(this.lblForum);
             this.Controls.Add(this.lblContact);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label1);
@@ -143,5 +160,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.LinkLabel lblContact;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.LinkLabel lblForum;
     }
 }

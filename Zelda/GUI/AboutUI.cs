@@ -40,5 +40,14 @@ namespace Zelda
             if (e.KeyChar == 27)
                 Close();
         }
+
+        private void lblForum_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                Process.Start($"https://yabb.jriver.com/interact/index.php/topic,125975.0.html");
+            }
+            catch { }
+        }
     }
 }
