@@ -82,6 +82,7 @@
     <Compile Include="GUI\AboutUI.Designer.cs">
       <DependentUpon>AboutUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\DraggableTabControl.cs" />
     <Compile Include="GUI\ExpressionTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -142,6 +143,11 @@
     <Compile Include="JRiver\JRiverAPI.cs" />
     <Compile Include="JRiver\JRPlaylist.cs" />
     <Compile Include="JRiver\MCWS.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings\State.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="TextEditor.cs">
@@ -201,14 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="TextEditor.resx">
       <DependentUpon>TextEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -298,6 +299,31 @@
     <None Include="Resources\help.png" />
     <None Include="Resources\cog.png" />
     <None Include="Resources\cog32.png" />
+    <None Include="Resources\link_add.png" />
+    <None Include="Resources\undo-all_2a2b2c_32.png" />
+    <None Include="Resources\reset_2a2b2c_32.png" />
+    <None Include="Resources\script_add.png" />
+    <None Include="Resources\script_link.png" />
+    <None Include="Resources\connect.png" />
+    <None Include="Resources\picture.png" />
+    <None Include="Resources\zoom-out_2a2b2c_32.png" />
+    <None Include="Resources\zoom-in_2a2b2c_32.png" />
+    <None Include="Resources\pilcrow1.png" />
+    <None Include="Resources\text_bold.png" />
+    <None Include="Resources\text-bold_2a2b2c_32.png" />
+    <None Include="Resources\text-underline_2a2b2c_32.png" />
+    <None Include="Resources\textfield_rename.png" />
+    <None Include="Resources\reset_red_32.png" />
+    <None Include="Resources\cross1.png" />
+    <None Include="Resources\disk.png" />
+    <None Include="Resources\undo_2a2b2c_32.png" />
+    <None Include="Resources\redo_2a2b2c_32.png" />
+    <None Include="Resources\text-wrap_32.png" />
+    <None Include="Resources\Pilcrow32.png" />
+    <None Include="Resources\rename1.png" />
+    <None Include="Resources\rename32.png" />
+    <None Include="Resources\rename_32_clear.png" />
+    <None Include="Resources\books.png" />
     <Content Include="Zelda.ico" />
   </ItemGroup>
   <ItemGroup>

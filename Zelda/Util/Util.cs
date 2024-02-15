@@ -17,6 +17,28 @@ namespace Zelda
 {
     public static class Util
     {
+        public static bool isSameExpression(string expression1, string expression2)
+        {
+            expression1 = StripComments(expression1).Replace("\r\n", "\n");
+            expression2 = StripComments(expression2).Replace("\r\n", "\n");
+
+            if (expression1.Contains("1]") || expression2.Contains("1]"))
+            {
+                expression1 = Regex.Replace(expression1, @"\[(.+?),\s?1]", "[$1]");
+                expression2 = Regex.Replace(expression2, @"\[(.+?),\s?1]", "[$1]");
+            }
+
+            return expression1.Trim() == expression2.Trim();
+        }
+
+        public static string StripComments(string expression)
+        {
+            expression = expression ?? "";
+            if (expression.Contains("##"))
+                return Regex.Replace(expression, @"^##.*$\r?\n?", "", RegexOptions.Multiline);
+            return expression;
+        }
+
         public static void DoubleBuffered(this DataGridView dgv, bool setting)
         {
             Type dgvType = dgv.GetType();

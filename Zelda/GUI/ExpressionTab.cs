@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using ScintillaNET;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Linq.Expressions;
 
 namespace Zelda
 {
@@ -17,14 +18,17 @@ namespace Zelda
     {
         private static int uniqueID = 0;
 
-        internal bool isModified { get; private set; }
-        internal bool changed { get; private set; }
+        public string savedExpression { get; set; }
+        internal bool isSaved { get; set; } = true;
+        internal bool needsEvaluation { get; private set; }
+        private bool textChanged { get; set; }
         internal JRiverAPI jrAPI { get; set; }
         Settings settings;
 
         internal ELSyntax highlighter { get; set; } = new ELSyntax();
         internal event EventHandler<int> ZoomChanged;
         internal event EventHandler<bool> ExpressionChanged;
+        internal event EventHandler<bool> NeedsSavingChanged;
         internal event EventHandler<ELToken> FunctionChanged;
         internal ELToken selectedFunction = null;
 
@@ -34,10 +38,13 @@ namespace Zelda
 
         internal bool Paused { get; set; }
         internal string ID { get; private set; }
+        internal string linkedField { get; set; }
+        internal bool isLinkedTab => !string.IsNullOrEmpty(linkedField);
 
         public ExpressionTab(Settings settings)
         {
             InitializeComponent();
+
             this.settings = settings;
             ID = $"expr{++uniqueID}";
             scintilla.LexerName = null;
@@ -53,11 +60,13 @@ namespace Zelda
 
         public void SetContent(string content)
         {
+            savedExpression = content;
             scintilla.Text = content;
             if (IsHandleCreated)
                 syntaxHighlight(true);
             else
                 this.HandleCreated += (a, b) => syntaxHighlight(true);
+            isSaved = true;
         }
 
         public void Config(Settings settings)
@@ -89,7 +98,7 @@ namespace Zelda
             scintilla.Styles[(int)ELTokenType.Function].ForeColor = Color.Blue;
             scintilla.Styles[(int)ELTokenType.HTML].ForeColor = Color.DarkMagenta;
             scintilla.Styles[(int)ELTokenType.Literal].ForeColor = Color.OrangeRed;
-            scintilla.Styles[(int)ELTokenType.Escaped].ForeColor = Color.MediumPurple;
+            scintilla.Styles[(int)ELTokenType.Escaped].ForeColor = Color.DeepPink;
             //scintilla.Styles[(int)ELTokenType.Literal].BackColor = Color.PaleGoldenrod;   // bg
             //scintilla.Styles[(int)ELTokenType.Escaped].BackColor = Color.PaleGoldenrod;   // bg
             scintilla.Styles[(int)ELTokenType.Number].ForeColor = Color.Orange;
@@ -99,7 +108,29 @@ namespace Zelda
             scintilla.Styles[Style.LineNumber].BackColor = Color.WhiteSmoke;
             scintilla.Styles[Style.LineNumber].ForeColor = Color.DimGray;
 
+            // set selection color (active/inactive)
+            const int SCI_SETELEMENTCOLOUR = 2753;
+            const int SC_ELEMENT_SELECTION_INACTIVE_BACK = 17;
+            scintilla.DirectMessage(SCI_SETELEMENTCOLOUR, new IntPtr(SC_ELEMENT_SELECTION_INACTIVE_BACK), new IntPtr(Color.PaleGoldenrod.ToArgb()));
             scintilla.SetSelectionBackColor(true, Color.PaleGoldenrod);
+
+            // function highlight indicator
+            scintilla.Indicators[1].Style = IndicatorStyle.StraightBox;
+            scintilla.Indicators[1].ForeColor = Color.Blue;
+            scintilla.Indicators[1].Alpha = 30;
+            scintilla.Indicators[1].Under = true;
+
+            // function commas and parenthesis indicator
+            scintilla.Indicators[2].Style = IndicatorStyle.FullBox;
+            scintilla.Indicators[2].ForeColor = Color.Red;
+            scintilla.Indicators[2].Alpha = 60;
+
+            // word selection indicator
+            scintilla.Indicators[3].Style = IndicatorStyle.StraightBox;
+            scintilla.Indicators[3].Under = true;
+            scintilla.Indicators[3].ForeColor = Color.Cyan;
+            scintilla.Indicators[3].OutlineAlpha = 90;
+            scintilla.Indicators[3].Alpha = 90;
 
             // change CR/LF representation
             //scintilla.SetRepresentation("\n", "LF");
@@ -113,23 +144,67 @@ namespace Zelda
         {
             lock (this)
             {
-                changed = true;
-                isModified = true;
+                textChanged = true;
+                needsEvaluation = true;
                 syntaxTimer.Stop();
                 runTimer.Stop();
             }
 
-            ExpressionChanged?.Invoke(this, false); // changed, not evaluated
-            
+            ExpressionChanged?.Invoke(this, false);
+
             syntaxTimer.Start();
             runTimer.Start();
+        }
+
+        public bool SetSavedExpression(string expression)
+        {
+            savedExpression = expression;
+            isSaved = CheckSavedExpression();
+            return isSaved;
+        }
+
+        public bool CheckSavedExpression()
+        {
+            bool wasSaved = isSaved;
+            isSaved = Util.isSameExpression(scintilla.Text, savedExpression);
+            if (wasSaved != isSaved)
+                NeedsSavingChanged?.Invoke(this, isSaved);
+            return isSaved;
         }
 
         // handle caret position change - highlight current function
         private void scintilla_UpdateUI(object sender, UpdateUIEventArgs e)
         {
-            if (e.Change == UpdateChange.Content || changed) return;
-            syntaxIndicators();
+            if (!textChanged && e.Change == UpdateChange.Selection)
+            {
+                HighlightWord(scintilla.SelectedText, scintilla.SelectionStart);
+                syntaxIndicators();
+            }
+        }
+
+        private void HighlightWord(string text, int position)
+        {
+            // clear all indicator occurences
+            scintilla.IndicatorCurrent = 3;
+            scintilla.IndicatorClearRange(0, scintilla.TextLength);
+
+            if (string.IsNullOrEmpty(text) || text.Length < 2)
+                return;
+
+            // Search the document
+            scintilla.TargetStart = 0;
+            scintilla.TargetEnd = scintilla.TextLength;
+            scintilla.SearchFlags = SearchFlags.None;
+            while (scintilla.SearchInTarget(text) != -1)
+            {
+                // Mark the search results with the current indicator
+                if (scintilla.TargetStart != position)
+                    scintilla.IndicatorFillRange(scintilla.TargetStart, scintilla.TargetEnd - scintilla.TargetStart);
+
+                // Search the remainder of the document
+                scintilla.TargetStart = scintilla.TargetEnd;
+                scintilla.TargetEnd = scintilla.TextLength;
+            }
         }
 
         private void scintilla_ZoomChanged(object sender, EventArgs e)
@@ -210,7 +285,7 @@ namespace Zelda
         {
             lock (this)
             {
-                changed = false;
+                textChanged = false;
                 syntaxTimer.Stop();
             }
             syntaxHighlight();
@@ -236,19 +311,13 @@ namespace Zelda
                 return;
             }
 
-            if ((changed && !forced) || !IsHandleCreated) return;
+            if ((textChanged && !forced) || !IsHandleCreated) return;
 
-            var wrap = scintilla.WrapMode;
-            scintilla.WrapMode = WrapMode.None;
-            scintilla.ClearDocumentStyle();       // causes problems with Word wrap!
-            scintilla.WrapMode = wrap; 
-            
             scintilla.StartStyling(0);
             scintilla.SetStyling(scintilla.TextLength, 0);
 
             if (settings.HighlightSyntax)
             {
-
                 ELToken last = null;
                 foreach (var token in tokens)
                 {
@@ -283,20 +352,17 @@ namespace Zelda
             scintilla.IndicatorClearRange(0, scintilla.TextLength);
             scintilla.IndicatorCurrent = 2;
             scintilla.IndicatorClearRange(0, scintilla.TextLength);
+
             if (currFunc != null && string.IsNullOrEmpty(scintilla.SelectedText))
             {
+                // function highlight - don't highlight the entire text (first function, usually)
                 scintilla.IndicatorCurrent = 1;
-                scintilla.Indicators[1].Style = IndicatorStyle.StraightBox;
-                scintilla.IndicatorClearRange(0, scintilla.TextLength);
-                // don't highlight the entire text (first function, usually)
                 if (settings.HighlightFunction)
                     if (currFunc.pos > 2 || currFunc.functionLen < scintilla.Text.Trim().Length - 3 || pos <= currFunc.pos + currFunc.len)
                         scintilla.IndicatorFillRange(currFunc.pos, currFunc.functionLen);
 
+                // commas/parenthesis highlight
                 scintilla.IndicatorCurrent = 2;
-                scintilla.Indicators[2].Style = IndicatorStyle.FullBox;
-                scintilla.Indicators[2].ForeColor = Color.Red;
-                scintilla.Indicators[2].Alpha = 60;
                 scintilla.IndicatorClearRange(0, scintilla.TextLength);
 
                 if (settings.HighlightDelimiters)
@@ -318,7 +384,7 @@ namespace Zelda
         {
             lock (this)
             {
-                changed = false;
+                textChanged = false;
                 runTimer.Stop();
             }
             Evaluate();
@@ -331,10 +397,11 @@ namespace Zelda
         }
 
         internal void Evaluate(bool forced = false)
-        {
+        {   
             if (!forced && Paused) return;
+            CheckSavedExpression();
 
-            isModified = false;
+            needsEvaluation = false;
             try
             {
                 if (currentFile == null)
@@ -358,7 +425,7 @@ namespace Zelda
                             Result = jrAPI.resolveExpression(currentFile, expression, settings.HighlightComments);
                             sw.Stop();
                             APItime = TimeSpan.FromTicks(sw.ElapsedTicks).TotalMilliseconds;
-                            if (!changed)
+                            if (!textChanged)
                                 ExpressionChanged?.Invoke(this, true);
                         });
                     }
@@ -400,7 +467,7 @@ namespace Zelda
 
         private void MCopySinglePreserve_Click(object sender, System.EventArgs e)
         {
-            string stripped = Regex.Replace(scintilla.Text ?? "", @"^##.*$\r?\n?", "", RegexOptions.Multiline);
+            string stripped = Util.StripComments(scintilla.Text);
             stripped = Regex.Replace(stripped, @"(,\s*)\n", "$1");
             stripped = Regex.Replace(stripped, @"/[\r\n\s]+", "", RegexOptions.Singleline);
             stripped = Regex.Replace(stripped, @"\r?\n", "char(10)");
@@ -413,7 +480,7 @@ namespace Zelda
 
         private void MCopySingleStrip_Click(object sender, System.EventArgs e)
         {
-            string stripped = Regex.Replace(scintilla.Text ?? "", @"^##.*$\r?\n?", "", RegexOptions.Multiline);
+            string stripped = Util.StripComments(scintilla.Text);
             stripped = Regex.Replace(stripped, @"/?\r?\n", "");
             try
             {

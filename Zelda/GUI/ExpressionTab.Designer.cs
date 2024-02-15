@@ -50,14 +50,19 @@
             // scintilla
             // 
             this.scintilla.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.scintilla.CaretLineBackColor = System.Drawing.Color.White;
+            this.scintilla.CaretLineVisible = true;
             this.scintilla.ContextMenuStrip = this.menuEditor;
             this.scintilla.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scintilla.EolMode = ScintillaNET.Eol.Lf;
+            this.scintilla.LexerName = null;
             this.scintilla.Location = new System.Drawing.Point(0, 0);
             this.scintilla.Name = "scintilla";
             this.scintilla.Size = new System.Drawing.Size(200, 100);
+            this.scintilla.TabIndents = true;
             this.scintilla.TabIndex = 0;
             this.scintilla.WhitespaceSize = 2;
+            this.scintilla.WrapMode = ScintillaNET.WrapMode.None;
             this.scintilla.WrapStartIndent = 2;
             this.scintilla.WrapVisualFlagLocation = ScintillaNET.WrapVisualFlagLocation.StartByText;
             this.scintilla.WrapVisualFlags = ScintillaNET.WrapVisualFlags.End;
