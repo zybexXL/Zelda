@@ -1225,7 +1225,18 @@ namespace Zelda
             }
             else if (e.Control)
             {
-                switch (e.KeyCode)
+                int digit = -1;
+                if (e.KeyCode >= Keys.NumPad1 &&  e.KeyCode <= Keys.NumPad9)
+                    digit = e.KeyCode - Keys.NumPad1;
+                if (e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D9)
+                    digit = e.KeyCode - Keys.D1;
+                if (digit >= 0)
+                {
+                    // switch tab
+                    if (tabsLeft.TabPages.Count > digit)
+                        tabsLeft.SelectedIndex = digit;
+                }
+                else switch (e.KeyCode)
                 {
                     case Keys.N: action = btnNew_Click; break;
                     case Keys.W: action = btnClose_Click; break;

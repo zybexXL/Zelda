@@ -38,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Zelda.ico</ApplicationIcon>
@@ -320,6 +321,18 @@
     <None Include="Resources\rename32.png" />
     <None Include="Resources\rename_32_clear.png" />
     <None Include="Resources\books.png" />
+    <None Include="Resources\Function32.png" />
+    <None Include="Resources\Field32.png" />
+    <None Include="Resources\Font32.png" />
+    <None Include="Resources\Font32b.png" />
+    <None Include="Resources\Bold32b.png" />
+    <None Include="Resources\Bold32.png" />
+    <None Include="Resources\Italic32.png" />
+    <None Include="Resources\Underline.png" />
+    <None Include="Resources\Bold32d.png" />
+    <None Include="Resources\Underline32.png" />
+    <None Include="Resources\Italic32b.png" />
+    <None Include="Resources\text-italic_2a2b2c_32.png" />
     <Content Include="Zelda.ico" />
   </ItemGroup>
   <ItemGroup>
