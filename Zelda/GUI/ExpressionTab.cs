@@ -41,6 +41,10 @@ namespace Zelda
         internal string linkedField { get; set; }
         internal bool isLinkedTab => !string.IsNullOrEmpty(linkedField);
 
+        bool wrap;
+        bool viewEol;
+        bool delayedWrap = false;
+
         public ExpressionTab(Settings settings)
         {
             InitializeComponent();
@@ -58,15 +62,22 @@ namespace Zelda
             Text = title;
         }
 
-        public void SetContent(string content)
+        public void SetContent(string content, int pos = -1)
         {
+            wrap = scintilla.WrapMode != WrapMode.None;
+            viewEol = scintilla.ViewEol;
+            delayedWrap = true;
+            scintilla.WrapMode = WrapMode.None;
+
             savedExpression = content;
             scintilla.Text = content;
-            if (IsHandleCreated)
-                syntaxHighlight(true);
-            else
-                this.HandleCreated += (a, b) => syntaxHighlight(true);
+
+            if (pos >=0)
+                scintilla.GotoPosition(pos);
+            scintilla.EmptyUndoBuffer();
             isSaved = true;
+
+            syntaxHighlight(true);
         }
 
         public void Config(Settings settings)
@@ -137,7 +148,6 @@ namespace Zelda
             //scintilla.SetRepresentation("\r", "CR");
 
             runTimer.Interval = settings.EvaluateDelay;
-            syntaxHighlight();
         }
 
         private void scintilla_TextChanged(object sender, EventArgs e)
@@ -170,41 +180,6 @@ namespace Zelda
             if (wasSaved != isSaved)
                 NeedsSavingChanged?.Invoke(this, isSaved);
             return isSaved;
-        }
-
-        // handle caret position change - highlight current function
-        private void scintilla_UpdateUI(object sender, UpdateUIEventArgs e)
-        {
-            if (!textChanged && e.Change == UpdateChange.Selection)
-            {
-                HighlightWord(scintilla.SelectedText, scintilla.SelectionStart);
-                syntaxIndicators();
-            }
-        }
-
-        private void HighlightWord(string text, int position)
-        {
-            // clear all indicator occurences
-            scintilla.IndicatorCurrent = 3;
-            scintilla.IndicatorClearRange(0, scintilla.TextLength);
-
-            if (string.IsNullOrEmpty(text) || text.Length < 2)
-                return;
-
-            // Search the document
-            scintilla.TargetStart = 0;
-            scintilla.TargetEnd = scintilla.TextLength;
-            scintilla.SearchFlags = SearchFlags.None;
-            while (scintilla.SearchInTarget(text) != -1)
-            {
-                // Mark the search results with the current indicator
-                if (scintilla.TargetStart != position)
-                    scintilla.IndicatorFillRange(scintilla.TargetStart, scintilla.TargetEnd - scintilla.TargetStart);
-
-                // Search the remainder of the document
-                scintilla.TargetStart = scintilla.TargetEnd;
-                scintilla.TargetEnd = scintilla.TextLength;
-            }
         }
 
         private void scintilla_ZoomChanged(object sender, EventArgs e)
@@ -303,6 +278,16 @@ namespace Zelda
             });
         }
 
+        // handle caret position change - highlight current function
+        private void scintilla_UpdateUI(object sender, UpdateUIEventArgs e)
+        {
+            if (!textChanged && e.Change == UpdateChange.Selection)
+            {
+                HighlightWord(scintilla.SelectedText, scintilla.SelectionStart);
+                syntaxIndicators();
+            }
+        }
+
         private void syntaxHighlight(List<ELToken> tokens, bool forced = false)
         {
             if (this.InvokeRequired)
@@ -336,6 +321,13 @@ namespace Zelda
             }
 
             syntaxIndicators();
+
+            if (delayedWrap)
+            {
+                delayedWrap = false;
+                scintilla.ViewEol = viewEol;
+                scintilla.WrapMode = wrap ? WrapMode.Word : WrapMode.None;
+            }
         }
 
         private void syntaxIndicators()
@@ -373,6 +365,31 @@ namespace Zelda
             {
                 selectedFunction = currFunc;
                 FunctionChanged?.Invoke(this, selectedFunction);
+            }
+        }
+
+        private void HighlightWord(string text, int position)
+        {
+            // clear all indicator occurences
+            scintilla.IndicatorCurrent = 3;
+            scintilla.IndicatorClearRange(0, scintilla.TextLength);
+
+            if (string.IsNullOrEmpty(text) || text.Length < 2)
+                return;
+
+            // Search the document
+            scintilla.TargetStart = 0;
+            scintilla.TargetEnd = scintilla.TextLength;
+            scintilla.SearchFlags = SearchFlags.None;
+            while (scintilla.SearchInTarget(text) != -1)
+            {
+                // Mark the search results with the current indicator
+                if (scintilla.TargetStart != position)
+                    scintilla.IndicatorFillRange(scintilla.TargetStart, scintilla.TargetEnd - scintilla.TargetStart);
+
+                // Search the remainder of the document
+                scintilla.TargetStart = scintilla.TargetEnd;
+                scintilla.TargetEnd = scintilla.TextLength;
             }
         }
 

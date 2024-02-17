@@ -392,8 +392,9 @@
             this.btnLink.Name = "btnLink";
             this.btnLink.Size = new System.Drawing.Size(36, 37);
             this.btnLink.Text = "New Linked tab";
-            this.btnLink.ToolTipText = "New tab linked to MC field (Ctrl+L)\r\n\r\n[Requires MC v32.0.18 or above with MCWS c" +
-    "onnection]";
+            this.btnLink.ToolTipText = "Open new tab linked to an MC field (Ctrl+L)\r\nUse CTRL+Click on a field name to al" +
+    "low duplicate field tabs.\r\n\r\n[Requires MC v32.0.18 or above with MCWS connection" +
+    "]";
             this.btnLink.Click += new System.EventHandler(this.btnLink_Click);
             // 
             // btnSave

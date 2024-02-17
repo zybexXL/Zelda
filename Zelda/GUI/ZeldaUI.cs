@@ -78,22 +78,6 @@ namespace Zelda
 
         void LoadState()
         {
-            tabsLeft.SuspendLayout();
-            if (settings.SaveExpressions && state.Tabs.Count > 0)
-            {
-                int current = state.CurrentTab;
-                foreach (var exp in state.Tabs)
-                {
-                    // recover linked field if State was re-saved by an older version
-                    if (string.IsNullOrEmpty(exp.linkedField) && Regex.IsMatch(exp.name, @"🔗 \[.+\]$"))
-                        exp.linkedField = exp.name.Substring(exp.name.IndexOf('[')+1).TrimEnd(']');
-                    AddExpressionTab(exp.name, exp.content, exp.position, exp.linkedField);
-                }
-                tabsLeft.SelectedIndex = current;
-            }
-            else
-                tabsLeft.SelectedTab = AddExpressionTab();
-
             if (settings.SaveState)
             {
                 chkWhitespace.Checked = state.Whitespace;
@@ -114,6 +98,23 @@ namespace Zelda
                 if (state.SplitPosition > 0)
                     splitContainer1.SplitterDistance = state.SplitPosition;
             }
+
+            tabsLeft.SuspendLayout();
+            if (settings.SaveExpressions && state.Tabs.Count > 0)
+            {
+                int current = state.CurrentTab;
+                foreach (var exp in state.Tabs)
+                {
+                    // recover linked field if State was re-saved by an older version
+                    if (string.IsNullOrEmpty(exp.linkedField) && Regex.IsMatch(exp.name, @"🔗 \[.+\]$"))
+                        exp.linkedField = exp.name.Substring(exp.name.IndexOf('[') + 1).TrimEnd(']');
+                    AddExpressionTab(exp.name, exp.content, exp.position, exp.linkedField);
+                }
+                tabsLeft.SelectedIndex = current;
+            }
+            else
+                tabsLeft.SelectedTab = AddExpressionTab();
+
             resizeGridColumns();
             tabsLeft.ResumeLayout();
         }
@@ -444,11 +445,6 @@ namespace Zelda
             tab.FunctionChanged += expression_FunctionChanged;
             tab.NeedsSavingChanged += (sender, saved) => { if (((ExpressionTab)sender).isLinkedTab) tabsLeft.Invalidate(); };
             tab.linkedField = linkedField;
-
-            if (content != null)
-                tab.SetContent(content);
-
-            if (pos >= 0) tab.scintilla.GotoPosition(pos);
             tabsLeft.TabPages.Add(tab);
 
             DataTable dt = gridFiles.DataSource as DataTable;
@@ -460,13 +456,15 @@ namespace Zelda
                 reorderDatagridColumns();
             }
 
-            tabsLeft.SelectedTab = tab;
+            tab.scintilla.ViewEol = chkWhitespace.Checked;
             tab.scintilla.WrapMode = chkWrap.Checked ? WrapMode.Word : WrapMode.None;
             tab.scintilla.ViewWhitespace = chkWhitespace.Checked ? WhitespaceMode.VisibleAlways : WhitespaceMode.Invisible;
-            tab.scintilla.ViewEol = chkWhitespace.Checked;
-            tab.scintilla.EmptyUndoBuffer();
+            if (content != null)
+                tab.SetContent(content, pos);
+
             tab.scintilla.Focus();
             tab.Evaluate(currentFile);
+
             return tab;
         }
 
@@ -737,7 +735,7 @@ namespace Zelda
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            AddExpressionTab();
+            tabsLeft.SelectedTab = AddExpressionTab();
         }
 
         private void btnAutorun_Click(object sender, EventArgs e)
@@ -1152,7 +1150,7 @@ namespace Zelda
                 dt.Columns.Remove(tab.ID);
 
             if (tabsLeft.TabCount == 0)
-                AddExpressionTab();
+                tabsLeft.SelectedTab = AddExpressionTab();
 
             reorderDatagridColumns();
         }
@@ -1312,9 +1310,18 @@ namespace Zelda
 
         private void menuFieldList_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
+            // switch to tab if it's already open, unless CTRL pressed
+            if (!ModifierKeys.HasFlag(Keys.Control))
+            {
+                var existing = tabsLeft.TabPages.Cast<ExpressionTab>().FirstOrDefault(t => t.linkedField == e.ClickedItem.Text);
+                if (existing != null)
+                    tabsLeft.SelectedTab = existing;
+                return;
+            }
+
             string name = $"🔗 [{e.ClickedItem.Text}]";
             string exp = e.ClickedItem.Tag as string;
-            AddExpressionTab(name, exp, linkedField: e.ClickedItem.Text);
+            tabsLeft.SelectedTab = AddExpressionTab(name, exp, linkedField: e.ClickedItem.Text);
         }
 
         private void btnRevert_Click(object sender, EventArgs e)
