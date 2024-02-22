@@ -1221,7 +1221,7 @@ namespace Zelda
                 currentTab?.scintilla?.Redo();
                 e.Handled = e.SuppressKeyPress = true;
             }
-            else if (e.Control)
+            else if (e.Control && !e.Alt)
             {
                 int digit = -1;
                 if (e.KeyCode >= Keys.NumPad1 &&  e.KeyCode <= Keys.NumPad9)
