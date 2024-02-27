@@ -154,6 +154,7 @@ namespace Zelda
             new ELFunction(ELCategory.Number, ELFunctions.TrackNumber, "Returns a file's track # value", "https://wiki.jriver.com/index.php/Number_Functions#TrackNumber"),
             
             new ELFunction(ELCategory.Strings, ELFunctions.Clean, "Clean a string to be used for various operations", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Clean"),
+            new ELFunction(ELCategory.Strings, ELFunctions.Dehexify, "De-hexifies a web-formatted string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Dehexify"),
             new ELFunction(ELCategory.Strings, ELFunctions.Extract, "Extract a substring from a string with custom delimiters", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Extract"),
             new ELFunction(ELCategory.Strings, ELFunctions.Find, "Finds a string or character in another string, returning its zero-based position in that string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Find"),
             new ELFunction(ELCategory.Strings, ELFunctions.FixCase, "Changes the case of a given string", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#FixCase"),
@@ -188,6 +189,7 @@ namespace Zelda
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsInPlayingNow, "Tests to see if a file is in the Playing Now playlist", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsInPlayingNow"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsLowerCase, "Tests a value to check if it's all in lower case", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsLowerCase"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsMissing, "Tests to see if a file exists on the system", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsMissing"),
+            new ELFunction(ELCategory.TestCompare, ELFunctions.IsOverridden, "Tests a calculated field to check for an expression override value", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsOverridden"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsPlaying, "Tests to see if a file is in currently being played", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsPlaying"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsRange, "Tests a value for inclusion within a given range", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsRange"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsRemovable, "Tests to see if a file is stored on removable media", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsRemovable"),
