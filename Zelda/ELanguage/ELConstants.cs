@@ -32,12 +32,12 @@ namespace Zelda
         // Number functions
         Avg, Decimal, Counter, Max, Min, Number, Rand, Range, Roman, StackCount, Sum, TrackNumber,
         // string manipulation
-        Clean, Extract, Find, FixCase, FixSpacing, Hexify, Left, Length, Letter, Mid,
+        Clean, Dehexify, Extract, Find, FixCase, FixSpacing, Hexify, Left, Length, Letter, Mid,
         MoveArticles, NoArticles, PadLeft, PadRight, Regex, RemoveCharacters, RemoveLeft, RemoveRight, Replace,
         Right, Swap, Trim, TrimLines, UnMoveArticles, Unswap, URLify,
         // test and comparison
         Compare, IsDigit, IsDriveMissing, IsEmpty, IsEqual, IsInPlayingNow, IsLowerCase, IsMissing,
-        IsPlaying, IsRange, IsRemovable, IsUpperCase, SearchTags,
+        IsOverridden, IsPlaying, IsRange, IsRemovable, IsUpperCase, SearchTags,
         // math + subfunctions
         Math,
         abs, sign, log, log10, pow, randn, equal, below, above,
