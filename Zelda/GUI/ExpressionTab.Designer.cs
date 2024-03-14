@@ -44,6 +44,9 @@
             this.mCopySinglePreserve = new System.Windows.Forms.ToolStripMenuItem();
             this.syntaxTimer = new System.Windows.Forms.Timer(this.components);
             this.runTimer = new System.Windows.Forms.Timer(this.components);
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.mCopyYabb = new System.Windows.Forms.ToolStripMenuItem();
+            this.mCopyYabbClean = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEditor.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,7 +86,10 @@
             this.mSelectAll,
             this.mCopyAll,
             this.mCopySingleStrip,
-            this.mCopySinglePreserve});
+            this.mCopySinglePreserve,
+            this.toolStripSeparator8,
+            this.mCopyYabbClean,
+            this.mCopyYabb});
             this.menuEditor.Name = "menuEditor";
             this.menuEditor.Size = new System.Drawing.Size(255, 214);
             this.menuEditor.Opening += new System.ComponentModel.CancelEventHandler(this.menuEditor_Opening);
@@ -177,6 +183,23 @@
             this.runTimer.Interval = 500;
             this.runTimer.Tick += new System.EventHandler(this.runTimer_Tick);
             // 
+            // mCopyYabb
+            // 
+            this.mCopyYabb.Name = "mCopyYabb";
+            this.mCopyYabb.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.Y)));
+            this.mCopyYabb.ShowShortcutKeys = false;
+            this.mCopyYabb.Size = new System.Drawing.Size(254, 22);
+            this.mCopyYabb.Text = "Copy for Yabb forum (keep comments)";
+            this.mCopyYabb.Click += MCopyYabb_Click;
+            // 
+            // mCopyYabbClean
+            // 
+            this.mCopyYabbClean.Name = "mCopyYabbClean";
+            this.mCopyYabbClean.Size = new System.Drawing.Size(254, 22);
+            this.mCopyYabbClean.Text = "Copy for Yabb forum";
+            this.mCopyYabbClean.Click += MCopyYabbClean_Click;
+            // 
             // ExpressionTab
             // 
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -206,5 +229,8 @@
         private System.Windows.Forms.ToolStripMenuItem mCopyAll;
         private System.Windows.Forms.ToolStripMenuItem mCopySingleStrip;
         private System.Windows.Forms.ToolStripMenuItem mCopySinglePreserve;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripMenuItem mCopyYabb;
+        private System.Windows.Forms.ToolStripMenuItem mCopyYabbClean;
     }
 }

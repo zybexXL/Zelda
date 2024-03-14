@@ -103,18 +103,11 @@ namespace Zelda
             scintilla.Styles[Style.Default].BackColor = settings.EditorFont.BackColor;
             scintilla.StyleClearAll();
 
-            scintilla.Styles[(int)ELTokenType.Field].ForeColor = Color.Green;
-            scintilla.Styles[(int)ELTokenType.Variable].ForeColor = Color.MediumSeaGreen;
-            scintilla.Styles[(int)ELTokenType.Math].ForeColor = Color.DarkCyan;
-            scintilla.Styles[(int)ELTokenType.Function].ForeColor = Color.Blue;
-            scintilla.Styles[(int)ELTokenType.HTML].ForeColor = Color.DarkMagenta;
-            scintilla.Styles[(int)ELTokenType.Literal].ForeColor = Color.OrangeRed;
-            scintilla.Styles[(int)ELTokenType.Escaped].ForeColor = Color.DeepPink;
+            foreach (ELTokenType token in Enum.GetValues(typeof(ELTokenType)))
+                scintilla.Styles[(int)token].ForeColor = ELToken.GetColor(token);
+
             //scintilla.Styles[(int)ELTokenType.Literal].BackColor = Color.PaleGoldenrod;   // bg
             //scintilla.Styles[(int)ELTokenType.Escaped].BackColor = Color.PaleGoldenrod;   // bg
-            scintilla.Styles[(int)ELTokenType.Number].ForeColor = Color.Orange;
-            scintilla.Styles[(int)ELTokenType.Symbol].ForeColor = Color.Red;
-            scintilla.Styles[(int)ELTokenType.Comment].ForeColor = Color.Gray;
 
             scintilla.Styles[Style.LineNumber].BackColor = Color.WhiteSmoke;
             scintilla.Styles[Style.LineNumber].ForeColor = Color.DimGray;
@@ -543,6 +536,79 @@ namespace Zelda
         private void MPaste_Click(object sender, System.EventArgs e)
         {
             scintilla.Paste();
+        }
+
+        private void MCopyYabbClean_Click(object sender, System.EventArgs e)
+        {
+            getYabbBBCode(false);
+        }
+
+        private void MCopyYabb_Click(object sender, System.EventArgs e)
+        {
+
+            getYabbBBCode(true);
+        }
+
+        private void getYabbBBCode(bool keepComments)
+        {
+            if (string.IsNullOrWhiteSpace(scintilla.Text) || highlighter.Tokens == null)
+                return;
+
+            string text = keepComments ? scintilla.Text.Trim() : Util.StripComments(scintilla.Text).Trim();
+            var tokens = highlighter.getTokens(text);
+            var sorted = new List<ELToken>();
+            
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                bool add = true;
+                for (int j = i + 1; j < tokens.Count; j++)
+                    if (tokens[j].pos <= tokens[i].pos && tokens[j].pos + tokens[j].len >= tokens[i].pos + tokens[i].len)
+                    {
+                        add = false;
+                        break;
+                    }
+                if (add) {
+                    sorted.Add(new ELToken(tokens[i].type, $"[color={ELToken.GetColor(tokens[i].type).ToKnownColor()}]", tokens[i].pos) { functionLen = tokens[i].pos });
+                    sorted.Add(new ELToken(tokens[i].type, $"[/color]", tokens[i].pos + tokens[i].len) { functionLen = tokens[i].pos });
+                }
+            }
+
+            sorted = sorted.OrderBy(t=>t.pos).ThenBy(t=>t.functionLen).ToList();
+            
+            string warn = Regex.IsMatch(text, "<[biu]>") ? "[red]Warning: HTML tags mangled for forum display, please re-type <\u200Bb>/<\u200Bu>/<\u200Bi> tags[/red]" : "";
+            if (sorted.Any(t => t.type == ELTokenType.Comment))
+                warn += "\r\n[red]Warning: ## comment lines included, remove before use";
+            warn = warn.Trim();
+
+            bool usePre = !string.IsNullOrEmpty(warn) || Regex.IsMatch(text, @"[ \t][\r\n]");
+            string pre = usePre ? "[pre]" : "";
+            
+            StringBuilder sb = new StringBuilder();
+            //sb.Append("[size=7pt][b]ZELDA code snippet[/b]:[/size][hr][font=courier][size=9pt][color=Black][pre]");
+            sb.Append($"[quote author=ZELDA]{warn}[font=courier][size=10pt][color=Black]{pre}");
+
+            int currToken = 0;
+            for (int i=0; i<text.Length; i++)
+            {
+                while (currToken < sorted.Count && sorted[currToken].pos <= i)
+                    sb.Append(sorted[currToken++].text);
+                sb.Append(text[i]);
+            }
+            while (currToken < sorted.Count)
+                sb.Append(sorted[currToken++].text);
+
+            //sb.AppendLine();
+            pre = usePre ? "[/pre]" : "";
+            sb.AppendLine($"{pre}[/color][/size][/font][/quote]"); //[hr]
+            sb.AppendLine(); 
+            text = sb.ToString();
+            text = Regex.Replace(text, "<([biu])>", "<\u200B$1>", RegexOptions.IgnoreCase);
+
+            try
+            {
+                Clipboard.SetText(text, TextDataFormat.UnicodeText);
+            }
+            catch { }
         }
     }
 }
