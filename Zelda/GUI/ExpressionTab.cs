@@ -582,7 +582,7 @@ namespace Zelda
 
             StringBuilder sb = new StringBuilder();
             sb.Append(unquoted ? "[size=8pt][b]ZELDA code snippet[/b]:[/size][hr]" : $"[quote author=ZELDA]");
-            sb.Append($"{warn}[font=courier][size=10pt][color=Black]");
+            sb.Append($"{warn}[font=consolas,courier][size=10pt][color=Black]");
             if (usePre) sb.Append("[pre]");
 
             int currToken = 0;
