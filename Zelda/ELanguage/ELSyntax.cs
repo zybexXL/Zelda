@@ -101,11 +101,11 @@ namespace Zelda
             // HTML tags: <tagName args> and <//tagName>
             reHTML = new Regex($@"\<(?://)?(?:font|img|b|u|i)\b.*?\>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
-            // literal blocks: /# literal text #/
-            reLiteral = new Regex(@"/#.*?#/", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+            // literal blocks: /#literaltext#/ or /*literaltext/*
+            reLiteral = new Regex(@"/#.*?#/|/\*.*?/\*", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
             // escaped: chars escaped with fwd-slash, or anything between /* and /*
-            reEscaped = new Regex(@"(/\*.*?/\*)|(?<=[^#])((?:/\r\n|/\D)+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+            reEscaped = new Regex(@"(?<=[^#])((?:/\r?\n|/\D)+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
             // comment: special fields named '/' -> "[//, this is a comment]"
             reComment = new Regex(@"\[//+,.*?\]|^##.*$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
@@ -177,10 +177,7 @@ namespace Zelda
             // escaped blocks/chars: /* text /*, // /x
             hits = reEscaped.Matches(expression);
             foreach (Match m in hits)
-                if (!string.IsNullOrEmpty(m.Groups[1].Value))
-                    tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[1].Value, m.Groups[1].Index));
-                else
-                    tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[2].Value, m.Groups[2].Index));
+                tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[1].Value, m.Groups[1].Index));
 
             // HTML
             hits = reHTML.Matches(expression);
