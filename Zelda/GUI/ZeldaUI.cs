@@ -1315,8 +1315,10 @@ namespace Zelda
             {
                 var existing = tabsLeft.TabPages.Cast<ExpressionTab>().FirstOrDefault(t => t.linkedField == e.ClickedItem.Text);
                 if (existing != null)
+                {
                     tabsLeft.SelectedTab = existing;
-                return;
+                    return;
+                }
             }
 
             string name = $"🔗 [{e.ClickedItem.Text}]";
