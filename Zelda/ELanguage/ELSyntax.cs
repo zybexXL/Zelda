@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,6 +11,23 @@ namespace Zelda
 
     public class ELToken
     {
+        static Color[] Colors = new Color[] {
+            Color.Black,            // default
+            Color.Blue,             // function
+            Color.DarkCyan,         // math functions
+            Color.Green,            // field
+            Color.MediumSeaGreen,   // variable         // LimeGreen also good
+            Color.Brown,            // number
+            Color.DeepPink,         // html
+            Color.Red,              // symbols
+            Color.Navy,             // escaped
+            Color.DarkOrange,       // literals
+            Color.Gray,             // comments
+        };
+
+        public static Color GetColor(ELTokenType token) => (int)token >= Colors.Length ? Color.Black : Colors[(int)token];
+
+
         public ELTokenType type;
         public ELFunctions function = ELFunctions.Unknown;
         public int pos;
@@ -83,11 +101,11 @@ namespace Zelda
             // HTML tags: <tagName args> and <//tagName>
             reHTML = new Regex($@"\<(?://)?(?:font|img|b|u|i)\b.*?\>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
-            // literal blocks: /* literal text /*
-            reLiteral = new Regex(@"/\*.*?/\*", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+            // literal blocks: /# literal text #/
+            reLiteral = new Regex(@"/#.*?#/", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
-            // escaped: chars escaped with fwd-slash, or anything between /# and #/
-            reEscaped = new Regex(@"(/#.*?#/)|(?:^|[^#/])((?:/[^#])+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+            // escaped: chars escaped with fwd-slash, or anything between /* and /*
+            reEscaped = new Regex(@"(/\*.*?/\*)|(?<=[^#])((?:/\r\n|/.)+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
             // comment: special fields named '/' -> "[//, this is a comment]"
             reComment = new Regex(@"\[//+,.*?\]|^##.*$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
@@ -157,7 +175,7 @@ namespace Zelda
                 if (!string.IsNullOrEmpty(m.Groups[1].Value))
                     tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[1].Value, m.Groups[1].Index));
                 else
-                    tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[3].Value, m.Groups[3].Index));
+                    tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[2].Value, m.Groups[2].Index));
 
             // Numbers
             hits = reNumbers.Matches(expression);
