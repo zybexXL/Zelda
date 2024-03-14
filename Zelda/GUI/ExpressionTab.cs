@@ -538,16 +538,15 @@ namespace Zelda
 
         private void MCopyYabbClean_Click(object sender, System.EventArgs e)
         {
-            getYabbBBCode(false);
+            getYabbBBCode(false, ModifierKeys.HasFlag(Keys.Control));
         }
 
         private void MCopyYabb_Click(object sender, System.EventArgs e)
         {
-
-            getYabbBBCode(true);
+            getYabbBBCode(true, ModifierKeys.HasFlag(Keys.Control));
         }
 
-        private void getYabbBBCode(bool keepComments)
+        private void getYabbBBCode(bool keepComments, bool unquoted = false)
         {
             if (string.IsNullOrWhiteSpace(scintilla.Text) || highlighter.Tokens == null)
                 return;
@@ -573,17 +572,18 @@ namespace Zelda
 
             sorted = sorted.OrderBy(t=>t.pos).ThenBy(t=>t.functionLen).ToList();
             
-            string warn = Regex.IsMatch(text, "<[biu]>") ? "[red]Warning: HTML tags mangled for forum display, please re-type <\u200Bb>/<\u200Bu>/<\u200Bi> tags[/red]" : "";
+            string warn = Regex.IsMatch(text, "<[biu]>") ? "Warning: HTML tags mangled for forum display, please re-type <\u200Bb>/<\u200Bu>/<\u200Bi> tags" : "";
             if (sorted.Any(t => t.type == ELTokenType.Comment))
-                warn += "\r\n[red]Warning: ## comment lines included, remove before use";
+                warn += "\r\nWarning: ## comment lines included, remove before use";
             warn = warn.Trim();
-
             bool usePre = !string.IsNullOrEmpty(warn) || Regex.IsMatch(text, @"[ \t][\r\n]");
-            string pre = usePre ? "[pre]" : "";
-            
+            if (!string.IsNullOrEmpty(warn))
+                warn = $"[size=8pt][red]{warn}[/red][/size]";
+
             StringBuilder sb = new StringBuilder();
-            //sb.Append("[size=7pt][b]ZELDA code snippet[/b]:[/size][hr][font=courier][size=9pt][color=Black][pre]");
-            sb.Append($"[quote author=ZELDA]{warn}[font=courier][size=10pt][color=Black]{pre}");
+            sb.Append(unquoted ? "[size=8pt][b]ZELDA code snippet[/b]:[/size][hr]" : $"[quote author=ZELDA]");
+            sb.Append($"{warn}[font=courier][size=10pt][color=Black]");
+            if (usePre) sb.Append("[pre]");
 
             int currToken = 0;
             for (int i=0; i<text.Length; i++)
@@ -595,10 +595,11 @@ namespace Zelda
             while (currToken < sorted.Count)
                 sb.Append(sorted[currToken++].text);
 
-            //sb.AppendLine();
-            pre = usePre ? "[/pre]" : "";
-            sb.AppendLine($"{pre}[/color][/size][/font][/quote]"); //[hr]
-            sb.AppendLine(); 
+            if (usePre) sb.Append("[/pre]");
+            sb.Append($"[/color][/size][/font]");
+            sb.AppendLine(unquoted ? "[hr]" : "[/quote]");
+            sb.AppendLine();
+
             text = sb.ToString();
             text = Regex.Replace(text, "<([biu])>", "<\u200B$1>", RegexOptions.IgnoreCase);
 
