@@ -20,7 +20,7 @@ namespace Zelda
             Color.Brown,            // number
             Color.DeepPink,         // html
             Color.Red,              // symbols
-            Color.Navy,             // escaped
+            Color.DarkBlue,         // escaped
             Color.DarkOrange,       // literals
             Color.Gray,             // comments
         };
@@ -105,7 +105,7 @@ namespace Zelda
             reLiteral = new Regex(@"/#.*?#/", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
             // escaped: chars escaped with fwd-slash, or anything between /* and /*
-            reEscaped = new Regex(@"(/\*.*?/\*)|(?<=[^#])((?:/\r\n|/.)+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+            reEscaped = new Regex(@"(/\*.*?/\*)|(?<=[^#])((?:/\r\n|/\D)+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
             // comment: special fields named '/' -> "[//, this is a comment]"
             reComment = new Regex(@"\[//+,.*?\]|^##.*$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
@@ -169,7 +169,12 @@ namespace Zelda
             foreach (Match m in hits)
                 tokens.Add(new ELToken(ELTokenType.Function, m.Value, m.Index));
 
-            // escaped
+            // Numbers
+            hits = reNumbers.Matches(expression);
+            foreach (Match m in hits)
+                tokens.Add(new ELToken(ELTokenType.Number, m.Groups[1].Value, m.Groups[1].Index));
+
+            // escaped blocks/chars: /* text /*, // /x
             hits = reEscaped.Matches(expression);
             foreach (Match m in hits)
                 if (!string.IsNullOrEmpty(m.Groups[1].Value))
@@ -177,17 +182,12 @@ namespace Zelda
                 else
                     tokens.Add(new ELToken(ELTokenType.Escaped, m.Groups[2].Value, m.Groups[2].Index));
 
-            // Numbers
-            hits = reNumbers.Matches(expression);
-            foreach (Match m in hits)
-                tokens.Add(new ELToken(ELTokenType.Number, m.Groups[1].Value, m.Groups[1].Index));
-
             // HTML
             hits = reHTML.Matches(expression);
             foreach (Match m in hits)
                 tokens.Add(new ELToken(ELTokenType.HTML, m.Value, m.Index));
 
-            // literals (escaped)
+            // literal blocks: /# text #/
             hits = reLiteral.Matches(expression);
             foreach (Match m in hits)
                 tokens.Add(new ELToken(ELTokenType.Literal, m.Value, m.Index));

@@ -481,29 +481,27 @@ namespace Zelda
             stripped = Regex.Replace(stripped, @"(,\s*)\n", "$1");
             stripped = Regex.Replace(stripped, @"/[\r\n\s]+", "", RegexOptions.Singleline);
             stripped = Regex.Replace(stripped, @"\r?\n", "char(10)");
-            try
-            {
-                Clipboard.SetText(stripped, TextDataFormat.UnicodeText);
-            }
-            catch { }
+            SetClipboard(stripped);
         }
 
         private void MCopySingleStrip_Click(object sender, System.EventArgs e)
         {
             string stripped = Util.StripComments(scintilla.Text);
             stripped = Regex.Replace(stripped, @"/?\r?\n", "");
-            try
-            {
-                Clipboard.SetText(stripped, TextDataFormat.UnicodeText);
-            }
-            catch { }
+            SetClipboard(stripped);
         }
 
         private void MCopyAll_Click(object sender, System.EventArgs e)
         {
+            SetClipboard(scintilla.Text);
+        }
+
+        private void SetClipboard(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return;
             try
             {
-                Clipboard.SetText(scintilla.Text, TextDataFormat.UnicodeText);
+                Clipboard.SetText(text, TextDataFormat.UnicodeText);
             }
             catch { }
         }
@@ -604,11 +602,7 @@ namespace Zelda
             text = sb.ToString();
             text = Regex.Replace(text, "<([biu])>", "<\u200B$1>", RegexOptions.IgnoreCase);
 
-            try
-            {
-                Clipboard.SetText(text, TextDataFormat.UnicodeText);
-            }
-            catch { }
+            SetClipboard(text);
         }
     }
 }
