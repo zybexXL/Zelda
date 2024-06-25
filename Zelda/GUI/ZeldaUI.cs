@@ -79,8 +79,9 @@ namespace Zelda
             else
             {
                 webWiki.CoreWebView2InitializationCompleted += WebWiki_CoreWebView2InitializationCompleted;
-                webWiki.EnsureCoreWebView2Async(null);
-
+                var env = CoreWebView2Environment.CreateAsync(null, Constants.WebView2Data).Result;
+                webWiki.EnsureCoreWebView2Async(env);
+                
                 GetPlayLists(true);
                 initialized = true;
                 LoadState();
@@ -95,7 +96,8 @@ namespace Zelda
                 chkWhitespace.Checked = state.Whitespace;
                 chkWrap.Checked = state.LineWrap;
                 tabsRight.SelectedIndex = state.OutputTab;
-                showFunctionHelper(state.FunctionHelper);
+                if (btnFunctionHelp.Enabled)
+                    showFunctionHelper(state.FunctionHelper);
                 txtOutput.Zoom = state.Zoom;        // triggers zoom change on expression tabs too
 
                 // restore size and position, ensure visibility

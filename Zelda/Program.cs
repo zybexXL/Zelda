@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Microsoft.Web.WebView2.Core;
 
 namespace Zelda
 {
@@ -15,6 +17,9 @@ namespace Zelda
         static void Main()
         {
             AutoUpgrade.Cleanup();
+
+            Util.ExtractResource("WebView2Loader.x64", Path.Combine(Constants.WebView2Data, "WebView2Loader.dll"));
+            CoreWebView2Environment.SetLoaderDllFolderPath(Constants.WebView2Data);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

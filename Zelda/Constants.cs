@@ -24,5 +24,6 @@ namespace Zelda
 
         public static string SettingsFile = Path.Combine(DataFolder, "zelda.json");
         public static string StateFile = Path.Combine(DataFolder, "zeldaState.json");
+        public static string WebView2Data = Path.Combine(DataFolder, "WebView2");
     }
 }

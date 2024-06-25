@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -139,7 +140,6 @@ namespace Zelda
                 return (string)key.GetValue("ProductName", "Windows");
         }
 
-        /*
         // reads embedded resource file as string
         internal static string getEmbeddedResourceString(string resourcePath, bool isGzip = false)
         {
@@ -223,7 +223,6 @@ namespace Zelda
             catch { }
             return null;
         }
-        */
     }
 }
 
