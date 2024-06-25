@@ -12,7 +12,7 @@ namespace Zelda
     // reads and writes Fields from Files (movies)
     public class JAutomation: IJRiverAPI, IDisposable
     {
-        static IMJAutomation jr;
+        IMJAutomation jr;
 
         public bool Connected { get; set; }
         public string MCVersion { get; set; }
@@ -68,7 +68,7 @@ namespace Zelda
         {
             try
             {
-                Connected = false; 
+                Connected = false;
                 if (jr != null)
                     Marshal.FinalReleaseComObject(jr);
                 jr = null;

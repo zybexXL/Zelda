@@ -33,7 +33,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ZeldaUI));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.wikiBrowser = new System.Windows.Forms.WebBrowser();
+            this.tabsLeft = new System.Windows.Forms.DraggableTabControl();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.webWiki = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.tabsRight = new System.Windows.Forms.TabControl();
             this.tabText = new System.Windows.Forms.TabPage();
             this.txtOutput = new ScintillaNET.Scintilla();
@@ -99,9 +102,6 @@
             this.field1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.field2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.field3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabsLeft = new System.Windows.Forms.DraggableTabControl();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -110,6 +110,8 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            this.tabsLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.webWiki)).BeginInit();
             this.tabsRight.SuspendLayout();
             this.tabText.SuspendLayout();
             this.tabRendered.SuspendLayout();
@@ -122,7 +124,6 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.menuFieldList.SuspendLayout();
-            this.tabsLeft.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -161,28 +162,65 @@
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.wikiBrowser);
-            this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(8, 0, 0, 4);
+            this.splitContainer3.Panel2.Controls.Add(this.webWiki);
+            this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(0, 5, 0, 6);
             this.splitContainer3.Panel2MinSize = 50;
             this.splitContainer3.Size = new System.Drawing.Size(688, 554);
             this.splitContainer3.SplitterDistance = 350;
             this.splitContainer3.TabIndex = 2;
             // 
-            // wikiBrowser
+            // tabsLeft
             // 
-            this.wikiBrowser.AllowWebBrowserDrop = false;
-            this.wikiBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.wikiBrowser.Location = new System.Drawing.Point(8, 0);
-            this.wikiBrowser.Margin = new System.Windows.Forms.Padding(2);
-            this.wikiBrowser.MinimumSize = new System.Drawing.Size(15, 15);
-            this.wikiBrowser.Name = "wikiBrowser";
-            this.wikiBrowser.ScriptErrorsSuppressed = true;
-            this.wikiBrowser.Size = new System.Drawing.Size(680, 196);
-            this.wikiBrowser.TabIndex = 9;
-            this.wikiBrowser.WebBrowserShortcutsEnabled = false;
-            this.wikiBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wikiBrowser_DocumentCompleted);
-            this.wikiBrowser.NewWindow += new System.ComponentModel.CancelEventHandler(this.wikiBrowser_NewWindow);
-            this.wikiBrowser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.browser_PreviewKeyDown);
+            this.tabsLeft.AllowDrop = true;
+            this.tabsLeft.Controls.Add(this.tabPage5);
+            this.tabsLeft.Controls.Add(this.tabPage6);
+            this.tabsLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabsLeft.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabsLeft.Location = new System.Drawing.Point(0, 0);
+            this.tabsLeft.Margin = new System.Windows.Forms.Padding(2);
+            this.tabsLeft.Name = "tabsLeft";
+            this.tabsLeft.Padding = new System.Drawing.Point(6, 4);
+            this.tabsLeft.SelectedIndex = 0;
+            this.tabsLeft.Size = new System.Drawing.Size(688, 350);
+            this.tabsLeft.TabIndex = 1;
+            this.tabsLeft.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabsLeft_DrawItem);
+            this.tabsLeft.SelectedIndexChanged += new System.EventHandler(this.tabsLeft_SelectedIndexChanged);
+            this.tabsLeft.DoubleClick += new System.EventHandler(this.tabsLeft_DoubleClick);
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Location = new System.Drawing.Point(4, 28);
+            this.tabPage5.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage5.Size = new System.Drawing.Size(680, 318);
+            this.tabPage5.TabIndex = 0;
+            this.tabPage5.Text = "expr1";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Location = new System.Drawing.Point(4, 28);
+            this.tabPage6.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage6.Size = new System.Drawing.Size(680, 318);
+            this.tabPage6.TabIndex = 1;
+            this.tabPage6.Text = "🔗 [expr2] ❎";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // webWiki
+            // 
+            this.webWiki.AllowExternalDrop = true;
+            this.webWiki.CreationProperties = null;
+            this.webWiki.DefaultBackgroundColor = System.Drawing.Color.White;
+            this.webWiki.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webWiki.Location = new System.Drawing.Point(0, 5);
+            this.webWiki.Margin = new System.Windows.Forms.Padding(2);
+            this.webWiki.Name = "webWiki";
+            this.webWiki.Size = new System.Drawing.Size(688, 189);
+            this.webWiki.TabIndex = 10;
+            this.webWiki.ZoomFactor = 1D;
             // 
             // tabsRight
             // 
@@ -978,46 +1016,6 @@
             this.field3ToolStripMenuItem.Size = new System.Drawing.Size(80, 22);
             this.field3ToolStripMenuItem.Text = "Field3";
             // 
-            // tabsLeft
-            // 
-            this.tabsLeft.AllowDrop = true;
-            this.tabsLeft.Controls.Add(this.tabPage5);
-            this.tabsLeft.Controls.Add(this.tabPage6);
-            this.tabsLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabsLeft.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabsLeft.Location = new System.Drawing.Point(0, 0);
-            this.tabsLeft.Margin = new System.Windows.Forms.Padding(2);
-            this.tabsLeft.Name = "tabsLeft";
-            this.tabsLeft.Padding = new System.Drawing.Point(6, 4);
-            this.tabsLeft.SelectedIndex = 0;
-            this.tabsLeft.Size = new System.Drawing.Size(688, 350);
-            this.tabsLeft.TabIndex = 1;
-            this.tabsLeft.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabsLeft_DrawItem);
-            this.tabsLeft.SelectedIndexChanged += new System.EventHandler(this.tabsLeft_SelectedIndexChanged);
-            this.tabsLeft.DoubleClick += new System.EventHandler(this.tabsLeft_DoubleClick);
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Location = new System.Drawing.Point(4, 28);
-            this.tabPage5.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage5.Size = new System.Drawing.Size(680, 318);
-            this.tabPage5.TabIndex = 0;
-            this.tabPage5.Text = "expr1";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Location = new System.Drawing.Point(4, 28);
-            this.tabPage6.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage6.Size = new System.Drawing.Size(680, 318);
-            this.tabPage6.TabIndex = 1;
-            this.tabPage6.Text = "🔗 [expr2] ❎";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
             // ZeldaUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1044,6 +1042,8 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.tabsLeft.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.webWiki)).EndInit();
             this.tabsRight.ResumeLayout(false);
             this.tabText.ResumeLayout(false);
             this.tabRendered.ResumeLayout(false);
@@ -1059,7 +1059,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.menuFieldList.ResumeLayout(false);
-            this.tabsLeft.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1128,7 +1127,6 @@
         private System.Windows.Forms.Button btnNextFile;
         private System.Windows.Forms.ToolStripLabel lblChanged;
         private System.Windows.Forms.ToolStripButton btnInsertField;
-        private System.Windows.Forms.WebBrowser wikiBrowser;
         private System.Windows.Forms.ToolStripStatusLabel lblZoom;
         private System.Windows.Forms.ToolStripStatusLabel lblUpgrade;
         private System.Windows.Forms.ToolStripButton btnRevert;
@@ -1137,6 +1135,7 @@
         private System.Windows.Forms.ToolStripMenuItem field2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem field3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblReadOnly;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webWiki;
     }
 }
 

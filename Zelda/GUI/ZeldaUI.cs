@@ -10,6 +10,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using mshtml;
+using Microsoft.Web.WebView2.Core;
+using System.Net.Http;
+using System.IO;
+using System.Threading;
 
 namespace Zelda
 {
@@ -18,6 +22,11 @@ namespace Zelda
         internal static Settings settings;
         internal static string TooltipDir {
             get { return string.IsNullOrEmpty(settings?.TooltipFolder) ? JRiverAPI.TooltipFolder : settings.TooltipFolder.TrimEnd('\\'); } }
+
+        HttpClient httpClient = new HttpClient();
+        string wikiPreloaded;
+        CancellationTokenSource cancelSource;
+        volatile bool webViewInitialized = false;
 
         State state;
         JRiverAPI jrAPI;
@@ -69,7 +78,10 @@ namespace Zelda
                 Close();
             else
             {
-                GetPlayLists();
+                webWiki.CoreWebView2InitializationCompleted += WebWiki_CoreWebView2InitializationCompleted;
+                webWiki.EnsureCoreWebView2Async(null);
+
+                GetPlayLists(true);
                 initialized = true;
                 LoadState();
                 UpdateLinkedTabs();
@@ -237,12 +249,15 @@ namespace Zelda
         private void UpdateLinkedTabs()
         {
             foreach (ExpressionTab tab in tabsLeft.TabPages)
+            {
+                tab.jrAPI = jrAPI;
                 if (tab.isLinkedTab)
                 {
                     var field = jrAPI.Fields.FirstOrDefault(f => f.Name.ToLower() == tab.linkedField.ToLower());
                     tab.SetSavedExpression(field?.Expression);
                 }
-            
+            }
+
             tabsLeft.Invalidate();
             tabsLeft_SelectedIndexChanged(null, EventArgs.Empty);
         }
@@ -274,6 +289,8 @@ namespace Zelda
             if (list == null) list = jrAPI.Playlists.Where(p => p.Name == "Recently Played").FirstOrDefault();
             if (list == null) list = jrAPI.Playlists.FirstOrDefault();
 
+            loading = true;
+            comboLists.SelectedIndex = -1;
             loading = false;
             comboLists.SelectedItem = list;
 
@@ -294,11 +311,19 @@ namespace Zelda
 
             // syntax highlighter
             foreach (var tab in expressionTabs)
-                tab.highlighter = new ELSyntax(jrAPI.FieldsHighlight, settings.ExtraFunctions);
+            {
+                tab.jrAPI = jrAPI;
+                if (tab.highlighter == null)
+                    tab.highlighter = new ELSyntax(jrAPI.FieldsHighlight, settings.ExtraFunctions);
+            }
 
             progress.subtitle = "Reading playlists";
             progress.Update(true);
-            jrAPI.getPlaylists(settings.PlaylistFilter, !settings.FastStart).ToList();
+            try
+            {
+                jrAPI.getPlaylists(settings.PlaylistFilter, !settings.FastStart).ToList();
+            }
+            catch { }
 
             progress.result = true;
         }
@@ -479,21 +504,38 @@ namespace Zelda
 
         void LoadWiki(string name, ELFunction func)
         {
-            if (wikiBrowser.IsBusy)
-                wikiBrowser.Stop();
+            if (!webViewInitialized)
+                return;
+
             if (name == null)
-                wikiBrowser.DocumentText = $"no function highlighted";
+                webWiki.NavigateToString($"no function highlighted");
             else if (string.IsNullOrEmpty(func?.wikiUrl))
-                wikiBrowser.DocumentText = $"<b>{name}():</b> Wiki not available for this function";
+                webWiki.NavigateToString($"<b>{name}():</b> Wiki not available for this function");
             else
-                wikiBrowser.Navigate(func?.wikiUrl);
+            {
+                cancelSource?.Cancel();
+                cancelSource = new CancellationTokenSource();
+                Task.Run( ()=> PreloadWiki(func?.wikiUrl, cancelSource.Token));
+            }
+        }
+
+        void PreloadWiki(string url, CancellationToken cancel)
+        {
+            var resp = httpClient.GetAsync(url).Result;
+            if (resp.IsSuccessStatusCode && !cancel.IsCancellationRequested)
+            {
+                wikiPreloaded = resp.Content.ReadAsStringAsync().Result;     // preload HTML
+                if (!cancel.IsCancellationRequested)
+                    BeginInvoke((MethodInvoker)delegate { webWiki.Source = new Uri(url); });
+            }
         }
 
         void reorderDatagridColumns()
         {
+            if (expressionTabs == null) return;
             int order = 1;
             foreach (var et in expressionTabs)
-                gridFiles.Columns[et.ID].DisplayIndex = order++;
+                try { gridFiles.Columns[et.ID].DisplayIndex = order++; } catch { }
         }
 
         double getAPILatency()
@@ -1155,27 +1197,6 @@ namespace Zelda
             reorderDatagridColumns();
         }
 
-        private void wikiBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            var node = wikiBrowser.Document.GetElementById("column-one");
-            if (node != null) node.OuterHtml = "";
-            node = wikiBrowser.Document.GetElementById("footer");
-            if (node != null) node.OuterHtml = "";
-            node = wikiBrowser.Document.GetElementById("catlinks");
-            if (node != null) node.OuterHtml = "";
-
-            node = wikiBrowser.Document.GetElementById("content");
-            if (node != null)
-                node.Style = "margin: 0 0 0 0; border:0; padding: 0;";
-
-            Match m = Regex.Match(e.Url.ToString(), "([^#]+)#?(.+)?");
-            if (m.Success && !string.IsNullOrEmpty(m.Groups[2].Value))
-            {
-                node = wikiBrowser.Document.GetElementById(m.Groups[2].Value);
-                node?.ScrollIntoView(true);
-            }
-        }
-
         private void lblZoom_Click(object sender, EventArgs e)
         {
             txtOutput.Zoom = 0;
@@ -1273,19 +1294,6 @@ namespace Zelda
             }
         }
 
-        private void wikiBrowser_NewWindow(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            string target = wikiBrowser.Document.ActiveElement.GetAttribute("href");
-            if (string.IsNullOrEmpty(target))
-                target = wikiBrowser.StatusText;
-            if (!string.IsNullOrEmpty(target))
-            {
-                e.Cancel = true;
-                try { Process.Start(target); }
-                catch { }
-            }
-        }
-
         private void btnLink_Click(object sender, EventArgs e)
         {
             if (!LinkedFieldsEnabled || currentTab == null) return;
@@ -1301,6 +1309,7 @@ namespace Zelda
             foreach (var f in fields)
             {
                 var item = menuFieldList.Items.Add(f.Name);
+                item.ToolTipText = f.Description;
                 item.Tag = f.Expression;
             }
 
@@ -1382,5 +1391,81 @@ namespace Zelda
                 currentTab.isSaved = false;
             }
         }
+
+        #region WebView2
+
+        private void WebWiki_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
+        {
+            if (!e.IsSuccess)
+            {
+                showFunctionHelper(false);
+                btnFunctionHelp.Enabled = false;
+                btnFunctionHelp.ToolTipText = "Wiki disabled, failed to initialize WebView2 control!";
+                return;
+            }
+
+            webWiki.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.Document);
+            webWiki.CoreWebView2.WebResourceRequested += CoreWebView2_WebResourceRequested;
+            webWiki.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
+            if (currentTab?.selectedFunction != null)
+                expression_FunctionChanged(currentTab, currentTab.selectedFunction);
+
+            webViewInitialized = true;
+        }
+
+        private void CoreWebView2_ContextMenuRequested(object sender, CoreWebView2ContextMenuRequestedEventArgs e)
+        {
+            for (int i = 0; i < e.MenuItems.Count; i++)
+            {
+                if (e.MenuItems[i].Name.ToLower().Contains("inspect"))
+                {
+                    e.MenuItems.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        private void CoreWebView2_WebResourceRequested(object sender, CoreWebView2WebResourceRequestedEventArgs e)
+        {
+            if (!e.Request.Uri.StartsWith("https://wiki.jriver.com/index.php/"))
+                return;
+
+            if (!webViewInitialized)
+                return;
+
+            try
+            {
+                string html = wikiPreloaded; // resp.Content.ReadAsStringAsync().Result;
+
+                html = Regex.Replace(html, "<script>.*?</script>", "");
+                html = Regex.Replace(html, "<a class=\"mw-jump-link\".+?</a>", "");
+
+                var doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(html);
+
+                string[] delNodes = { "mw-navigation", "mw-page-base", "mw-head-base", "contentSub", "contentSub2", "siteSub", "siteNotice", "jump-to-nav", "footer", "catlinks" };
+                foreach (var n in delNodes)
+                {
+                    var nn = doc.DocumentNode.Descendants().Where(d => d.Id == n).FirstOrDefault();
+                    nn?.Remove();
+                }
+                var node = doc.DocumentNode.Descendants().Where(d => d.HasClass("mw-indicators")).FirstOrDefault();
+                node?.Remove();
+
+                var content = doc.DocumentNode.Descendants().Where(d => d.Id == "content").FirstOrDefault();
+                content?.SetAttributeValue("class", "");
+                content?.SetAttributeValue("style", "margin: 0 0 0 0; border:0; padding: 10px;");
+                //content?.SetAttributeValue("zelda", "1");
+
+                //string html = "<html><body>this works!</body></html>";
+                MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(doc.DocumentNode.OuterHtml));
+
+                CoreWebView2WebResourceResponse response = webWiki.CoreWebView2.Environment.CreateWebResourceResponse(ms, 200, "OK", "Content-Type: text/html; charset=utf-8");
+                e.Response = response;
+            }
+            catch { }
+        }
+
+        #endregion
     }
 }

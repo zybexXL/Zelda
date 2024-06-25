@@ -21,7 +21,7 @@ namespace Zelda
 
         public static string TooltipFolder { get { return Path.Combine(MCFolder ?? "", "data\\tooltip"); } }
 
-        static IJRiverAPI api;
+        IJRiverAPI api;
 
         public bool Connected => api == null ? false : api.Connected;
         public string MCVersion => api?.MCVersion;

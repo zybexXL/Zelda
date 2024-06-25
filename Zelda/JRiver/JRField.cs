@@ -27,7 +27,8 @@ namespace Zelda
         [XmlAttribute] public string DataType { get; set; }
         [XmlAttribute] public string EditType { get; set; }
         [XmlAttribute("Type")] public string FieldType { get; set; }
-        
+        [XmlAttribute] public string Description { get; set; }
+
         [XmlIgnore] public string Value { get; set; }
         [XmlIgnore] public bool isCalculated => !string.IsNullOrEmpty(Expression);
 
