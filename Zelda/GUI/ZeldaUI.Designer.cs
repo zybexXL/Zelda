@@ -702,7 +702,7 @@
             this.btnAutorun.Name = "btnAutorun";
             this.btnAutorun.Size = new System.Drawing.Size(36, 37);
             this.btnAutorun.Text = "Automatic execution";
-            this.btnAutorun.ToolTipText = "Toggle automatic execution (F5)";
+            this.btnAutorun.ToolTipText = "Toggle automatic execution (F6)\r\nPress F5 to re-execute the current expression";
             this.btnAutorun.Click += new System.EventHandler(this.btnAutorun_Click);
             // 
             // lblChanged

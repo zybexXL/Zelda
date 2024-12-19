@@ -1284,7 +1284,11 @@ namespace Zelda
                     case Keys.F2: action = btnRename_Click; break;
                     case Keys.F3: action = btnInsertField_Click; break;
                     case Keys.F4: action = btnInsertFunction_Click; break;
-                    case Keys.F5: action = btnAutorun_Click; break;
+                    case Keys.F5:
+                        currentTab?.Evaluate(true);
+                        e.Handled = e.SuppressKeyPress = true;
+                        break;
+                    case Keys.F6: action = btnAutorun_Click; break;
                     case Keys.F10: action = btnSettings_Click; break;
                     case Keys.F11: WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized; break;
                 }

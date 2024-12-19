@@ -27,7 +27,7 @@ namespace Zelda
         ListFormat, ListGrep, ListItem, ListLimit, ListMath, ListMix, ListMix2, ListRemove, ListShuffle, ListSort,
         // miscellaneous
         AlbumArtist, AlbumKey, AlbumType, AudioAnalysisState, Char, 
-        CustomData, FilePlaylists, Literal, PlaylistTime, Repeat, Row, Size,
+        CustomData, FilePlaylists, Literal, PlaylistAdd, PlaylistRemove, PlaylistTime, Repeat, Row, Size, ShellRun,
         Translate, TreeNode, TVInfo,
         // Number functions
         Avg, Decimal, Counter, Max, Min, Number, Rand, Range, Roman, StackCount, Sum, TrackNumber,
@@ -36,7 +36,7 @@ namespace Zelda
         MoveArticles, NoArticles, PadLeft, PadRight, Regex, RemoveCharacters, RemoveLeft, RemoveRight, Replace,
         Right, Swap, Trim, TrimLines, UnMoveArticles, Unswap, URLify,
         // test and comparison
-        Compare, IsDigit, IsDriveMissing, IsEmpty, IsEqual, IsInPlayingNow, IsLowerCase, IsMissing,
+        Compare, FieldExists, IsDigit, IsDriveMissing, IsEmpty, IsEqual, IsInPlayingNow, IsLowerCase, IsMissing,
         IsOverridden, IsPlaying, IsRange, IsRemovable, IsUpperCase, SearchTags,
         // math + subfunctions
         Math,
@@ -132,10 +132,13 @@ namespace Zelda
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.CustomData, "Returns internal data to the expression language", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#CustomData"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.FilePlaylists, "Returns a list of playlists a file belongs to (Can also be used to search)", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#FilePlaylists"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Literal, "Returns a string as given without any formatting or processing", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Literal"),
+            new ELFunction(ELCategory.Miscellaneous, ELFunctions.PlaylistAdd, "Adds an item to a playlist", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#PlaylistAdd"),
+            new ELFunction(ELCategory.Miscellaneous, ELFunctions.PlaylistRemove, "Removes an item from a playlist", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#PlaylistRemove"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.PlaylistTime, "Return the start/remaining time of a track in the current playlist", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#PlaylistTime"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Repeat, "Returns any given string repeated the specified number of times", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Repeat"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Row, "Returns the row number of a list entry", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Row"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Size, "Returns a file's size in a format specific to the media type", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Size"),
+            new ELFunction(ELCategory.Miscellaneous, ELFunctions.ShellRun, "Executes an external command and returns the output", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#ShellRun"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Translate, "Converts an English string found in the program to the currently selected language", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Translate"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.TreeNode, "Returns the currently active tree node", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#TreeNode"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.TVInfo, "Miscellaneous television and other pre-formatted information", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#TVInfo"),
@@ -182,6 +185,7 @@ namespace Zelda
             new ELFunction(ELCategory.Strings, ELFunctions.URLify, "Takes a string and applies html formatting for browser consumption", "https://wiki.jriver.com/index.php/String_Manipulation_Functions#Urlify"),
 
             new ELFunction(ELCategory.TestCompare, ELFunctions.Compare, "Compares two numbers", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#Compare"),
+            new ELFunction(ELCategory.TestCompare, ELFunctions.FieldExists, "Checks if a Field exists", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#FieldExists"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsDigit, "Tests a value to check if it's numeric", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsDigit"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsDriveMissing, "Returns true if the File cannot be accessed", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsDriveMissing"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsEmpty, "Tests a value for emptiness", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsEmpty"),
