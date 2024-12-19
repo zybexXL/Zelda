@@ -133,6 +133,7 @@ namespace Zelda
             return null;
         }
 
+        /*
         public static string OSName()
         {
             using (RegistryKey hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
@@ -223,6 +224,7 @@ namespace Zelda
             catch { }
             return null;
         }
+        */
     }
 }
 

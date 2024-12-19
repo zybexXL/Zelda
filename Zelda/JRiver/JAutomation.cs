@@ -45,7 +45,7 @@ namespace Zelda
             {
                 // connect to existing instance
                 Logger.Log("Connect: getting existing MediaCenter instance");
-                jr = (IMJAutomation)Marshal.GetActiveObject("MediaJukebox Application");
+                jr = (IMJAutomation)Native.GetActiveObject("MediaJukebox Application");
                 Connected = CheckConnection();
                 if (Connected) return true;
                 else Logger.Log("Connect to existing instance failed!");

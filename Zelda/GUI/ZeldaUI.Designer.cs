@@ -1,4 +1,6 @@
-﻿namespace Zelda
+﻿using System.Drawing;
+
+namespace Zelda
 {
     partial class ZeldaUI
     {
@@ -254,9 +256,8 @@
             // 
             this.txtOutput.AutoCMaxHeight = 9;
             this.txtOutput.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.Disabled;
-            this.txtOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtOutput.CaretLineBackColor = System.Drawing.Color.White;
-            this.txtOutput.CaretLineVisible = true;
+            this.txtOutput.BorderStyle = ScintillaNET.BorderStyle.FixedSingle;
+            this.txtOutput.CaretLineBackColor = Color.Transparent;
             this.txtOutput.CaretStyle = ScintillaNET.CaretStyle.Invisible;
             this.txtOutput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtOutput.LexerName = null;

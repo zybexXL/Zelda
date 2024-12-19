@@ -95,15 +95,17 @@ namespace Zelda
                 string tmpFile = Path.Combine(Path.GetTempPath(), $"Zelda.{LatestVersion.version}.tmp");
                 if (File.Exists(tmpFile)) File.Delete(tmpFile);
 
-                using (var client = new WebClient())
+                using (var client = new HttpClient())
                 {
                     progress.subtitle = "downloading new version";
                     progress.Update();
-                    client.Headers.Add("User-Agent", "Microsoft .Net HttpClient");
-                    client.DownloadFile(LatestVersion.package, tmpFile);
-
+                    client.DefaultRequestHeaders.Add("User-Agent", "Microsoft .Net HttpClient");
+                    var response = client.GetAsync(LatestVersion.package).Result;
+                    using (var fs = new FileStream(tmpFile, FileMode.Create))
+                        response.Content.CopyToAsync(fs).Wait();
+                    
                     progress.subtitle = "upgrading";
-                    string currEXE = Assembly.GetEntryAssembly().Location;
+                    string currEXE = Application.ExecutablePath;
                     string bakFile = Path.ChangeExtension(currEXE, ".bak");
                     if (File.Exists(bakFile)) File.Delete(bakFile);
 
@@ -124,7 +126,7 @@ namespace Zelda
         public static void Cleanup()
         {
             // delete .bak file from previous upgrade
-            string currEXE = Assembly.GetEntryAssembly().Location;
+            string currEXE = Application.ExecutablePath;
             string bakFile = Path.ChangeExtension(currEXE, ".bak");
             if (File.Exists(bakFile)) try { File.Delete(bakFile); } catch { }
         }

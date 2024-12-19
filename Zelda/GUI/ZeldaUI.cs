@@ -143,14 +143,14 @@ namespace Zelda
             txtOutput.Styles[Style.Default].BackColor = settings.OutputFont.BackColor;
             txtOutput.StyleClearAll();
             // scintillaNET bugs
-            txtOutput.CaretLineVisible = false;
+            txtOutput.CaretLineBackColor = Color.Transparent;
             txtOutput.CaretStyle = CaretStyle.Invisible;
         }
 
         private void ZeldaUI_Shown(object sender, EventArgs e)
         {
             // scintillaNET bugs
-            txtOutput.CaretLineVisible = false;
+            txtOutput.CaretLineBackColor = Color.Transparent;
             txtOutput.CaretStyle = CaretStyle.Invisible;
             txtOutput.Focus();
 
@@ -624,10 +624,7 @@ namespace Zelda
                     m = re.Match(text, pos);
                 }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            catch { }
             return text;
         }
 

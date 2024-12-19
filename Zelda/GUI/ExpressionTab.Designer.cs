@@ -1,4 +1,6 @@
-﻿namespace Zelda
+﻿using System.Drawing;
+
+namespace Zelda
 {
     partial class ExpressionTab
     {
@@ -52,9 +54,8 @@
             // 
             // scintilla
             // 
-            this.scintilla.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.scintilla.CaretLineBackColor = System.Drawing.Color.White;
-            this.scintilla.CaretLineVisible = true;
+            this.scintilla.BorderStyle = ScintillaNET.BorderStyle.FixedSingle;
+            this.scintilla.CaretLineBackColor = Color.Transparent;
             this.scintilla.ContextMenuStrip = this.menuEditor;
             this.scintilla.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scintilla.EolMode = ScintillaNET.Eol.Lf;

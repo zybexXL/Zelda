@@ -84,12 +84,12 @@ namespace Zelda
         {
             this.settings = settings;
 
-            scintilla.SetWhitespaceForeColor(true, Color.DimGray);
+            scintilla.WhitespaceTextColor = Color.DimGray;
             scintilla.WhitespaceSize = 2;           // larger spaces for visibility
             scintilla.EolMode = Eol.Lf;             // LF only
             scintilla.Margins[1].Width = 10;
 
-            scintilla.CaretLineVisible = false;
+            scintilla.CaretLineBackColor = Color.Transparent;
             scintilla.WrapStartIndent = settings.WrapIndent ? 2 : 0;
             scintilla.UseTabs = !settings.ReplaceTabs;
             scintilla.Margins[0].Width = settings.ShowLineNumbers ? 25 : 0;
@@ -116,7 +116,7 @@ namespace Zelda
             const int SCI_SETELEMENTCOLOUR = 2753;
             const int SC_ELEMENT_SELECTION_INACTIVE_BACK = 17;
             scintilla.DirectMessage(SCI_SETELEMENTCOLOUR, new IntPtr(SC_ELEMENT_SELECTION_INACTIVE_BACK), new IntPtr(Color.PaleGoldenrod.ToArgb()));
-            scintilla.SetSelectionBackColor(true, Color.PaleGoldenrod);
+            scintilla.SelectionBackColor = Color.PaleGoldenrod;
 
             // function highlight indicator
             scintilla.Indicators[1].Style = IndicatorStyle.StraightBox;

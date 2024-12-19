@@ -18,8 +18,7 @@ namespace Zelda
         {
             AutoUpgrade.Cleanup();
 
-            Util.ExtractResource("WebView2Loader.x64", Path.Combine(Constants.WebView2Data, "WebView2Loader.dll"));
-            CoreWebView2Environment.SetLoaderDllFolderPath(Constants.WebView2Data);
+            CoreWebView2Environment.SetLoaderDllFolderPath(Path.Combine(Application.StartupPath, "runtimes\\win-x64\\native"));
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
