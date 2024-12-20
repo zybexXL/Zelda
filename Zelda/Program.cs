@@ -16,13 +16,22 @@ namespace Zelda
         [STAThread]
         static void Main()
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             AutoUpgrade.Cleanup();
 
             CoreWebView2Environment.SetLoaderDllFolderPath(Path.Combine(Application.StartupPath, "runtimes\\win-x64\\native"));
-
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ZeldaUI());
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            string title = e.IsTerminating ? "Fatal exception" : "Unhandled exception";
+            Logger.Log(e.ExceptionObject as Exception, title);
+            MessageBox.Show($"{title}! This happened:\n\n{e.ExceptionObject}$", title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         /*

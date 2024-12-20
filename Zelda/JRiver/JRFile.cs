@@ -1,12 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Zelda
 {
@@ -25,24 +19,6 @@ namespace Zelda
         public string Filename { get { return this["filename"]; } }
         public string MediaType { get { return this["media type"]; } }
         public string MediaSubType { get { return this["media sub type"]; } }
-
-
-        //public DateTime DateImported {
-        //    get {
-        //        if (fields.ContainsKey("date imported") && long.TryParse(fields["date imported"], out long seconds))
-        //            return Util.EpochToDateTime(seconds).ToLocalTime();
-        //        return DateTime.MinValue;
-        //    } }
-
-        //public DateTime DateRelease
-        //{
-        //    get
-        //    {
-        //        if (fields.ContainsKey("date (release)") && long.TryParse(fields["date (release)"], out long seconds))
-        //            return Util.EpochToDateTime(seconds).ToLocalTime();
-        //        return DateTime.MinValue;
-        //    }
-        //}
 
         public Dictionary<string, string> fields { get; private set; } = new Dictionary<string, string>();       // current values
 
@@ -67,12 +43,11 @@ namespace Zelda
             try
             {
                 if (!json.Trim().StartsWith("[")) json = $"[{json}]";
-                var objList = JArray.Parse(json ?? "[ ]");
-                foreach (JObject obj in objList)
+                var data = Util.JsonDeserialize<Dictionary<string, object>[]>(json);
+                foreach (var dict in data)
                 {
-                    Dictionary<string, string> data = new Dictionary<string, string>();
-                    var values = obj.Properties().ToDictionary(p => p.Name.ToLower(), p => p.Value.ToString());
-                    if (!int.TryParse(values["key"], out int key))
+                    var values = dict.ToDictionary(p => p.Key.ToLower(), p => p.Value.ToString());
+                    if (!values.ContainsKey("key") || !int.TryParse(values["key"], out int key))
                         key = 0;
                     files.Add(new JRFile(key, values));
                 }
@@ -84,20 +59,7 @@ namespace Zelda
         
         public static JRFile FromJson(string json)
         {
-            try
-            {
-                if (json.Trim().StartsWith("["))
-                    return FromJsonArray(json)?.FirstOrDefault();
-
-                var obj = JObject.Parse(json);
-                Dictionary<string, string> data = new Dictionary<string, string>();
-                var values = obj.Properties().ToDictionary(p => p.Name.ToLower(), p => p.Value.ToString());
-                if (!int.TryParse(values["key"], out int key))
-                    key = 0;
-                return new JRFile(key, values);
-            }
-            catch (Exception ex) { Logger.Log(ex); }
-            return null;
+            return FromJsonArray(json)?.FirstOrDefault();
         }
 
         public void copyFrom(JRFile otherFile)
