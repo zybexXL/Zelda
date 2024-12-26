@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Zelda
@@ -34,7 +28,7 @@ namespace Zelda
             bs.DataSource = dt;
             gridFunc.DataSource = bs;
 
-            var cats = Enum.GetNames(typeof(ELCategory)).OrderBy(a=>a).ToList();
+            var cats = Enum.GetNames(typeof(ELCategory)).OrderBy(a => a).ToList();
             cats.Insert(0, "All categories");
             comboCat.DataSource = cats;
             comboCat.SelectedIndex = 0;
@@ -128,40 +122,16 @@ namespace Zelda
         }
 
         private void gridFunc_SelectionChanged(object sender, EventArgs e)
-        {          
+        {
+            LoadWiki();
+        }
+
+        private void LoadWiki()
+        {
             if (!loading && gridFunc.SelectedRows.Count == 1)
             {
                 var func = gridFunc.SelectedRows[0].Cells[0].Value as ELFunction;
-                LoadWiki(func);
-            }
-        }
-
-        void LoadWiki(ELFunction func)
-        {
-            webBrowser.Stop();
-            if (string.IsNullOrEmpty(func?.wikiUrl))
-                webBrowser.DocumentText = $"<b>{func?.function}():</b> Wiki not available for this function";
-            else
-                webBrowser.Navigate(func?.wikiUrl);
-        }
-
-        private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            var node = webBrowser.Document.GetElementById("column-one");
-            if (node != null) node.OuterHtml = "";
-            node = webBrowser.Document.GetElementById("footer");
-            if (node != null) node.OuterHtml = "";
-            node = webBrowser.Document.GetElementById("catlinks");
-            if (node != null) node.OuterHtml = "";
-
-            node = webBrowser.Document.GetElementById("content");
-            if (node != null) node.Style = "margin: 0 0 0 0; border:0; padding: 0;";
-
-            Match m = Regex.Match(e.Url.ToString(), "([^#]+)#?(.+)?");
-            if (m.Success && !string.IsNullOrEmpty(m.Groups[2].Value))
-            {
-                node = webBrowser.Document.GetElementById(m.Groups[2].Value);
-                node?.ScrollIntoView(true);
+                wikiView.LoadWiki(func);
             }
         }
 
@@ -170,6 +140,17 @@ namespace Zelda
             gridFunc.ClearSelection();
             loading = false;
             gridFunc.Rows[0].Selected = true;
+        }
+
+        private void wikiView_OnInitializationCompleted(object sender, EventArgs e)
+        {
+            if (!wikiView.Initialized)
+            {
+                lblWikiError.Visible = true;
+                wikiView.Visible = false;
+            }
+            else
+                LoadWiki();
         }
     }
 }

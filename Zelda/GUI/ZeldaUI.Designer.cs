@@ -104,6 +104,7 @@ namespace Zelda
             field1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             field2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             field3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            webWiki = new WikiView2();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -163,6 +164,7 @@ namespace Zelda
             // 
             // splitContainer3.Panel2
             // 
+            splitContainer3.Panel2.Controls.Add(webWiki);
             splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(0, 5, 0, 6);
             splitContainer3.Panel2MinSize = 50;
             splitContainer3.Size = new Size(688, 554);
@@ -175,7 +177,7 @@ namespace Zelda
             tabsLeft.Controls.Add(tabPage5);
             tabsLeft.Controls.Add(tabPage6);
             tabsLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            tabsLeft.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            tabsLeft.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tabsLeft.Location = new Point(0, 0);
             tabsLeft.Margin = new System.Windows.Forms.Padding(2);
             tabsLeft.Name = "tabsLeft";
@@ -183,9 +185,32 @@ namespace Zelda
             tabsLeft.SelectedIndex = 0;
             tabsLeft.Size = new Size(688, 350);
             tabsLeft.TabIndex = 1;
-            tabsLeft.DrawItem += new System.Windows.Forms.DrawItemEventHandler(tabsLeft_DrawItem);
-            tabsLeft.SelectedIndexChanged += new System.EventHandler(tabsLeft_SelectedIndexChanged);
-            tabsLeft.DoubleClick += new System.EventHandler(tabsLeft_DoubleClick);
+            tabsLeft.DrawItem += tabsLeft_DrawItem;
+            tabsLeft.SelectedIndexChanged += tabsLeft_SelectedIndexChanged;
+            tabsLeft.DoubleClick += tabsLeft_DoubleClick;
+            // 
+            // tabPage5
+            // 
+            tabPage5.Location = new Point(4, 28);
+            tabPage5.Margin = new System.Windows.Forms.Padding(2);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Padding = new System.Windows.Forms.Padding(2);
+            tabPage5.Size = new Size(680, 318);
+            tabPage5.TabIndex = 0;
+            tabPage5.Text = "expr1";
+            tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // tabPage6
+            // 
+            tabPage6.Location = new Point(4, 28);
+            tabPage6.Margin = new System.Windows.Forms.Padding(2);
+            tabPage6.Name = "tabPage6";
+            tabPage6.Padding = new System.Windows.Forms.Padding(2);
+            tabPage6.Size = new Size(680, 318);
+            tabPage6.TabIndex = 1;
+            tabPage6.Text = "🔗 [expr2] ❎";
+            tabPage6.UseVisualStyleBackColor = true;
+            // 
             // tabsRight
             // 
             tabsRight.Controls.Add(tabText);
@@ -323,28 +348,6 @@ namespace Zelda
             cCalltime.Name = "cCalltime";
             cCalltime.ReadOnly = true;
             cCalltime.Width = 75;
-            // 
-            // tabPage5
-            // 
-            tabPage5.Location = new Point(4, 28);
-            tabPage5.Margin = new System.Windows.Forms.Padding(2);
-            tabPage5.Name = "tabPage5";
-            tabPage5.Padding = new System.Windows.Forms.Padding(2);
-            tabPage5.Size = new Size(680, 318);
-            tabPage5.TabIndex = 0;
-            tabPage5.Text = "expr1";
-            tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // tabPage6
-            // 
-            tabPage6.Location = new Point(4, 28);
-            tabPage6.Margin = new System.Windows.Forms.Padding(2);
-            tabPage6.Name = "tabPage6";
-            tabPage6.Padding = new System.Windows.Forms.Padding(2);
-            tabPage6.Size = new Size(680, 318);
-            tabPage6.TabIndex = 1;
-            tabPage6.Text = "🔗 [expr2] ❎";
-            tabPage6.UseVisualStyleBackColor = true;
             // 
             // toolStrip1
             // 
@@ -959,6 +962,15 @@ namespace Zelda
             field3ToolStripMenuItem.Size = new Size(80, 22);
             field3ToolStripMenuItem.Text = "Field3";
             // 
+            // wikiView21
+            // 
+            webWiki.Dock = System.Windows.Forms.DockStyle.Fill;
+            webWiki.Location = new Point(0, 5);
+            webWiki.Name = "webWiki";
+            webWiki.Size = new Size(688, 189);
+            webWiki.TabIndex = 0;
+            webWiki.OnInitializationCompleted += WebWiki_OnInitializationCompleted;
+            // 
             // ZeldaUI
             // 
             AutoScaleDimensions = new SizeF(6F, 13F);
@@ -983,8 +995,9 @@ namespace Zelda
             splitContainer1.ResumeLayout(false);
             splitContainer3.Panel1.ResumeLayout(false);
             splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(splitContainer3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)splitContainer3).EndInit();
             splitContainer3.ResumeLayout(false);
+            tabsLeft.ResumeLayout(false);
             tabsRight.ResumeLayout(false);
             tabText.ResumeLayout(false);
             tabRendered.ResumeLayout(false);
@@ -1076,6 +1089,7 @@ namespace Zelda
         private System.Windows.Forms.ToolStripMenuItem field3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblReadOnly;
         private System.Windows.Forms.ToolStripButton btnRun;
+        private WikiView2 webWiki;
     }
 }
 
