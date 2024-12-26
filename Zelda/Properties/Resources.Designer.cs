@@ -63,26 +63,6 @@ namespace Zelda.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_left {
-            get {
-                object obj = ResourceManager.GetObject("arrow_left", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap arrow_right {
-            get {
-                object obj = ResourceManager.GetObject("arrow_right", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap ArrowLeft {
             get {
                 object obj = ResourceManager.GetObject("ArrowLeft", resourceCulture);
@@ -103,9 +83,19 @@ namespace Zelda.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Bold32b {
+        internal static System.Drawing.Bitmap autoplayOFF32Red {
             get {
-                object obj = ResourceManager.GetObject("Bold32b", resourceCulture);
+                object obj = ResourceManager.GetObject("autoplayOFF32Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap autoplayON32Red {
+            get {
+                object obj = ResourceManager.GetObject("autoplayON32Red", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,29 +133,9 @@ namespace Zelda.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap books {
-            get {
-                object obj = ResourceManager.GetObject("books", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap cancel {
             get {
                 object obj = ResourceManager.GetObject("cancel", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap cog {
-            get {
-                object obj = ResourceManager.GetObject("cog", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -186,26 +156,6 @@ namespace Zelda.Properties {
         internal static System.Drawing.Bitmap cog32 {
             get {
                 object obj = ResourceManager.GetObject("cog32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap connect {
-            get {
-                object obj = ResourceManager.GetObject("connect", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap cross {
-            get {
-                object obj = ResourceManager.GetObject("cross", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -253,56 +203,6 @@ namespace Zelda.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap font {
-            get {
-                object obj = ResourceManager.GetObject("font", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap font_bw {
-            get {
-                object obj = ResourceManager.GetObject("font_bw", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap font1 {
-            get {
-                object obj = ResourceManager.GetObject("font1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap font16 {
-            get {
-                object obj = ResourceManager.GetObject("font16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Font32 {
-            get {
-                object obj = ResourceManager.GetObject("Font32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Font32b {
             get {
                 object obj = ResourceManager.GetObject("Font32b", resourceCulture);
@@ -336,16 +236,6 @@ namespace Zelda.Properties {
         internal static System.Drawing.Bitmap help32 {
             get {
                 object obj = ResourceManager.GetObject("help32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Italic32 {
-            get {
-                object obj = ResourceManager.GetObject("Italic32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -393,49 +283,9 @@ namespace Zelda.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pilcrow {
-            get {
-                object obj = ResourceManager.GetObject("pilcrow", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap pilcrow_bw {
-            get {
-                object obj = ResourceManager.GetObject("pilcrow_bw", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap pilcrow1 {
-            get {
-                object obj = ResourceManager.GetObject("pilcrow1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Pilcrow32 {
             get {
                 object obj = ResourceManager.GetObject("Pilcrow32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Play {
-            get {
-                object obj = ResourceManager.GetObject("Play", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -453,29 +303,9 @@ namespace Zelda.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Play16 {
+        internal static System.Drawing.Bitmap Play32 {
             get {
-                object obj = ResourceManager.GetObject("Play16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap portrait {
-            get {
-                object obj = ResourceManager.GetObject("portrait", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap redo_2a2b2c_24 {
-            get {
-                object obj = ResourceManager.GetObject("redo_2a2b2c_24", resourceCulture);
+                object obj = ResourceManager.GetObject("Play32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -513,26 +343,6 @@ namespace Zelda.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap rename32 {
-            get {
-                object obj = ResourceManager.GetObject("rename32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap reset_2a2b2c_32 {
-            get {
-                object obj = ResourceManager.GetObject("reset_2a2b2c_32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap reset_red_32 {
             get {
                 object obj = ResourceManager.GetObject("reset_red_32", resourceCulture);
@@ -546,26 +356,6 @@ namespace Zelda.Properties {
         internal static System.Drawing.Bitmap script_add {
             get {
                 object obj = ResourceManager.GetObject("script_add", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap script_link {
-            get {
-                object obj = ResourceManager.GetObject("script_link", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Stop16 {
-            get {
-                object obj = ResourceManager.GetObject("Stop16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -593,99 +383,9 @@ namespace Zelda.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap text_bold {
-            get {
-                object obj = ResourceManager.GetObject("text_bold", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap text_bold_2a2b2c {
-            get {
-                object obj = ResourceManager.GetObject("text-bold_2a2b2c", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap text_bold_2a2b2c_32 {
-            get {
-                object obj = ResourceManager.GetObject("text-bold_2a2b2c_32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap text_italic_2a2b2c {
-            get {
-                object obj = ResourceManager.GetObject("text-italic_2a2b2c", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap text_italic_2a2b2c_32 {
-            get {
-                object obj = ResourceManager.GetObject("text-italic_2a2b2c_32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap text_underline_2a2b2c {
-            get {
-                object obj = ResourceManager.GetObject("text-underline_2a2b2c", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap text_underline_2a2b2c_32 {
-            get {
-                object obj = ResourceManager.GetObject("text-underline_2a2b2c_32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap text_wrap_32 {
             get {
-                object obj = ResourceManager.GetObject("text-wrap_32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap textfield_rename {
-            get {
-                object obj = ResourceManager.GetObject("textfield_rename", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Underline {
-            get {
-                object obj = ResourceManager.GetObject("Underline", resourceCulture);
+                object obj = ResourceManager.GetObject("text_wrap_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -703,59 +403,9 @@ namespace Zelda.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap undo_2a2b2c_24 {
-            get {
-                object obj = ResourceManager.GetObject("undo_2a2b2c_24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap undo_2a2b2c_32 {
             get {
                 object obj = ResourceManager.GetObject("undo_2a2b2c_32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap undo_all_2a2b2c_32 {
-            get {
-                object obj = ResourceManager.GetObject("undo-all_2a2b2c_32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap wordWrap24 {
-            get {
-                object obj = ResourceManager.GetObject("wordWrap24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap wrap16 {
-            get {
-                object obj = ResourceManager.GetObject("wrap16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap wrap16b {
-            get {
-                object obj = ResourceManager.GetObject("wrap16b", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -785,7 +435,7 @@ namespace Zelda.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap zoom_in_2a2b2c_32 {
             get {
-                object obj = ResourceManager.GetObject("zoom-in_2a2b2c_32", resourceCulture);
+                object obj = ResourceManager.GetObject("zoom_in_2a2b2c_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -795,7 +445,7 @@ namespace Zelda.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap zoom_out_2a2b2c_32 {
             get {
-                object obj = ResourceManager.GetObject("zoom-out_2a2b2c_32", resourceCulture);
+                object obj = ResourceManager.GetObject("zoom_out_2a2b2c_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
