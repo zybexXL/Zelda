@@ -5,17 +5,19 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Zelda
 {
-    [DataContract]
     public class TabExpression
     {
-        [DataMember] public string name;
-        [DataMember] public string content;
-        [DataMember] public int position;
-        [DataMember] public string linkedField;
+        public string name { get; set; }
+        public string content { get; set; }
+        public int position { get; set; }
+        public string linkedField { get; set; }
+
+        public TabExpression() { }
 
         public TabExpression(string title, string text, int pos, string field = null)
         {
@@ -26,25 +28,25 @@ namespace Zelda
         }
     }
 
-    [DataContract]
     public class State
     {
+        [JsonIgnore]
         public bool isDefault = true;
 
-        [DataMember] public List<TabExpression> Tabs = new List<TabExpression>();
-        [DataMember] public int CurrentTab = 0;
-        [DataMember] public int OutputTab = 0;
-        [DataMember] public bool FunctionHelper = true;
-        [DataMember] public bool LineWrap = false;
-        [DataMember] public bool Whitespace = false;
-        [DataMember] public bool TableShowAll = false;
-        [DataMember] public List<string> TableFields = new List<string>();
-        [DataMember] public int Zoom = 0;
-        [DataMember] public string Playlist;
-        [DataMember] public string Filename;
-        [DataMember] public Rectangle Dimensions = Rectangle.Empty;
-        [DataMember] public bool Maximized = false;
-        [DataMember] public int SplitPosition = 0;
+        public List<TabExpression> Tabs { get; set; } = new List<TabExpression>();
+        public int CurrentTab { get; set; } = 0;
+        public int OutputTab { get; set; } = 0;
+        public bool FunctionHelper { get; set; } = true;
+        public bool LineWrap { get; set; } = false;
+        public bool Whitespace { get; set; } = false;
+        public bool TableShowAll { get; set; } = false;
+        public List<string> TableFields { get; set; } = new List<string>();
+        public int Zoom { get; set; } = 0;
+        public string Playlist { get; set; }
+        public string Filename { get; set; }
+        public Rectangle Dimensions { get; set; } = Rectangle.Empty;
+        public bool Maximized { get; set; } = false;
+        public int SplitPosition { get; set; } = 0;
 
         public State()
         {
@@ -78,7 +80,7 @@ namespace Zelda
                     File.Move(Constants.StateFile, bak);
                 }
                 isDefault = false;
-                string json = Util.JsonSerialize(this, indent: true);
+                string json = Util.JsonSerialize(this, indented: true);
                 File.WriteAllText(Constants.StateFile, json);
                 return true;
             }

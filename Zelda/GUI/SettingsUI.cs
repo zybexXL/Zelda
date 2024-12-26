@@ -29,6 +29,7 @@ namespace Zelda
             chkLoadPlaylist.Checked = settings.ReloadPlaylist;
             chkLines.Checked        = settings.ShowLineNumbers;
             chkFastStart.Checked    = settings.FastStart;
+            chkSafeMode.Checked     = settings.SafeMode;
 
             delaySlide.Value        = settings.EvaluateDelay;
 
@@ -72,6 +73,7 @@ namespace Zelda
             settings.ReloadPlaylist = chkLoadPlaylist.Checked;
             settings.ShowLineNumbers = chkLines.Checked;
             settings.FastStart = chkFastStart.Checked;
+            settings.SafeMode = chkSafeMode.Checked;
 
             settings.HighlightSyntax = chkSyntax.Checked;
             settings.HighlightFunction = chkSyntaxFunction.Checked;

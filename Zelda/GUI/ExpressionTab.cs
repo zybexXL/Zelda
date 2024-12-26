@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using ScintillaNET;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.Linq.Expressions;
 
 namespace Zelda
 {
@@ -36,6 +35,7 @@ namespace Zelda
         internal double APItime { get; private set; }
         JRFile currentFile;
 
+        internal bool IsUnsafe { get; set; }
         internal bool Paused { get; set; }
         internal string ID { get; private set; }
         internal string linkedField { get; set; }
@@ -147,6 +147,7 @@ namespace Zelda
         {
             lock (this)
             {
+                IsUnsafe = isUnsafeExpression();
                 textChanged = true;
                 needsEvaluation = true;
                 syntaxTimer.Stop();
@@ -157,6 +158,12 @@ namespace Zelda
 
             syntaxTimer.Start();
             runTimer.Start();
+        }
+
+        private bool isUnsafeExpression()
+        {
+            string text = Util.StripComments(scintilla.Text);
+            return Regex.IsMatch(text, @"setField\(|shellRun\(", RegexOptions.IgnoreCase);
         }
 
         public bool SetSavedExpression(string expression)
@@ -407,8 +414,11 @@ namespace Zelda
         }
 
         internal void Evaluate(bool forced = false)
-        {   
-            if (!forced && Paused) return;
+        {
+            bool safemode = IsUnsafe && settings.SafeMode;
+            if (safemode && Result == null)
+                Result = "\r\n*** Safe Mode ***\r\n\r\nPress F5 for manual evaluation";
+            if (!forced && (Paused || safemode)) return;
             CheckSavedExpression();
 
             needsEvaluation = false;

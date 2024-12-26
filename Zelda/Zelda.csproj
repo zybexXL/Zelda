@@ -3,11 +3,13 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <PublishSingleFile>true</PublishSingleFile>
-    <SelfContained>false</SelfContained>
+    <SelfContained>true</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PlatformTarget>x64</PlatformTarget>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <AllowedReferenceRelatedFileExtensions>.none</AllowedReferenceRelatedFileExtensions>
+    <PublishTrimmed>false</PublishTrimmed>
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <PublishRelease>true</PublishRelease>
@@ -59,5 +61,19 @@
     <None Include="$(PkgMicrosoft_Web_WebView2)\runtimes\win-x64\native\WebView2Loader.dll" CopyToOutputDirectory="PreserveNewest" LinkBase="runtimes\win-x64\native\" visible="false" />
     <None Include="$(PkgScintilla5_NET)\runtimes\win-x64\native\Lexilla.dll" CopyToOutputDirectory="PreserveNewest" LinkBase="runtimes\win-x64\native\" visible="false" />
     <None Include="$(PkgScintilla5_NET)\runtimes\win-x64\native\Scintilla.dll" CopyToOutputDirectory="PreserveNewest" LinkBase="runtimes\win-x64\native\" visible="false" />
+  </ItemGroup>
+  <ItemGroup>
+      <Compile Update="Properties\Resources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
   </ItemGroup>
 </Project>

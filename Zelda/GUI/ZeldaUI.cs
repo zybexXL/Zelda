@@ -14,15 +14,20 @@ using Microsoft.Web.WebView2.Core;
 using System.Net.Http;
 using System.IO;
 using System.Threading;
+using System.ComponentModel;
+using Microsoft.Web.WebView2.WinForms;
 
 namespace Zelda
 {
     public partial class ZeldaUI : Form
     {
         internal static Settings settings;
-        internal static string TooltipDir {
-            get { return string.IsNullOrEmpty(settings?.TooltipFolder) ? JRiverAPI.TooltipFolder : settings.TooltipFolder.TrimEnd('\\'); } }
+        internal static string TooltipDir
+        {
+            get { return string.IsNullOrEmpty(settings?.TooltipFolder) ? JRiverAPI.TooltipFolder : settings.TooltipFolder.TrimEnd('\\'); }
+        }
 
+        WebView2 webWiki;
         HttpClient httpClient = new HttpClient();
         string wikiPreloaded;
         CancellationTokenSource cancelSource;
@@ -72,15 +77,37 @@ namespace Zelda
             comboLists.DrawItem += drawCombobox;
         }
 
+        void initWiki()
+        {
+            webWiki = new WebView2();
+            //((ISupportInitialize)(webWiki)).BeginInit(); 
+            webWiki.AllowExternalDrop = false;
+            //webWiki.CreationProperties = null;
+            webWiki.DefaultBackgroundColor = Color.White;
+            webWiki.Dock = DockStyle.Fill;
+            //webWiki.Location = new Point(0, 0);
+            webWiki.Margin = new Padding(2);
+            webWiki.Name = "webWiki";
+            //webWiki.Size = new Size(688, 189);
+            //webWiki.TabIndex = 10;
+            webWiki.ZoomFactor = 1D;
+
+            splitContainer3.Panel2.Controls.Add(webWiki);
+            //((ISupportInitialize)(webWiki)).EndInit();
+            //splitContainer3.Panel2.PerformLayout();
+
+            webWiki.CoreWebView2InitializationCompleted += WebWiki_CoreWebView2InitializationCompleted;
+            var env = CoreWebView2Environment.CreateAsync(null, Constants.WebView2Data).Result;
+            webWiki.EnsureCoreWebView2Async(env);
+        }
+
         private void ZeldaUI_Load(object sender, EventArgs e)
         {
             if (!Connect(true))
                 Close();
             else
             {
-                webWiki.CoreWebView2InitializationCompleted += WebWiki_CoreWebView2InitializationCompleted;
-                var env = CoreWebView2Environment.CreateAsync(null, Constants.WebView2Data).Result;
-                webWiki.EnsureCoreWebView2Async(env);
+                initWiki();
                 
                 GetPlayLists(true);
                 initialized = true;
@@ -517,7 +544,7 @@ namespace Zelda
             {
                 cancelSource?.Cancel();
                 cancelSource = new CancellationTokenSource();
-                Task.Run( ()=> PreloadWiki(func?.wikiUrl, cancelSource.Token));
+                Task.Run(() => PreloadWiki(func?.wikiUrl, cancelSource.Token));
             }
         }
 
@@ -737,8 +764,7 @@ namespace Zelda
                     btnReconnect_Click(null, EventArgs.Empty);
 
                 SetOutputStyle();
-                if (!paused)
-                    currentTab?.Evaluate(true);
+                currentTab?.Evaluate();
                 ShowResults();
 
                 foreach (var tab in expressionTabs)
@@ -782,17 +808,22 @@ namespace Zelda
         private void btnAutorun_Click(object sender, EventArgs e)
         {
             paused = !paused;
-            btnAutorun.Image = paused ? Properties.Resources.Stop16 : Properties.Resources.Play16;
+            btnAutorun.Image = paused ? Properties.Resources.autoplayOFF32Red : Properties.Resources.autoplayON32Red;
 
             foreach (var tab in expressionTabs)
             {
                 tab.Paused = paused;
                 if (!paused)
                 {
-                    tab.Evaluate(true);
+                    tab.Evaluate();
                     if (tab != currentTab) UpdateDatagrid(tab, tab.scintilla.Text);
                 }
             }
+        }
+
+        private void btnRun_Click(object sender, EventArgs e)
+        {
+            currentTab?.Evaluate(true);
         }
 
         private void btnWrap_CheckedChanged(object sender, EventArgs e)
@@ -916,6 +947,14 @@ namespace Zelda
 
         #endregion
 
+        private void setAutorun()
+        {
+            bool enabled = currentTab == null || !currentTab.IsUnsafe || !settings.SafeMode;
+            btnAutorun.Enabled = enabled;
+            btnAutorun.ToolTipText = enabled ? "Toggle automatic execution (F6)"
+                : "*** UNSAFE EXPRESSION - contains ShellRun() or SetField() ***\r\nExecute manually (F5) or disable Safe Mode to allow continuous execution";
+        }
+
         private void expression_TextChanged(object sender, bool isEvaluated)
         {
             if (this.InvokeRequired)
@@ -924,9 +963,10 @@ namespace Zelda
                 return;
             }
 
+            setAutorun();
             if (currentTab == null) return;
 
-            lblChanged.Visible = paused && currentTab.needsEvaluation;
+            lblChanged.Visible = (paused || !btnAutorun.Enabled) && currentTab.needsEvaluation;
             if (currentTab.needsEvaluation) return;
 
             if (latencyChecks++ < 5 || latencyChecks % 10 == 0)
@@ -944,7 +984,7 @@ namespace Zelda
 
             if (!paused)
             {
-                currentTab?.Evaluate(true);
+                currentTab?.Evaluate();
                 foreach (var tab in expressionTabs)
                     if (tab != currentTab)
                         UpdateDatagrid(tab, tab.scintilla.Text);
@@ -994,6 +1034,7 @@ namespace Zelda
                 if (!visible.Contains(row[0] as JRFile))
                     rows.Add(row);
 
+            bool safemode = tab.IsUnsafe && settings.SafeMode;
             Task.Run(() =>
             {
                 // calculate expression and populate data
@@ -1004,11 +1045,11 @@ namespace Zelda
                 foreach (DataRow row in rows)
                 {
                     if (tab.Paused || tab.needsEvaluation) return;
-                    
-                    if (settings.ShowAPICallTime) sw.Restart();
-                    string value = isEmpty ? expression : jrAPI.resolveExpression(row[0] as JRFile, expression, settings.HighlightComments);
-                    if (settings.ShowAPICallTime) sw.Stop();
-                    double time = settings.ShowAPICallTime && !isEmpty ? TimeSpan.FromTicks(sw.ElapsedTicks).TotalMilliseconds : 0;
+
+                    if (!safemode && settings.ShowAPICallTime) sw.Restart();
+                    string value = safemode ? "*** safe mode ***" : isEmpty ? expression : jrAPI.resolveExpression(row[0] as JRFile, expression, settings.HighlightComments);
+                    if (!safemode && settings.ShowAPICallTime) sw.Stop();
+                    double time = TimeSpan.FromTicks(sw.ElapsedTicks).TotalMilliseconds;
 
                     rowData.Add(new object[] { row, value, time });
                     if (++currRow % 100 == 0)
@@ -1130,7 +1171,7 @@ namespace Zelda
                 LoadPlaylist(currentPlaylist);
                 if (!paused)
                 {
-                    currentTab?.Evaluate(true);
+                    currentTab?.Evaluate();
                     foreach (var tab in expressionTabs)
                         if (tab != currentTab)
                             UpdateDatagrid(tab, tab.scintilla.Text);
@@ -1144,9 +1185,10 @@ namespace Zelda
         private void tabsLeft_SelectedIndexChanged(object sender, EventArgs e)
         {
             state.CurrentTab = tabsLeft.SelectedIndex;
+            setAutorun();
             if (currentTab == null) return;
             ShowResults();
-            lblChanged.Visible = paused && currentTab.needsEvaluation;
+            lblChanged.Visible = (paused || !btnAutorun.Enabled) && currentTab.needsEvaluation;
             btnRevert.Enabled = btnSave.Enabled = btnLink.Enabled = LinkedFieldsEnabled && currentTab.isLinkedTab;
             btnLink.Enabled = LinkedFieldsEnabled;
             btnRename.Enabled = !currentTab.isLinkedTab;
@@ -1244,7 +1286,7 @@ namespace Zelda
             else if (e.Control && !e.Alt)
             {
                 int digit = -1;
-                if (e.KeyCode >= Keys.NumPad1 &&  e.KeyCode <= Keys.NumPad9)
+                if (e.KeyCode >= Keys.NumPad1 && e.KeyCode <= Keys.NumPad9)
                     digit = e.KeyCode - Keys.NumPad1;
                 if (e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D9)
                     digit = e.KeyCode - Keys.D1;
@@ -1255,16 +1297,16 @@ namespace Zelda
                         tabsLeft.SelectedIndex = digit;
                 }
                 else switch (e.KeyCode)
-                {
-                    case Keys.N: action = btnNew_Click; break;
-                    case Keys.W: action = btnClose_Click; break;
-                    case Keys.I: action = btnItalic_Click; break;
-                    case Keys.B: action = btnBold_Click; break;
-                    case Keys.U: action = btnUnderline_Click; break;
-                    case Keys.L: action = btnLink_Click; break;
-                    case Keys.S: action = btnSave_Click; break;
-                    case Keys.R: action = btnRevert_Click; break;
-                }
+                    {
+                        case Keys.N: action = btnNew_Click; break;
+                        case Keys.W: action = btnClose_Click; break;
+                        case Keys.I: action = btnItalic_Click; break;
+                        case Keys.B: action = btnBold_Click; break;
+                        case Keys.U: action = btnUnderline_Click; break;
+                        case Keys.L: action = btnLink_Click; break;
+                        case Keys.S: action = btnSave_Click; break;
+                        case Keys.R: action = btnRevert_Click; break;
+                    }
             }
             else if (e.Alt)
             {
@@ -1281,10 +1323,7 @@ namespace Zelda
                     case Keys.F2: action = btnRename_Click; break;
                     case Keys.F3: action = btnInsertField_Click; break;
                     case Keys.F4: action = btnInsertFunction_Click; break;
-                    case Keys.F5:
-                        currentTab?.Evaluate(true);
-                        e.Handled = e.SuppressKeyPress = true;
-                        break;
+                    case Keys.F5: action = btnRun_Click; break;
                     case Keys.F6: action = btnAutorun_Click; break;
                     case Keys.F10: action = btnSettings_Click; break;
                     case Keys.F11: WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized; break;
@@ -1293,7 +1332,7 @@ namespace Zelda
             if (action != null)
             {
                 e.Handled = e.SuppressKeyPress = true;
-                BeginInvoke((MethodInvoker) delegate { action(null, EventArgs.Empty); });
+                BeginInvoke((MethodInvoker)delegate { action(null, EventArgs.Empty); });
             }
         }
 
@@ -1407,6 +1446,7 @@ namespace Zelda
                 return;
             }
 
+            webWiki.CoreWebView2.Profile.PreferredColorScheme = CoreWebView2PreferredColorScheme.Light;
             webWiki.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.Document);
             webWiki.CoreWebView2.WebResourceRequested += CoreWebView2_WebResourceRequested;
             webWiki.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;

@@ -10,6 +10,9 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -90,47 +93,33 @@ namespace Zelda
             return (int)(date - new DateTime(1899, 12, 30)).TotalDays;
         }
 
-        public static T JsonDeserialize<T>(string json, string dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        public static string JsonSerialize<T>(T obj, bool indented = true)
         {
-            try
+            var options = new JsonSerializerOptions()
             {
-                using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json)))
-                {
-                    var settings = new DataContractJsonSerializerSettings()
-                    {
-                        DateTimeFormat = new DateTimeFormat(dateFormat),
-                        UseSimpleDictionaryFormat = true,
-                    };
-                    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T), settings);
-                    return (T)serializer.ReadObject(ms);
-                }
-            }
-            catch (Exception ex) { Logger.Log(ex); }
-            return default(T);
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,             // compatibility encoding
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+                WriteIndented = indented,
+                IgnoreReadOnlyProperties = true
+            };
+
+            options.Converters.Add(new JsonStringEnumConverter());
+            string json = JsonSerializer.Serialize(obj, options);
+            return json;
         }
 
-        public static string JsonSerialize<T>(T obj, string dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'", bool indent = false)
+        internal static T JsonDeserialize<T>(string json)
         {
             try
             {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (var writer = JsonReaderWriterFactory.CreateJsonWriter(ms, Encoding.UTF8, true, true, "  "))
-                    {
-                        var settings = new DataContractJsonSerializerSettings()
-                        {
-                            DateTimeFormat = new DateTimeFormat(dateFormat),
-                            UseSimpleDictionaryFormat = true
-                        };
-                        DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T), settings);
-                        serializer.WriteObject(writer, obj);
-                        writer.Flush();
-                    }
-                    return Encoding.UTF8.GetString(ms.ToArray());
-                }
+                var options = new JsonSerializerOptions();
+                options.Converters.Add(new JsonStringEnumConverter());
+
+                var obj = JsonSerializer.Deserialize<T>(json, options);
+                return obj;
             }
-            catch (Exception ex) { Logger.Log(ex); }
-            return null;
+            catch { }
+            return default(T);
         }
 
         /*

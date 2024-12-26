@@ -2,65 +2,54 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Text.Json.Serialization;
 
 namespace Zelda
 {
-    [DataContract]
     public class Settings
     {
         public bool isDefault = true;
-        [DataMember] public int version = 1;
-        
-        [DataMember] public bool SaveExpressions = true;
-        [DataMember] public bool SaveState = true;
-        [DataMember] public bool ReloadPlaylist = true;
-        [DataMember] public bool StartMaximized = false;        // deprecated, Zelda saves/restores last state
-        [DataMember] public bool ShowLineNumbers = true;
-        [DataMember] public bool WrapIndent = true;
-        [DataMember] public bool ReplaceTabs = true;
-        [DataMember] public bool ShowAPICallTime = true;
-        [DataMember] public bool FastStart = false;
-        [DataMember] public bool UseMCWS = false;
-        [DataMember] public string MCWSServer = "http://localhost:52199";
-        [DataMember] public string MCWSUsername = null;
-        [DataMember] public string MCWSPassword = null;
 
-        [DataMember] public int EvaluateDelay = 500;
-        [DataMember] public bool HighlightSyntax = true;
-        [DataMember] public bool HighlightFunction = true;
-        [DataMember] public bool HighlightDelimiters = true;
-        [DataMember] public bool HighlightComments = true; 
-        [DataMember] public List<string> ExtraFunctions = new List<string>();
-        [DataMember] public string TooltipFolder = null;
-        [DataMember] public string PlaylistFilter = null;
+        public int version { get; set; } = 2;
+        public bool SaveExpressions { get; set; } = true;
+        public bool SaveState { get; set; } = true;
+        public bool ReloadPlaylist { get; set; } = true;
+        public bool StartMaximized { get; set; } = false;        // deprecated, Zelda saves/restores last state
+        public bool ShowLineNumbers { get; set; } = true;
+        public bool WrapIndent { get; set; } = true;
+        public bool ReplaceTabs { get; set; } = true;
+        public bool ShowAPICallTime { get; set; } = true;
+        public bool FastStart { get; set; } = false;
+        public bool UseMCWS { get; set; } = false;
+        public string MCWSServer { get; set; } = "http://localhost:52199";
+        public string MCWSUsername { get; set; } = null;
+        public string MCWSPassword { get; set; } = null;
 
-        [DataMember(Order = 101)] public CustomFont EditorFont;
-        [DataMember(Order = 102)] public CustomFont OutputFont;
-        [DataMember(Order = 103)] public CustomFont RenderFont;
+        public int EvaluateDelay { get; set; } = 500;
+        public bool HighlightSyntax { get; set; } = true;
+        public bool HighlightFunction { get; set; } = true;
+        public bool HighlightDelimiters { get; set; } = true;
+        public bool HighlightComments { get; set; } = true;
+        public bool SafeMode { get; set; } = true;
+        public List<string> ExtraFunctions { get; set; } = new List<string>();
+        public string TooltipFolder { get; set; } = null;
+        public string PlaylistFilter { get; set; } = null;
 
-        //[DataMember] public string CurrentProfile;
-        //[DataMember] public List<SyntaxProfile> SyntaxProfiles;
+        [JsonPropertyOrder(101)] public CustomFont EditorFont { get; set; }
+        [JsonPropertyOrder(102)] public CustomFont OutputFont { get; set; }
+        [JsonPropertyOrder(103)] public CustomFont RenderFont { get; set; }
+
+        //public string CurrentProfile { get; set; }
+        //public List<SyntaxProfile> SyntaxProfiles { get; set; }
 
         public Settings()
         {
-            CheckSettings();
-        }
-
-        private bool CheckSettings()
-        {
-            if (EditorFont == null) EditorFont = new CustomFont("Consolas", 11.25F, Color.Black, Color.White);
-            if (OutputFont == null) OutputFont = new CustomFont("Consolas", 11.25F, Color.Black, Color.White);
-            if (RenderFont == null) RenderFont = new CustomFont("Segoe UI", 9F, Color.White, Color.FromArgb(0, 48, 48));
-            if (version < 1) { HighlightComments = true; }
-
-            bool isChanged = version < 1;
-            version = 1;
-            return !isChanged;
+            // defaults for deserialization
+            SafeMode = true;
+            HighlightComments = true;
+            EditorFont = new CustomFont("Consolas", 11.25F, Color.Black, Color.White);
+            OutputFont = new CustomFont("Consolas", 11.25F, Color.Black, Color.White);
+            RenderFont = new CustomFont("Segoe UI", 9F, Color.White, Color.FromArgb(0, 48, 48));
         }
 
         public static Settings DefaultSettings()
@@ -78,13 +67,20 @@ namespace Zelda
                     string json = File.ReadAllText(Constants.SettingsFile);
                     var settings = Util.JsonDeserialize<Settings>(json);
                     settings.isDefault = false;
-                    if (!settings.CheckSettings())
+                    if (settings.version < 2)
+                    {
+                        settings.version = 2;
                         settings.Save();
+                    }
                     return settings;
                 }
             }
             catch { }
-            return DefaultSettings();
+
+            var newSettings = DefaultSettings();
+            newSettings.Save();
+
+            return newSettings;
         }
 
         public bool Save()
@@ -100,7 +96,7 @@ namespace Zelda
                 }
 
                 isDefault = false;
-                string json = Util.JsonSerialize(this, indent: true);
+                string json = Util.JsonSerialize(this, indented: true);
                 File.WriteAllText(Constants.SettingsFile, json);
                 return true;
             }
@@ -109,22 +105,21 @@ namespace Zelda
         }
     }
 
-    [DataContract]
     public class CustomFont
     {
-        Font _font;
-        public Font font { get { return getFont(); } set { setFont(value); } }
-        public Color ForeColor { get { return getColor(fgcolor, Color.Black); } set { fgcolor = hexColor(value); } }
-        public Color BackColor { get { return getColor(bgcolor, Color.White); } set { bgcolor = hexColor(value); } }
-        public bool isBold { get { return style != null && style.ToLower().Contains("bold"); } }
-        public bool isItalic { get { return style != null && style.ToLower().Contains("italic"); } }
-        public bool isRegular { get { return !isBold && !isItalic; } }
+        [JsonIgnore] Font _font;
+        [JsonIgnore] public Font font { get { return getFont(); } set { setFont(value); } }
+        [JsonIgnore] public Color ForeColor { get { return getColor(fgcolor, Color.Black); } set { fgcolor = hexColor(value); } }
+        [JsonIgnore] public Color BackColor { get { return getColor(bgcolor, Color.White); } set { bgcolor = hexColor(value); } }
+        [JsonIgnore] public bool isBold { get { return style != null && style.ToLower().Contains("bold"); } }
+        [JsonIgnore] public bool isItalic { get { return style != null && style.ToLower().Contains("italic"); } }
+        [JsonIgnore] public bool isRegular { get { return !isBold && !isItalic; } }
 
-        [DataMember] public string family;
-        [DataMember] public string style;
-        [DataMember] public float size;
-        [DataMember] public string fgcolor;
-        [DataMember] public string bgcolor;
+        public string family { get; set; }
+        public string style { get; set; }
+        public float size { get; set; }
+        public string fgcolor { get; set; }
+        public string bgcolor { get; set; }
 
         public CustomFont()
         { }
@@ -187,18 +182,16 @@ namespace Zelda
         }
     }
 
-    [DataContract]
     public class SyntaxProfile
     {
-        [DataMember] public string name;
-        [DataMember] public List<SyntaxElement> elements;
+        public string name { get; set; }
+        public List<SyntaxElement> elements { get; set; }
     }
 
-    [DataContract]
     public class SyntaxElement
     {
-        [DataMember] public ELTokenType element;
-        [DataMember] public Color foreground;
-        [DataMember] public Color background;
+        public ELTokenType element { get; set; }
+        public Color foreground { get; set; }
+        public Color background { get; set; }
     }
 }
