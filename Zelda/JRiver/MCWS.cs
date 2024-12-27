@@ -30,7 +30,7 @@ namespace Zelda
 
         public MCWS(string server, string username, string password, bool verbose = false)
         {
-            hostURL = server.ToLower();
+            hostURL = server.ToLower().Replace("localhost", "127.0.0.1");   // "localhost" is slow if ipv6 is enabled, force ipv4
             authToken = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
 
             debug = verbose;
