@@ -29,6 +29,7 @@ namespace Zelda
         int latencyChecks = 0;
         bool paused = false;
         bool loading;
+        string currHtml;
         int lastResize = 0;
         bool initialized = false;
         bool LinkedFieldsEnabled = false;
@@ -72,8 +73,8 @@ namespace Zelda
             else
             {
                 GetPlayLists(true);
-                initialized = true;
                 LoadState();
+                initialized = true;
                 UpdateLinkedTabs();
             }
         }
@@ -535,7 +536,7 @@ namespace Zelda
 
         void ShowResults()
         {
-            if (currentTab == null) return;
+            if (!initialized || currentTab == null) return;
             lblCalltime.Text = $"{currentTab.APItime:0.00} ms";
             if (currentTab.APItime > 0 && currentTab.APItime < latency)
             {
@@ -554,8 +555,6 @@ namespace Zelda
             txtOutput.ReadOnly = true;
 
             string html = getHTML(text);
-            //htmlOutput.Text = html;
-
             if (renderBrowser.IsBusy)
             {
                 renderBrowser.Stop();
