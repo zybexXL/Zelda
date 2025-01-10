@@ -14,7 +14,7 @@ namespace Zelda
         // conditional
         If, IfElse, FirstNotEmpty, IfCase, And, Or, Not,
         // date and time
-        ConvertDate, FormatDate, Now, DateInRange,
+        CompareDates, ConvertDate, DateInRange, FormatDate, Now, PlaylistTime,
         // file path and identifier
         DBLocation, Enviro, FileDBLocation, FileExtension, FileFolder, FileKey, FileLookup, FileName, FilePath, FileVolume,
         // formatting
@@ -27,7 +27,7 @@ namespace Zelda
         ListFormat, ListGrep, ListItem, ListLimit, ListMath, ListMix, ListMix2, ListRemove, ListShuffle, ListSort,
         // miscellaneous
         AlbumArtist, AlbumKey, AlbumType, AudioAnalysisState, Char, 
-        CustomData, FilePlaylists, Literal, PlaylistAdd, PlaylistRemove, PlaylistTime, Repeat, Row, Size, ShellRun,
+        CustomData, FilePlaylists, Literal, PlaylistAdd, PlaylistRemove, Repeat, Row, ShellRun, Size,
         Translate, TreeNode, TVInfo,
         // Number functions
         Avg, Decimal, Counter, Max, Min, Number, Rand, Range, Roman, StackCount, Sum, TrackNumber,
@@ -71,11 +71,13 @@ namespace Zelda
             new ELFunction(ELCategory.Conditional, ELFunctions.IfElse, "Conditional if-elseif evaluator", "https://wiki.jriver.com/index.php/Conditional_Functions#IfElse"),
             new ELFunction(ELCategory.Conditional, ELFunctions.Not, "Inverts a boolean value", "https://wiki.jriver.com/index.php/Conditional_Functions#Not"),
             new ELFunction(ELCategory.Conditional, ELFunctions.Or, "Tests a set of values and returns 1 if any are true", "https://wiki.jriver.com/index.php/Conditional_Functions#Or"),
-            
+
+            new ELFunction(ELCategory.DateTime, ELFunctions.CompareDates, "Calculates the diference between two dates", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#CompareDates"),
             new ELFunction(ELCategory.DateTime, ELFunctions.ConvertDate, "Converts a human-readable date to the internal format", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#ConvertDate"),
             new ELFunction(ELCategory.DateTime, ELFunctions.DateInRange, "Compares a date with a range of dates", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#DateInRange"),
             new ELFunction(ELCategory.DateTime, ELFunctions.FormatDate, "Formats a date value in a specified manner", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#FormatDate"),
             new ELFunction(ELCategory.DateTime, ELFunctions.Now, "Retrieve and display the system date", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#Now"),
+            new ELFunction(ELCategory.DateTime, ELFunctions.PlaylistTime, "Return the start/remaining time of a track in the current playlist", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#PlaylistTime"),
 
             new ELFunction(ELCategory.Identifier, ELFunctions.DBLocation, "Returns the current database location", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#DBLocation"),
             new ELFunction(ELCategory.Identifier, ELFunctions.Enviro, "Retrieves the value of an environment variable", "https://wiki.jriver.com/index.php/File_Path_and_Identifier_Functions#Enviro"),
@@ -134,7 +136,6 @@ namespace Zelda
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Literal, "Returns a string as given without any formatting or processing", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Literal"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.PlaylistAdd, "Adds an item to a playlist", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#PlaylistAdd"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.PlaylistRemove, "Removes an item from a playlist", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#PlaylistRemove"),
-            new ELFunction(ELCategory.Miscellaneous, ELFunctions.PlaylistTime, "Return the start/remaining time of a track in the current playlist", "https://wiki.jriver.com/index.php/Date_and_Time_Functions#PlaylistTime"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Repeat, "Returns any given string repeated the specified number of times", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Repeat"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Row, "Returns the row number of a list entry", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Row"),
             new ELFunction(ELCategory.Miscellaneous, ELFunctions.Size, "Returns a file's size in a format specific to the media type", "https://wiki.jriver.com/index.php/Miscellaneous_Functions#Size"),
