@@ -84,7 +84,7 @@ namespace Zelda
         {
             this.settings = settings;
 
-            scintilla.WhitespaceTextColor = Color.DimGray;
+            scintilla.WhitespaceTextColor = settings.GetColor(SkinElement.Whitespace);
             scintilla.WhitespaceSize = 2;           // larger spaces for visibility
             scintilla.EolMode = Eol.Lf;             // LF only
             scintilla.Margins[1].Width = 10;
@@ -99,12 +99,12 @@ namespace Zelda
             scintilla.Styles[Style.Default].Bold = settings.EditorFont.isBold;
             scintilla.Styles[Style.Default].Italic = settings.EditorFont.isItalic;
             scintilla.Styles[Style.Default].SizeF = settings.EditorFont.size;
-            scintilla.Styles[Style.Default].ForeColor = settings.EditorFont.ForeColor;
-            scintilla.Styles[Style.Default].BackColor = settings.EditorFont.BackColor;
+            scintilla.Styles[Style.Default].ForeColor = settings.GetColor(SkinElement.EditorText);
+            scintilla.Styles[Style.Default].BackColor = settings.GetColor(SkinElement.EditorBack);
             scintilla.StyleClearAll();
 
             foreach (ELTokenType token in Enum.GetValues(typeof(ELTokenType)))
-                scintilla.Styles[(int)token].ForeColor = ELToken.GetColor(token);
+                scintilla.Styles[(int)token].ForeColor = settings.GetColor(token);
 
             //scintilla.Styles[(int)ELTokenType.Literal].BackColor = Color.PaleGoldenrod;   // bg
             //scintilla.Styles[(int)ELTokenType.Escaped].BackColor = Color.PaleGoldenrod;   // bg
@@ -115,26 +115,27 @@ namespace Zelda
             // set selection color (active/inactive)
             const int SCI_SETELEMENTCOLOUR = 2753;
             const int SC_ELEMENT_SELECTION_INACTIVE_BACK = 17;
-            scintilla.DirectMessage(SCI_SETELEMENTCOLOUR, new IntPtr(SC_ELEMENT_SELECTION_INACTIVE_BACK), new IntPtr(Color.PaleGoldenrod.ToArgb()));
-            scintilla.SelectionBackColor = Color.PaleGoldenrod;
+            Color selectionColor = settings.GetColor(SkinElement.Selection);
+            scintilla.DirectMessage(SCI_SETELEMENTCOLOUR, new IntPtr(SC_ELEMENT_SELECTION_INACTIVE_BACK), new IntPtr(selectionColor.ToArgb()));
+            scintilla.SelectionBackColor = selectionColor;
 
             // function highlight indicator
             scintilla.Indicators[1].Style = IndicatorStyle.StraightBox;
-            scintilla.Indicators[1].ForeColor = Color.Blue;
-            scintilla.Indicators[1].Alpha = 30;
+            scintilla.Indicators[1].ForeColor = settings.GetColor(SkinElement.HighlightFunction, true);
+            scintilla.Indicators[1].Alpha = settings.GetAlpha(SkinElement.HighlightFunction);
             scintilla.Indicators[1].Under = true;
 
             // function commas and parenthesis indicator
             scintilla.Indicators[2].Style = IndicatorStyle.FullBox;
-            scintilla.Indicators[2].ForeColor = Color.Red;
-            scintilla.Indicators[2].Alpha = 60;
+            scintilla.Indicators[2].ForeColor = settings.GetColor(SkinElement.HighlightSeparator, true);
+            scintilla.Indicators[2].Alpha = settings.GetAlpha(SkinElement.HighlightSeparator);
 
             // word selection indicator
             scintilla.Indicators[3].Style = IndicatorStyle.StraightBox;
             scintilla.Indicators[3].Under = true;
-            scintilla.Indicators[3].ForeColor = Color.Cyan;
-            scintilla.Indicators[3].OutlineAlpha = 90;
-            scintilla.Indicators[3].Alpha = 90;
+            scintilla.Indicators[3].ForeColor = settings.GetColor(SkinElement.HighlightSelection, true);
+            scintilla.Indicators[3].OutlineAlpha = settings.GetAlpha(SkinElement.HighlightSelection);
+            scintilla.Indicators[3].Alpha = settings.GetAlpha(SkinElement.HighlightSelection);
 
             // change CR/LF representation
             //scintilla.SetRepresentation("\n", "LF");

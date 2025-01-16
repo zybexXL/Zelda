@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text.Json.Serialization;
+using System.Windows.Forms;
 
 namespace Zelda
 {
-    public class Settings
+    public class Settings : ConfigFile
     {
-        public bool isDefault = true;
-
         public int version { get; set; } = 2;
         public bool SaveExpressions { get; set; } = true;
         public bool SaveState { get; set; } = true;
@@ -39,8 +38,8 @@ namespace Zelda
         [JsonPropertyOrder(102)] public CustomFont OutputFont { get; set; }
         [JsonPropertyOrder(103)] public CustomFont RenderFont { get; set; }
 
-        //public string CurrentProfile { get; set; }
-        //public List<SyntaxProfile> SyntaxProfiles { get; set; }
+        [JsonIgnore]
+        public Skin Skin { get; set; }
 
         public Settings()
         {
@@ -52,146 +51,66 @@ namespace Zelda
             RenderFont = new CustomFont("Segoe UI", 9F, Color.White, Color.FromArgb(0, 48, 48));
         }
 
-        public static Settings DefaultSettings()
-        {
-            Settings settings = new Settings();
-            return settings;
-        }
-
         public static Settings Load()
         {
-            try
+            var settings = Load<Settings>(Constants.SettingsFile) ?? new Settings();
+
+            settings.Skin = Skin.Load();
+            if (settings.Skin.isDefault)
+                settings.SaveSkin();
+            else
+                settings.ApplySkin();
+
+            if (settings.isDefault || settings.version < 2)
             {
-                if (File.Exists(Constants.SettingsFile))
-                {
-                    string json = File.ReadAllText(Constants.SettingsFile);
-                    var settings = Util.JsonDeserialize<Settings>(json);
-                    settings.isDefault = false;
-                    if (settings.version < 2)
-                    {
-                        settings.version = 2;
-                        settings.Save();
-                    }
-                    return settings;
-                }
+                settings.version = 2;
+                settings.Save();
             }
-            catch { }
 
-            var newSettings = DefaultSettings();
-            newSettings.Save();
-
-            return newSettings;
+            return settings;
         }
 
         public bool Save()
         {
-            try
-            {
-                Directory.CreateDirectory(Constants.DataFolder);
-                if (File.Exists(Constants.SettingsFile))
-                {
-                    string bak = Path.ChangeExtension(Constants.SettingsFile, ".bak");
-                    File.Delete(bak);
-                    File.Move(Constants.SettingsFile, bak);
-                }
-
-                isDefault = false;
-                string json = Util.JsonSerialize(this, indented: true);
-                File.WriteAllText(Constants.SettingsFile, json);
-                return true;
-            }
-            catch { }    // errors are handled by the caller when settings is null
-            return false;
+            return Save(Constants.SettingsFile);
         }
-    }
 
-    public class CustomFont
-    {
-        [JsonIgnore] Font _font;
-        [JsonIgnore] public Font font { get { return getFont(); } set { setFont(value); } }
-        [JsonIgnore] public Color ForeColor { get { return getColor(fgcolor, Color.Black); } set { fgcolor = hexColor(value); } }
-        [JsonIgnore] public Color BackColor { get { return getColor(bgcolor, Color.White); } set { bgcolor = hexColor(value); } }
-        [JsonIgnore] public bool isBold { get { return style != null && style.ToLower().Contains("bold"); } }
-        [JsonIgnore] public bool isItalic { get { return style != null && style.ToLower().Contains("italic"); } }
-        [JsonIgnore] public bool isRegular { get { return !isBold && !isItalic; } }
-
-        public string family { get; set; }
-        public string style { get; set; }
-        public float size { get; set; }
-        public string fgcolor { get; set; }
-        public string bgcolor { get; set; }
-
-        public CustomFont()
-        { }
-
-        public CustomFont(string family, float size, Color foreground, Color background)
+        public void ApplySkin()
         {
-            _font = null;
-            this.family = family;
-            this.size = size;
-            this.style = "Regular";
-            ForeColor = foreground;
-            BackColor = background;
+            RenderFont.ForeColor = GetColor(SkinElement.RenderText);
+            RenderFont.BackColor = GetColor(SkinElement.RenderBack);
+            OutputFont.ForeColor = GetColor(SkinElement.OutputText);
+            OutputFont.BackColor = GetColor(SkinElement.OutputBack);
+            EditorFont.ForeColor = GetColor(SkinElement.EditorText);
+            EditorFont.BackColor = GetColor(SkinElement.EditorBack);
         }
 
-        public CustomFont(Font font, Color foreground, Color background)
+        public bool SaveSkin()
         {
-            this.font = font;
-            ForeColor = foreground;
-            BackColor = background;
+            Skin.RenderText = "#" + RenderFont.fgcolor;
+            Skin.RenderBack = "#" + RenderFont.bgcolor;
+            Skin.OutputText = "#" + OutputFont.fgcolor;
+            Skin.OutputBack = "#" + OutputFont.bgcolor;
+            Skin.EditorText = "#" + EditorFont.fgcolor;
+            Skin.EditorBack = "#" + EditorFont.bgcolor;
+            return Skin.Save();
         }
 
-        private Font getFont()
+        public Color GetColor(ELTokenType token)
         {
-            if (_font != null) return _font;
-
-            try
-            {
-                if (!Enum.TryParse<FontStyle>(style, out FontStyle fStyle))
-                    fStyle = FontStyle.Regular;
-                _font = new Font(family, size, fStyle);
-                return _font;
-            }
-            catch { }
-            _font = new Font("Consolas", 10F);
-            return _font;
+            return Skin?.GetColor(token) ?? Color.Black;
         }
 
-        private void setFont(Font font)
+        public Color GetColor(SkinElement element, bool removeAlpha = false)
         {
-            _font = font;
-            family = font.FontFamily.Name;
-            size = font.Size;
-            style = font.Style.ToString();
+            Color color = Skin?.GetColor(element) ?? Color.Black;
+            return removeAlpha ? Color.FromArgb(color.ToArgb() & 0x00FFFFFF) : color;
         }
 
-        private Color getColor(string color, Color defaultColor)
+        public int GetAlpha(SkinElement element)
         {
-            if (!string.IsNullOrEmpty(color))
-                try
-                {
-                    return Color.FromArgb(int.Parse("FF" + color, System.Globalization.NumberStyles.HexNumber));
-                }
-                catch { }
-            return defaultColor;
+            uint value = (uint)(Skin?.GetColor(element).ToArgb() ?? 0) >> 24;
+            return (int)value;
         }
-
-        private string hexColor(Color color)
-        {
-            return color.ToArgb().ToString("X8").Substring(2);
-        }
-    }
-
-    public class SyntaxProfile
-    {
-        public string name { get; set; }
-        public List<SyntaxElement> elements { get; set; }
-    }
-
-    public class SyntaxElement
-    {
-        public ELTokenType element { get; set; }
-        public Color foreground { get; set; }
-        public Color background { get; set; }
     }
 }

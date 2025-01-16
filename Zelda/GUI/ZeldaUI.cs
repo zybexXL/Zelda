@@ -29,7 +29,6 @@ namespace Zelda
         int latencyChecks = 0;
         bool paused = false;
         bool loading;
-        string currHtml;
         int lastResize = 0;
         bool initialized = false;
         bool LinkedFieldsEnabled = false;
@@ -129,8 +128,8 @@ namespace Zelda
             txtOutput.Styles[Style.Default].Bold = settings.OutputFont.isBold;
             txtOutput.Styles[Style.Default].Italic = settings.OutputFont.isItalic;
             txtOutput.Styles[Style.Default].SizeF = settings.OutputFont.size;
-            txtOutput.Styles[Style.Default].ForeColor = settings.OutputFont.ForeColor;
-            txtOutput.Styles[Style.Default].BackColor = settings.OutputFont.BackColor;
+            txtOutput.Styles[Style.Default].ForeColor = settings.GetColor(SkinElement.OutputText);
+            txtOutput.Styles[Style.Default].BackColor = settings.GetColor(SkinElement.OutputBack);
             txtOutput.StyleClearAll();
             // scintillaNET bugs
             txtOutput.CaretLineBackColor = Color.Transparent;
@@ -683,6 +682,9 @@ namespace Zelda
             if (DialogResult.OK == settingsUI.ShowDialog(this))
             {
                 settings.Save();
+                if (settingsUI.ColorsChanged)
+                    settings.SaveSkin();
+
                 connectionChanged = settingsUI.ConnectionOptionsChanged;
                 return true;
             }
@@ -691,20 +693,38 @@ namespace Zelda
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            if (ShowSettings(out bool reconnect))
+            if (ModifierKeys.HasFlag(Keys.Control))
+                btnReloadSkin(sender, e);
+            else
             {
-                if (reconnect)
-                    btnReconnect_Click(null, EventArgs.Empty);
+                if (ShowSettings(out bool reconnect))
+                {
+                    if (reconnect)
+                        btnReconnect_Click(null, EventArgs.Empty);
 
-                SetOutputStyle();
-                currentTab?.Evaluate();
-                ShowResults();
-
-                foreach (var tab in expressionTabs)
-                    tab.Config(settings);
-                if (gridFiles.Columns["API"] != null)
-                    gridFiles.Columns["API"].Visible = settings.ShowAPICallTime;
+                    ApplySkin();
+                }
             }
+        }
+
+        private void btnReloadSkin(object sender, EventArgs e)
+        {
+            settings.Skin = Skin.Load();
+            ApplySkin();
+        }
+
+        private void ApplySkin()
+        {
+            settings.ApplySkin();
+
+            SetOutputStyle();
+            currentTab?.Evaluate();
+            ShowResults();
+
+            foreach (var tab in expressionTabs)
+                tab.Config(settings);
+            if (gridFiles.Columns["API"] != null)
+                gridFiles.Columns["API"].Visible = settings.ShowAPICallTime;
         }
 
         private void btnAbout_Click(object sender, EventArgs e)
@@ -1239,6 +1259,7 @@ namespace Zelda
                         case Keys.L: action = btnLink_Click; break;
                         case Keys.S: action = btnSave_Click; break;
                         case Keys.R: action = btnRevert_Click; break;
+                        case Keys.F10: action = btnReloadSkin; break;
                     }
             }
             else if (e.Alt)
@@ -1260,6 +1281,8 @@ namespace Zelda
                     case Keys.F6: action = btnAutorun_Click; break;
                     case Keys.F10: action = btnSettings_Click; break;
                     case Keys.F11: WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized; break;
+                    case Keys.F12: action = btnReloadSkin; break;
+
                 }
 
             if (action != null)

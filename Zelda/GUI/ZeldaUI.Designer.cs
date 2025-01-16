@@ -36,6 +36,9 @@ namespace Zelda
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             splitContainer3 = new System.Windows.Forms.SplitContainer();
             tabsLeft = new System.Windows.Forms.DraggableTabControl();
+            tabPage5 = new System.Windows.Forms.TabPage();
+            tabPage6 = new System.Windows.Forms.TabPage();
+            webWiki = new WikiView2();
             tabsRight = new System.Windows.Forms.TabControl();
             tabText = new System.Windows.Forms.TabPage();
             txtOutput = new ScintillaNET.Scintilla();
@@ -46,8 +49,6 @@ namespace Zelda
             cFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             cExpr1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             cCalltime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            tabPage5 = new System.Windows.Forms.TabPage();
-            tabPage6 = new System.Windows.Forms.TabPage();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             btnNew = new System.Windows.Forms.ToolStripButton();
             btnLink = new System.Windows.Forms.ToolStripButton();
@@ -104,7 +105,6 @@ namespace Zelda
             field1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             field2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             field3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            webWiki = new WikiView2();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -210,6 +210,15 @@ namespace Zelda
             tabPage6.TabIndex = 1;
             tabPage6.Text = "🔗 [expr2] ❎";
             tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // webWiki
+            // 
+            webWiki.Dock = System.Windows.Forms.DockStyle.Fill;
+            webWiki.Location = new Point(0, 5);
+            webWiki.Name = "webWiki";
+            webWiki.Size = new Size(688, 189);
+            webWiki.TabIndex = 0;
+            webWiki.OnInitializationCompleted += WebWiki_OnInitializationCompleted;
             // 
             // tabsRight
             // 
@@ -783,7 +792,7 @@ namespace Zelda
             btnSettings.Name = "btnSettings";
             btnSettings.ShowDropDownArrow = false;
             btnSettings.Size = new Size(24, 28);
-            btnSettings.ToolTipText = "Settings (F10)";
+            btnSettings.ToolTipText = "Settings (F10)\r\nCTRL+click or CTRL+F10 to reload ZeldaSkin.json";
             btnSettings.Click += btnSettings_Click;
             // 
             // btnAbout
@@ -961,15 +970,6 @@ namespace Zelda
             field3ToolStripMenuItem.Name = "field3ToolStripMenuItem";
             field3ToolStripMenuItem.Size = new Size(80, 22);
             field3ToolStripMenuItem.Text = "Field3";
-            // 
-            // wikiView21
-            // 
-            webWiki.Dock = System.Windows.Forms.DockStyle.Fill;
-            webWiki.Location = new Point(0, 5);
-            webWiki.Name = "webWiki";
-            webWiki.Size = new Size(688, 189);
-            webWiki.TabIndex = 0;
-            webWiki.OnInitializationCompleted += WebWiki_OnInitializationCompleted;
             // 
             // ZeldaUI
             // 

@@ -11,6 +11,7 @@ namespace Zelda
         Settings settings;
         CustomFont[] fonts = new CustomFont[3];
         public bool ConnectionOptionsChanged = false;
+        public bool ColorsChanged = false;
 
         public SettingsUI(Settings settings)
         {
@@ -170,7 +171,8 @@ namespace Zelda
         {
             colorDialog.Color = lblSampleColor.ForeColor;
             if (colorDialog.ShowDialog() == DialogResult.OK)
-            { 
+            {
+                ColorsChanged = true;
                 lblSampleColor.ForeColor = colorDialog.Color;
                 SetCustomFont();
             }
@@ -180,7 +182,8 @@ namespace Zelda
         {
             colorDialog.Color = lblSampleColor.BackColor;
             if (colorDialog.ShowDialog() == DialogResult.OK)
-            { 
+            {
+                ColorsChanged = true;
                 lblSampleColor.BackColor = colorDialog.Color;
                 SetCustomFont();
             }
