@@ -498,7 +498,7 @@ namespace Zelda
             btnFunctionHelp.Name = "btnFunctionHelp";
             btnFunctionHelp.Size = new Size(36, 40);
             btnFunctionHelp.Text = "Function syntax helper";
-            btnFunctionHelp.ToolTipText = "Toggle the Function syntax helper panel";
+            btnFunctionHelp.ToolTipText = "Toggle the Function syntax helper panel (Ctrl+H)";
             btnFunctionHelp.Click += btnFunctionHelp_Click;
             // 
             // toolStripSeparator2

@@ -89,7 +89,8 @@ namespace Zelda
             scintilla.EolMode = Eol.Lf;             // LF only
             scintilla.Margins[1].Width = 10;
 
-            scintilla.CaretLineBackColor = Color.Transparent;
+            scintilla.CaretLineBackColor = settings.GetColor(SkinElement.EditorBack);
+            scintilla.CaretForeColor = settings.GetColor(ELTokenType.Default);
             scintilla.WrapStartIndent = settings.WrapIndent ? 2 : 0;
             scintilla.UseTabs = !settings.ReplaceTabs;
             scintilla.Margins[0].Width = settings.ShowLineNumbers ? 25 : 0;
@@ -113,11 +114,11 @@ namespace Zelda
             scintilla.Styles[Style.LineNumber].ForeColor = Color.DimGray;
 
             // set selection color (active/inactive)
-            const int SCI_SETELEMENTCOLOUR = 2753;
-            const int SC_ELEMENT_SELECTION_INACTIVE_BACK = 17;
-            Color selectionColor = settings.GetColor(SkinElement.Selection);
-            scintilla.DirectMessage(SCI_SETELEMENTCOLOUR, new IntPtr(SC_ELEMENT_SELECTION_INACTIVE_BACK), new IntPtr(selectionColor.ToArgb()));
-            scintilla.SelectionBackColor = selectionColor;
+            //const int SCI_SETELEMENTCOLOUR = 2753;
+            //const int SC_ELEMENT_SELECTION_INACTIVE_BACK = 17;
+            //scintilla.DirectMessage(SCI_SETELEMENTCOLOUR, new IntPtr(SC_ELEMENT_SELECTION_INACTIVE_BACK), new IntPtr(selectionColor.ToArgb()));
+            scintilla.SelectionBackColor = settings.GetColor(SkinElement.Selection);
+            scintilla.SelectionInactiveBackColor = settings.GetColor(SkinElement.Selection);
 
             // function highlight indicator
             scintilla.Indicators[1].Style = IndicatorStyle.StraightBox;

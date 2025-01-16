@@ -132,15 +132,19 @@ namespace Zelda
             txtOutput.Styles[Style.Default].BackColor = settings.GetColor(SkinElement.OutputBack);
             txtOutput.StyleClearAll();
             // scintillaNET bugs
-            txtOutput.CaretLineBackColor = Color.Transparent;
+            txtOutput.CaretLineBackColor = settings.GetColor(SkinElement.OutputBack);
             txtOutput.CaretStyle = CaretStyle.Invisible;
+            txtOutput.SelectionBackColor = settings.GetColor(SkinElement.Selection);
+            txtOutput.SelectionInactiveBackColor = settings.GetColor(SkinElement.Selection);
         }
 
         private void ZeldaUI_Shown(object sender, EventArgs e)
         {
             // scintillaNET bugs
-            txtOutput.CaretLineBackColor = Color.Transparent;
+            txtOutput.CaretLineBackColor = settings.GetColor(SkinElement.OutputBack);
             txtOutput.CaretStyle = CaretStyle.Invisible;
+            txtOutput.SelectionBackColor = settings.GetColor(SkinElement.Selection);
+            txtOutput.SelectionInactiveBackColor = settings.GetColor(SkinElement.Selection);
             txtOutput.Focus();
 
             tabsLeft.SelectedIndex = state.CurrentTab == -1 ? 0 : state.CurrentTab;
@@ -1259,6 +1263,7 @@ namespace Zelda
                         case Keys.L: action = btnLink_Click; break;
                         case Keys.S: action = btnSave_Click; break;
                         case Keys.R: action = btnRevert_Click; break;
+                        case Keys.H: action = btnFunctionHelp_Click; break;
                         case Keys.F10: action = btnReloadSkin; break;
                     }
             }
