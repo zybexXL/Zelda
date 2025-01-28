@@ -187,6 +187,8 @@ namespace Zelda
 
                 state.Save();
             }
+            if (AutoUpgrade.restartNeeded)
+                Process.Start(Application.ExecutablePath);
         }
 
         #endregion
@@ -1205,9 +1207,14 @@ namespace Zelda
 
         private void lblUpgrade_Click(object sender, EventArgs e)
         {
-            AutoUpgrade.CheckUpgrade();
             lblUpgrade.Visible = false;
             lblStatus.Visible = true;
+
+            if (AutoUpgrade.CheckUpgrade() && AutoUpgrade.restartNeeded)
+            {
+                MessageBox.Show("Zelda upgraded! Press OK to launch the new version.", "Zelda Upgraded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
         }
 
         private void browser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)

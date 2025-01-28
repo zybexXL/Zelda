@@ -34,10 +34,10 @@ namespace Zelda
                         if (noQuestions || DialogResult.Yes == MessageBox.Show($"Version {LatestVersion.version} is now available! Do you want to upgrade?",
                             "New version available", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                             if (UpgradeNow())
-                                Application.Restart();
+                                return true;
                             else
                                 MessageBox.Show($"Upgrade failed! Please upgrade manually from the release page:\n{LatestVersion.url}",
-                                    "Upgrade error",  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    "Upgrade error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                         MessageBox.Show("You are currently running the latest version.",
@@ -86,6 +86,7 @@ namespace Zelda
 
         public static void DoUpgrade(ProgressInfo progress)
         {
+            progress.result = false;
             try
             {
                 string tmpFile = Path.Combine(Path.GetTempPath(), $"Zelda.{LatestVersion.version}.tmp");
@@ -111,12 +112,9 @@ namespace Zelda
                     progress.result = true;
                     restartNeeded = true;
                     progress.subtitle = "starting new version";
-                    Application.Restart();
-                    return;
                 }
             }
             catch { }
-            progress.result = false;
         }  
 
         public static void Cleanup()
