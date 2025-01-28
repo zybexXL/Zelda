@@ -60,9 +60,12 @@ namespace Zelda
             // defaults for deserialization
             SafeMode = true;
             HighlightComments = true;
-            FontEditor = GetFontString(Constants.DefaultEditorFont);
-            FontOutput = GetFontString(Constants.DefaultOutputFont);
-            FontRender = GetFontString(Constants.DefaultRenderFont);
+            EditorFont = Constants.DefaultEditorFont;
+            OutputFont = Constants.DefaultOutputFont;
+            RenderFont = Constants.DefaultRenderFont;
+            FontEditor = GetFontString(EditorFont);
+            FontOutput = GetFontString(OutputFont);
+            FontRender = GetFontString(RenderFont);
         }
 
         public static Settings Load()
@@ -76,6 +79,10 @@ namespace Zelda
 
         private void Migrate()
         {
+            EditorFont = ParseFont(FontEditor);
+            OutputFont = ParseFont(FontOutput);
+            RenderFont = ParseFont(FontRender);
+
             if (isDefault || version < 3)
             {
                 // migrate font setting
@@ -93,10 +100,6 @@ namespace Zelda
                 version = 3;
                 Save();
             }
-
-            EditorFont = ParseFont(FontEditor);
-            OutputFont = ParseFont(FontOutput);
-            RenderFont = ParseFont(FontRender);
         }
 
         public bool Save()
