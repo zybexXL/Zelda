@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
 namespace Zelda
@@ -32,7 +31,7 @@ namespace Zelda
             return default;
         }
 
-        public bool Save(string path)
+        protected bool Save(string path)
         {
             try
             {

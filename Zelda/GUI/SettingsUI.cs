@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,36 +10,17 @@ namespace Zelda
     public partial class SettingsUI : Form
     {
         Settings settings;
-        CustomFont[] fonts = new CustomFont[3];
+        Font[] fonts = new Font[3];
         public bool ConnectionOptionsChanged = false;
-        public bool ColorsChanged = false;
 
         public SettingsUI(Settings settings)
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
             Icon = Properties.Resources.ZeldaIcon;
-            tabControl1.TabPages.Remove(tabCustomize);      // not implemented
-            
             this.settings = settings;
-            chkAPITime.Checked      = settings.ShowAPICallTime;
-            chkIndent.Checked       = settings.WrapIndent;
-            chkSaveTabs.Checked     = settings.SaveExpressions;
-            chkSaveView.Checked     = settings.SaveState;
-            chkTabs.Checked         = settings.ReplaceTabs;
-            chkMaximize.Checked     = settings.StartMaximized;
-            chkLoadPlaylist.Checked = settings.ReloadPlaylist;
-            chkLines.Checked        = settings.ShowLineNumbers;
-            chkFastStart.Checked    = settings.FastStart;
-            chkSafeMode.Checked     = settings.SafeMode;
 
-            delaySlide.Value        = settings.EvaluateDelay;
-
-            chkSyntax.Checked         = settings.HighlightSyntax;
-            chkSyntaxFunction.Checked = settings.HighlightFunction;
-            chkSyntaxDelim.Checked    = settings.HighlightDelimiters;
-            chkSyntaxComments.Checked = settings.HighlightComments;
-
+            // connection
             optMCWS.Checked = panelMCWS.Enabled = settings.UseMCWS;
             optAutomation.Checked = !settings.UseMCWS;
             txtServer.Text = settings.MCWSServer;
@@ -47,57 +29,86 @@ namespace Zelda
             txtUsername.Text = settings.MCWSUsername;
             txtPassword.Text = OSProtect.Unprotect(settings.MCWSPassword);
 
+            // preferences - application
+            chkAPITime.Checked = settings.ShowAPICallTime;
+            chkFastStart.Checked = settings.FastStart;
+            chkLoadPlaylist.Checked = settings.ReloadPlaylist;
+            chkSaveView.Checked = settings.SaveState;
+            chkSaveTabs.Checked = settings.SaveExpressions;
             chkTooltip.Checked = txtTooltip.Enabled = !string.IsNullOrEmpty(settings.TooltipFolder);
             txtTooltip.Text = chkTooltip.Checked ? settings.TooltipFolder : JRiverAPI.TooltipFolder;
             chkPlaylistFilter.Checked = txtPlaylistFilter.Enabled = !string.IsNullOrEmpty(settings.PlaylistFilter);
             txtPlaylistFilter.Text = settings.PlaylistFilter;
 
+            // preferences - editor
+            chkIndent.Checked = settings.WrapIndent;
+            chkTabs.Checked = settings.ReplaceTabs;
+            chkLines.Checked = settings.ShowLineNumbers;
+            chkSafeMode.Checked = settings.SafeMode;
+            delaySlide.Value = settings.EvaluateDelay;
+
+            // theme - highlight
+            optThemeAuto.Checked = true;
+            optThemeDark.Checked = settings.Theme == SkinTheme.Dark;
+            optThemeLight.Checked = settings.Theme == SkinTheme.Light;
+            chkSyntax.Checked = settings.HighlightSyntax;
+            chkSyntaxFunction.Checked = settings.HighlightFunction;
+            chkSyntaxDelim.Checked = settings.HighlightDelimiters;
+            chkSyntaxComments.Checked = settings.HighlightComments;
             txtExtraFuncs.Text = string.Join(" ", settings.ExtraFunctions);
 
-            radio1.Checked = true;
+            // theme - fonts
             fonts[0] = settings.EditorFont;
             fonts[1] = settings.OutputFont;
             fonts[2] = settings.RenderFont;
-            ShowCustomFont();
+            ShowFonts();
 
             ConnectionOptionsChanged = false;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            settings.ShowAPICallTime = chkAPITime.Checked;
-            settings.WrapIndent = chkIndent.Checked;
-            settings.SaveExpressions = chkSaveTabs.Checked;
-            settings.SaveState = chkSaveView.Checked;
-            settings.ReplaceTabs = chkTabs.Checked;
-            settings.StartMaximized = chkMaximize.Checked;
-            settings.ReloadPlaylist = chkLoadPlaylist.Checked;
-            settings.ShowLineNumbers = chkLines.Checked;
-            settings.FastStart = chkFastStart.Checked;
-            settings.SafeMode = chkSafeMode.Checked;
-
-            settings.HighlightSyntax = chkSyntax.Checked;
-            settings.HighlightFunction = chkSyntaxFunction.Checked;
-            settings.HighlightDelimiters = chkSyntaxDelim.Checked;
-            settings.HighlightComments = chkSyntaxComments.Checked;
-
-            settings.EvaluateDelay = delaySlide.Value;
-            settings.TooltipFolder = chkTooltip.Checked ? txtTooltip.Text?.TrimEnd('\\') : null;
-            settings.PlaylistFilter = chkPlaylistFilter.Checked && !string.IsNullOrWhiteSpace(txtPlaylistFilter.Text) ? txtPlaylistFilter.Text : null;
-
+            // connection
             settings.UseMCWS = optMCWS.Checked;
             settings.MCWSServer = txtServer.Text;
             settings.MCWSUsername = txtUsername.Text;
             settings.MCWSPassword = OSProtect.Protect(txtPassword.Text);
 
+            // preferences - application
+            settings.ShowAPICallTime = chkAPITime.Checked;
+            settings.FastStart = chkFastStart.Checked;
+            settings.ReloadPlaylist = chkLoadPlaylist.Checked;
+            settings.SaveState = chkSaveView.Checked;
+            settings.SaveExpressions = chkSaveTabs.Checked;
+            settings.TooltipFolder = chkTooltip.Checked ? txtTooltip.Text?.TrimEnd('\\') : null;
+            settings.PlaylistFilter = chkPlaylistFilter.Checked && !string.IsNullOrWhiteSpace(txtPlaylistFilter.Text) ? txtPlaylistFilter.Text : null;
+
+            // preferences - editor
+            settings.WrapIndent = chkIndent.Checked;
+            settings.ReplaceTabs = chkTabs.Checked;
+            settings.ShowLineNumbers = chkLines.Checked;
+            settings.SafeMode = chkSafeMode.Checked;
+            settings.EvaluateDelay = delaySlide.Value;
+
+            // theme
+            settings.Theme = optThemeDark.Checked ? SkinTheme.Dark : optThemeLight.Checked ? SkinTheme.Light : SkinTheme.Auto;
+            settings.HighlightSyntax = chkSyntax.Checked;
+            settings.HighlightFunction = chkSyntaxFunction.Checked;
+            settings.HighlightDelimiters = chkSyntaxDelim.Checked;
+            settings.HighlightComments = chkSyntaxComments.Checked;
             string funcs = Regex.Replace(txtExtraFuncs.Text ?? "", "[,;()\r\n]+", " ");
             settings.ExtraFunctions = funcs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
+            // theme - fonts
             settings.EditorFont = fonts[0];
             settings.OutputFont = fonts[1];
             settings.RenderFont = fonts[2];
 
             DialogResult = DialogResult.OK;
+            Close();
+        }
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
             Close();
         }
 
@@ -112,42 +123,7 @@ namespace Zelda
 
         private void SettingsUI_Load(object sender, EventArgs e)
         {
-            dgSyntax.Rows.Add("Fields", true, "", false, "", "[Director]");
-            dgSyntax.Rows.Add("Functions", true, "", false, "", "ListCombine()");
-            dgSyntax.Rows.Add("Math Funcs", true, "", false, "", "Int()");
-            dgSyntax.Rows.Add("HTML", true, "", false, "", "<font>");
-            dgSyntax.Rows.Add("Escaped", false, "", true, "", "/,");
-            dgSyntax.Rows.Add("Literals", false, "", true, "", "/# expression #/");
-            dgSyntax.Rows.Add("Numbers", true, "", false, "", "1234567890");
-            dgSyntax.Rows.Add("Symbols", true, "", false, "", "( , , )");
-            dgSyntax.Rows.Add("Comments", true, "", false, "", "[//, comment]");
-
-            dgSyntax.Rows[0].Cells[2].Style.BackColor = Color.DarkGreen;
-            dgSyntax.Rows[0].Cells[5].Style.ForeColor = Color.DarkGreen;
-
-            dgSyntax.Rows[1].Cells[2].Style.BackColor = Color.Blue;
-            dgSyntax.Rows[1].Cells[5].Style.ForeColor = Color.Blue;
-
-            dgSyntax.Rows[2].Cells[2].Style.BackColor = Color.DarkCyan;
-            dgSyntax.Rows[2].Cells[5].Style.ForeColor = Color.DarkCyan;
-
-            dgSyntax.Rows[3].Cells[2].Style.BackColor = Color.DarkMagenta;
-            dgSyntax.Rows[3].Cells[5].Style.ForeColor = Color.DarkMagenta;
-
-            dgSyntax.Rows[4].Cells[4].Style.BackColor = Color.PaleGoldenrod;
-            dgSyntax.Rows[4].Cells[5].Style.BackColor = Color.PaleGoldenrod;
-
-            dgSyntax.Rows[5].Cells[4].Style.BackColor = Color.PaleGoldenrod;
-            dgSyntax.Rows[5].Cells[5].Style.BackColor = Color.PaleGoldenrod;
-
-            dgSyntax.Rows[6].Cells[2].Style.BackColor = Color.DarkOrange;
-            dgSyntax.Rows[6].Cells[5].Style.ForeColor = Color.DarkOrange;
-
-            dgSyntax.Rows[7].Cells[2].Style.BackColor = Color.Red;
-            dgSyntax.Rows[7].Cells[5].Style.ForeColor = Color.Red;
-
-            dgSyntax.Rows[8].Cells[2].Style.BackColor = Color.Gray;
-            dgSyntax.Rows[8].Cells[5].Style.ForeColor = Color.Gray;
+            DialogResult = DialogResult.Cancel;
         }
 
         private void delaySlide_ValueChanged(object sender, EventArgs e)
@@ -157,70 +133,60 @@ namespace Zelda
                 delaySlide.Value = (delaySlide.Value / 50) * 50;
         }
 
-        private void btnFont_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnResetEditorFont_Click(object sender, EventArgs e)
         {
-            fontDialog.Font = lblSampleColor.Font;
+            fonts[0] = Constants.DefaultEditorFont;
+            lblEditorFont.Text = settings.GetFontString(fonts[0]);
+        }
+
+        private void btnResetOutputFont_Click(object sender, EventArgs e)
+        {
+            fonts[1] = Constants.DefaultOutputFont;
+            lblOutputFont.Text = settings.GetFontString(fonts[1]);
+        }
+
+        private void btnResetRenderFont_Click(object sender, EventArgs e)
+        {
+            fonts[2] = Constants.DefaultRenderFont;
+            lblRenderFont.Text = settings.GetFontString(fonts[2]);
+        }
+        private void btnEditorFont_Click(object sender, EventArgs e)
+        {
+            fonts[0] = SelectFont(fonts[0]);
+            ShowFonts();
+        }
+
+        private void btnOutputFont_Click(object sender, EventArgs e)
+        {
+            fonts[1] = SelectFont(fonts[1]);
+            ShowFonts();
+        }
+
+        private void btnRenderFont_Click(object sender, EventArgs e)
+        {
+            fonts[2] = SelectFont(fonts[2]);
+            ShowFonts();
+        }
+
+        private Font SelectFont(Font font)
+        {
+            fontDialog.Font = font;
             if (fontDialog.ShowDialog() == DialogResult.OK)
-            {
-                lblSampleColor.Font = fontDialog.Font;
-                SetCustomFont();
-            }
+                font = fontDialog.Font;
+            return font;
         }
 
-        private void btnTextColor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void ShowFonts()
         {
-            colorDialog.Color = lblSampleColor.ForeColor;
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                ColorsChanged = true;
-                lblSampleColor.ForeColor = colorDialog.Color;
-                SetCustomFont();
-            }
+            lblEditorFont.Text = settings.GetFontString(fonts[0]);
+            lblOutputFont.Text = settings.GetFontString(fonts[1]);
+            lblRenderFont.Text = settings.GetFontString(fonts[2]);
+            lblEditorFont.Font = new Font(fonts[0].Name, 10, fonts[0].Style);
+            lblOutputFont.Font = new Font(fonts[1].Name, 10, fonts[1].Style);
+            lblRenderFont.Font = new Font(fonts[2].Name, 10, fonts[2].Style);
         }
 
-        private void btnBackColor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            colorDialog.Color = lblSampleColor.BackColor;
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                ColorsChanged = true;
-                lblSampleColor.BackColor = colorDialog.Color;
-                SetCustomFont();
-            }
-        }
-
-        int GetCustomizeIndex()
-        {
-            int index = 0;
-            //if (radio1.Checked) index = 0;
-            if (radio2.Checked) index = 1;
-            if (radio3.Checked) index = 2;
-            return index;
-        }
-
-        void SetCustomFont()
-        {
-            int index = GetCustomizeIndex();
-            fonts[index].ForeColor = lblSampleColor.ForeColor;
-            fonts[index].BackColor = lblSampleColor.BackColor;
-            fonts[index].font = lblSampleColor.Font;
-        }
-
-        void ShowCustomFont()
-        {
-            int index = GetCustomizeIndex();
-            lblSampleColor.ForeColor = fonts[index].ForeColor;
-            lblSampleColor.BackColor = fonts[index].BackColor;
-            lblSampleColor.Font = fonts[index].font;
-        }
-
-        private void radio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((RadioButton)sender).Checked)
-                ShowCustomFont();
-        }
-
-        private void chkbox_CheckedChanged(object sender, EventArgs e)
+        private void chkTooltip_CheckChanged(object sender, EventArgs e)
         {
             txtTooltip.Enabled = chkTooltip.Checked;
             txtTooltip.Text = chkTooltip.Checked ? settings.TooltipFolder : JRiverAPI.TooltipFolder;
@@ -263,6 +229,37 @@ namespace Zelda
         {
             string help = toolTip1.GetToolTip(lblServer);
             toolTip1.Show(help, lblServer);
+        }
+
+        private void btnThemeHelp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnThemeEdit_Click(object sender, EventArgs e)
+        {
+            var theme = optThemeDark.Checked ? SkinTheme.Dark : optThemeLight.Checked ? SkinTheme.Light : SkinTheme.Auto;
+            Skin skin = Skin.LoadTheme(theme);
+
+            try
+            {
+                Process.Start("notepad", skin.Filename);
+            }
+            catch
+            {
+                MessageBox.Show("Process failed", $"Failed to open Notepad!\n{skin.Filename}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnThemeReset_Click(object sender, EventArgs e)
+        {
+            var resp = MessageBox.Show("Reset theme colors", $"This will overwrite the selected Theme file.\nAre you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (resp == DialogResult.Yes)
+            {
+                var theme = optThemeDark.Checked ? SkinTheme.Dark : optThemeLight.Checked ? SkinTheme.Light : SkinTheme.Auto;
+                Skin skin = Skin.LoadTheme(theme, true);
+                skin.Save();
+            }
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using System.Windows.Forms.VisualStyles;
 
 namespace Zelda
 {
@@ -10,44 +13,76 @@ namespace Zelda
         Selection, HighlightSelection, HighlightFunction, HighlightSeparator
     }
 
+    public enum SkinTheme { Auto, Light, Dark }
+
     public class Skin : ConfigFile
     {
-        public string ExpressionText { get; set; } = "Black";
-        public string ExpressionFunction { get; set; } = "Blue";
-        public string ExpressionMath { get; set; } = "DarkCyan";
-        public string ExpressionField { get; set; } = "Green";
-        public string ExpressionVariable { get; set; } = "MediumSeaGreen";
-        public string ExpressionNumber { get; set; } = "Brown";
-        public string ExpressionHTML { get; set; } = "DeepPink";
-        public string ExpressionSymbol { get; set; } = "Red";
-        public string ExpressionEscaped { get; set; } = "DarkBlue";
-        public string ExpressionLiteral { get; set; } = "DarkOrange";
-        public string ExpressionComment { get; set; } = "Gray";
-        public string ExpressionWhitespace { get; set; } = "DimGray";
+        [JsonIgnore]
+        public string Filename { get; set; }
+        
+        public string ExpressionText { get; set; }
+        public string ExpressionFunction { get; set; }
+        public string ExpressionMath { get; set; }
+        public string ExpressionField { get; set; }
+        public string ExpressionVariable { get; set; }
+        public string ExpressionNumber { get; set; }
+        public string ExpressionHTML { get; set; }
+        public string ExpressionSymbol { get; set; }
+        public string ExpressionEscaped { get; set; }
+        public string ExpressionLiteral { get; set; }
+        public string ExpressionComment { get; set; }
+        public string ExpressionWhitespace { get; set; }
 
-        public string Selection { get; set; } = "PaleGoldenrod";
-        public string HighlightFunction { get; set; } = "Blue,13%";     // 13% ~~ 32/256
-        public string HighlightSeparator { get; set; } = "Red,25%";     // 25% ~~ 64/256
-        public string HighlightSelection { get; set; } = "Cyan,38%";    // 38% ~~ 96/256
+        public string Selection { get; set; }
+        public string HighlightFunction { get; set; }
+        public string HighlightSeparator { get; set; }
+        public string HighlightSelection { get; set; }
 
-        public string EditorText { get; set; } = "Black";
-        public string EditorBack { get; set; } = "White";
-        public string OutputText { get; set; } = "Black";
-        public string OutputBack { get; set; } = "White";
-        public string RenderText { get; set; } = "White";
-        public string RenderBack { get; set; } = "#252525";
+        public string EditorText { get; set; }
+        public string EditorBack { get; set; }
+        public string OutputText { get; set; }
+        public string OutputBack { get; set; }
+        public string RenderText { get; set; }
+        public string RenderBack { get; set; }
 
         
         public Skin() { }
 
-        public static Skin Load()
+        public static Skin LoadTheme(SkinTheme theme, bool loadDefault = false)
         {
-            return Load<Skin>(Constants.SkinFile) ?? new Skin();
+            bool dark = false;
+            switch (theme)
+            {
+                default:
+                case SkinTheme.Auto: dark = Native.isWindowsDarkTheme(); break;
+                case SkinTheme.Dark: dark = true; break;
+                case SkinTheme.Light: dark = false; break;
+            }
+
+            Skin skin = dark ? Constants.DarkSkin : Constants.LightSkin;
+            if (!loadDefault)
+            {
+                var loaded = Load(skin.Filename);
+                if (loaded != null) skin = loaded;
+            }
+
+            if (!File.Exists(skin.Filename))
+                skin.Save();
+
+            return skin;
+        }
+
+        public static Skin Load(string filename)
+        {
+            Skin skin = Load<Skin>(filename);
+            if (skin != null)
+                skin.Filename = filename;
+            return skin;
         }
 
         public bool Save()
         {
-            return Save(Constants.SkinFile);
+            return Save(Filename);
         }
 
         public Color GetColor(ELTokenType element)
@@ -122,14 +157,6 @@ namespace Zelda
                 }
                 catch { }
             return Color.FromArgb(defaultAlpha, Color.FromKnownColor(defaultColor));
-        }
-
-        public string hexColor(Color color, bool removeNoTransparency = true, bool addHash = true)
-        {
-            string hex = color.ToArgb().ToString("X8").Substring(2);
-            if (removeNoTransparency && hex.Length == 8 && hex.StartsWith("FF"))
-                hex = hex.Substring(2);
-            return addHash ? "#" + hex : hex;
         }
     }
 }

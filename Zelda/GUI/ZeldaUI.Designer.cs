@@ -238,6 +238,7 @@ namespace Zelda
             // 
             // tabText
             // 
+            tabText.BackColor = Color.Transparent;
             tabText.Controls.Add(txtOutput);
             tabText.Location = new Point(4, 28);
             tabText.Margin = new System.Windows.Forms.Padding(2);
@@ -246,7 +247,6 @@ namespace Zelda
             tabText.Size = new Size(484, 522);
             tabText.TabIndex = 1;
             tabText.Text = "Text output";
-            tabText.UseVisualStyleBackColor = true;
             // 
             // txtOutput
             // 

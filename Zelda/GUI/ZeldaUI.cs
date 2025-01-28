@@ -47,7 +47,7 @@ namespace Zelda
             state = State.Load();
 
             Icon = Properties.Resources.ZeldaIcon;
-            this.Text = $"ZELDA v{Program.version.ToString(3)}";
+            Text = $"ZELDA v{Program.version.ToString(3)}";
             lblZoom.Visible = false;
 
             gridFiles.DoubleBuffered(true);
@@ -124,10 +124,10 @@ namespace Zelda
 
         private void SetOutputStyle()
         {
-            txtOutput.Styles[Style.Default].Font = settings.OutputFont.family;
-            txtOutput.Styles[Style.Default].Bold = settings.OutputFont.isBold;
-            txtOutput.Styles[Style.Default].Italic = settings.OutputFont.isItalic;
-            txtOutput.Styles[Style.Default].SizeF = settings.OutputFont.size;
+            txtOutput.Styles[Style.Default].Font = settings.OutputFont.Name;
+            txtOutput.Styles[Style.Default].Bold = settings.OutputFont.Style == FontStyle.Bold;
+            txtOutput.Styles[Style.Default].Italic = settings.OutputFont.Style == FontStyle.Italic;
+            txtOutput.Styles[Style.Default].SizeF = settings.OutputFont.Size;
             txtOutput.Styles[Style.Default].ForeColor = settings.GetColor(SkinElement.OutputText);
             txtOutput.Styles[Style.Default].BackColor = settings.GetColor(SkinElement.OutputBack);
             txtOutput.StyleClearAll();
@@ -665,13 +665,15 @@ namespace Zelda
 
         private string getCSS()
         {
-            CustomFont cFont = settings.RenderFont;
-            string fontStyle = ((cFont.isItalic ? "italic " : "") + (cFont.isBold ? "bold " : "")).Trim();
+            Font cFont = settings.RenderFont;
+            string fontStyle = ((cFont.Style == FontStyle.Italic ? "italic " : "") + (cFont.Style == FontStyle.Bold ? "bold " : "")).Trim();
+            string fgColor = settings.GetHexColor(settings.GetColor(SkinElement.RenderText));
+            string bgColor = settings.GetHexColor(settings.GetColor(SkinElement.RenderBack));
 
             return $@"body {{
   margin: 10px; padding: 0;
-  background-color: #{cFont.bgcolor}; color: #{cFont.fgcolor};
-  font: {fontStyle} {cFont.size}pt {cFont.family}, Segoe UI, Verdana, Arial, Helvetica, sans-serif
+  background-color: {bgColor}; color: {fgColor};
+  font: {fontStyle} {cFont.Size}pt {cFont.Name}, Segoe UI, Verdana, Arial, Helvetica, sans-serif
 }} ";
         }
 
@@ -686,9 +688,6 @@ namespace Zelda
             if (DialogResult.OK == settingsUI.ShowDialog(this))
             {
                 settings.Save();
-                if (settingsUI.ColorsChanged)
-                    settings.SaveSkin();
-
                 connectionChanged = settingsUI.ConnectionOptionsChanged;
                 return true;
             }
@@ -703,24 +702,22 @@ namespace Zelda
             {
                 if (ShowSettings(out bool reconnect))
                 {
+                    settings.Skin = Skin.LoadTheme(settings.Theme);
+                    ApplySkin(); 
                     if (reconnect)
                         btnReconnect_Click(null, EventArgs.Empty);
-
-                    ApplySkin();
                 }
             }
         }
 
         private void btnReloadSkin(object sender, EventArgs e)
         {
-            settings.Skin = Skin.Load();
+            settings.Skin = Skin.Load(settings.Skin.Filename);
             ApplySkin();
         }
 
         private void ApplySkin()
         {
-            settings.ApplySkin();
-
             SetOutputStyle();
             currentTab?.Evaluate();
             ShowResults();

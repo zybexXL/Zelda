@@ -25,7 +25,7 @@ namespace Zelda
 
         public static State Load()
         {
-            return Load<State>(Constants.StateFile);
+            return Load<State>(Constants.StateFile) ?? new State();
         }
 
         public bool Save()

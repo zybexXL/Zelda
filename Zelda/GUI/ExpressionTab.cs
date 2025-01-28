@@ -91,15 +91,16 @@ namespace Zelda
 
             scintilla.CaretLineBackColor = settings.GetColor(SkinElement.EditorBack);
             scintilla.CaretForeColor = settings.GetColor(ELTokenType.Default);
+            scintilla.CaretWidth = 2;
             scintilla.WrapStartIndent = settings.WrapIndent ? 2 : 0;
             scintilla.UseTabs = !settings.ReplaceTabs;
             scintilla.Margins[0].Width = settings.ShowLineNumbers ? 25 : 0;
             scintilla.Margins[0].Type = MarginType.Number;
 
-            scintilla.Styles[Style.Default].Font = settings.EditorFont.family;
-            scintilla.Styles[Style.Default].Bold = settings.EditorFont.isBold;
-            scintilla.Styles[Style.Default].Italic = settings.EditorFont.isItalic;
-            scintilla.Styles[Style.Default].SizeF = settings.EditorFont.size;
+            scintilla.Styles[Style.Default].Font = settings.EditorFont.Name;
+            scintilla.Styles[Style.Default].Bold = settings.EditorFont.Style == FontStyle.Bold;
+            scintilla.Styles[Style.Default].Italic = settings.EditorFont.Style == FontStyle.Italic;
+            scintilla.Styles[Style.Default].SizeF = settings.EditorFont.Size;
             scintilla.Styles[Style.Default].ForeColor = settings.GetColor(SkinElement.EditorText);
             scintilla.Styles[Style.Default].BackColor = settings.GetColor(SkinElement.EditorBack);
             scintilla.StyleClearAll();
@@ -107,16 +108,10 @@ namespace Zelda
             foreach (ELTokenType token in Enum.GetValues(typeof(ELTokenType)))
                 scintilla.Styles[(int)token].ForeColor = settings.GetColor(token);
 
-            //scintilla.Styles[(int)ELTokenType.Literal].BackColor = Color.PaleGoldenrod;   // bg
-            //scintilla.Styles[(int)ELTokenType.Escaped].BackColor = Color.PaleGoldenrod;   // bg
-
             scintilla.Styles[Style.LineNumber].BackColor = Color.WhiteSmoke;
             scintilla.Styles[Style.LineNumber].ForeColor = Color.DimGray;
 
             // set selection color (active/inactive)
-            //const int SCI_SETELEMENTCOLOUR = 2753;
-            //const int SC_ELEMENT_SELECTION_INACTIVE_BACK = 17;
-            //scintilla.DirectMessage(SCI_SETELEMENTCOLOUR, new IntPtr(SC_ELEMENT_SELECTION_INACTIVE_BACK), new IntPtr(selectionColor.ToArgb()));
             scintilla.SelectionBackColor = settings.GetColor(SkinElement.Selection);
             scintilla.SelectionInactiveBackColor = settings.GetColor(SkinElement.Selection);
 

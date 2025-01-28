@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Zelda
@@ -36,6 +37,20 @@ namespace Zelda
             return obj;
         }
 
-
+        public static bool isWindowsDarkTheme()
+        {
+            bool dark = false;
+            try
+            {
+                using (var reg = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
+                {
+                    var key = reg.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+                    var value = key.GetValue("AppsUseLightTheme", 1);
+                    dark = (int)value == 0;
+                }
+            }
+            catch { }
+            return dark;
+        }
     }
 }

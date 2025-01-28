@@ -1,4 +1,6 @@
-﻿namespace Zelda
+﻿using System.Windows.Forms;
+
+namespace Zelda
 {
     partial class SettingsUI
     {
@@ -30,85 +32,89 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsUI));
-            btnSave = new System.Windows.Forms.Button();
-            tabControl1 = new System.Windows.Forms.TabControl();
-            tabConnection = new System.Windows.Forms.TabPage();
-            label1 = new System.Windows.Forms.Label();
-            panelMCWS = new System.Windows.Forms.Panel();
-            label6 = new System.Windows.Forms.Label();
-            label7 = new System.Windows.Forms.Label();
-            lblServer = new System.Windows.Forms.Label();
-            txtUsername = new System.Windows.Forms.TextBox();
-            txtPassword = new System.Windows.Forms.TextBox();
-            txtServer = new System.Windows.Forms.TextBox();
-            btnTestConnection = new System.Windows.Forms.Button();
-            optAutomation = new System.Windows.Forms.RadioButton();
-            optMCWS = new System.Windows.Forms.RadioButton();
-            tabPrefs = new System.Windows.Forms.TabPage();
-            delaySlide = new System.Windows.Forms.TrackBar();
-            lblDelay = new System.Windows.Forms.Label();
-            label17 = new System.Windows.Forms.Label();
-            txtPlaylistFilter = new System.Windows.Forms.TextBox();
-            txtTooltip = new System.Windows.Forms.TextBox();
-            chkPlaylistFilter = new System.Windows.Forms.CheckBox();
-            chkTooltip = new System.Windows.Forms.CheckBox();
-            chkSaveTabs = new System.Windows.Forms.CheckBox();
-            chkFastStart = new System.Windows.Forms.CheckBox();
-            chkSafeMode = new System.Windows.Forms.CheckBox();
-            chkMaximize = new System.Windows.Forms.CheckBox();
-            chkTabs = new System.Windows.Forms.CheckBox();
-            chkAPITime = new System.Windows.Forms.CheckBox();
-            chkIndent = new System.Windows.Forms.CheckBox();
-            chkLines = new System.Windows.Forms.CheckBox();
-            chkSaveView = new System.Windows.Forms.CheckBox();
-            chkLoadPlaylist = new System.Windows.Forms.CheckBox();
-            tabColors = new System.Windows.Forms.TabPage();
-            txtExtraFuncs = new System.Windows.Forms.TextBox();
-            label20 = new System.Windows.Forms.Label();
-            chkSyntaxComments = new System.Windows.Forms.CheckBox();
-            chkSyntaxDelim = new System.Windows.Forms.CheckBox();
-            chkSyntaxFunction = new System.Windows.Forms.CheckBox();
-            chkSyntax = new System.Windows.Forms.CheckBox();
-            radio3 = new System.Windows.Forms.RadioButton();
-            radio2 = new System.Windows.Forms.RadioButton();
-            radio1 = new System.Windows.Forms.RadioButton();
-            groupBox2 = new System.Windows.Forms.GroupBox();
-            btnBackColor = new System.Windows.Forms.LinkLabel();
-            btnFont = new System.Windows.Forms.LinkLabel();
-            btnTextColor = new System.Windows.Forms.LinkLabel();
-            lblSampleColor = new System.Windows.Forms.Label();
-            tabCustomize = new System.Windows.Forms.TabPage();
-            label3 = new System.Windows.Forms.Label();
-            comboBox1 = new System.Windows.Forms.ComboBox();
-            label2 = new System.Windows.Forms.Label();
-            dgSyntax = new System.Windows.Forms.DataGridView();
-            Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Column2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Column4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            toolTip1 = new System.Windows.Forms.ToolTip(components);
-            fontDialog = new System.Windows.Forms.FontDialog();
-            colorDialog = new System.Windows.Forms.ColorDialog();
+            btnSave = new Button();
+            tabControl1 = new TabControl();
+            tabConnection = new TabPage();
+            groupBox6 = new GroupBox();
+            panelMCWS = new Panel();
+            label6 = new Label();
+            label7 = new Label();
+            lblServer = new Label();
+            txtUsername = new TextBox();
+            txtPassword = new TextBox();
+            txtServer = new TextBox();
+            btnTestConnection = new Button();
+            optAutomation = new RadioButton();
+            optMCWS = new RadioButton();
+            tabPrefs = new TabPage();
+            groupBox5 = new GroupBox();
+            chkFastStart = new CheckBox();
+            txtPlaylistFilter = new TextBox();
+            chkSaveTabs = new CheckBox();
+            chkAPITime = new CheckBox();
+            chkPlaylistFilter = new CheckBox();
+            chkSaveView = new CheckBox();
+            chkLoadPlaylist = new CheckBox();
+            txtTooltip = new TextBox();
+            chkTooltip = new CheckBox();
+            groupBox4 = new GroupBox();
+            chkSafeMode = new CheckBox();
+            chkTabs = new CheckBox();
+            delaySlide = new TransparentTrackBar();
+            chkIndent = new CheckBox();
+            lblDelay = new Label();
+            chkLines = new CheckBox();
+            label17 = new Label();
+            tabColors = new TabPage();
+            groupBox3 = new GroupBox();
+            chkSyntaxComments = new CheckBox();
+            chkSyntaxDelim = new CheckBox();
+            chkSyntaxFunction = new CheckBox();
+            txtExtraFuncs = new TextBox();
+            chkSyntax = new CheckBox();
+            label20 = new Label();
+            boxTheme = new GroupBox();
+            btnThemeHelp = new Button();
+            optThemeLight = new RadioButton();
+            btnThemeEdit = new Button();
+            optThemeDark = new RadioButton();
+            optThemeAuto = new RadioButton();
+            btnThemeReset = new Button();
+            boxFonts = new GroupBox();
+            lblRenderFont = new Label();
+            lblOutputFont = new Label();
+            lblEditorFont = new Label();
+            btnResetRenderFont = new Button();
+            btnResetOutputFont = new Button();
+            btnResetEditorFont = new Button();
+            btnRenderFont = new Button();
+            btnOutputFont = new Button();
+            btnEditorFont = new Button();
+            toolTip1 = new ToolTip(components);
+            fontDialog = new FontDialog();
+            colorDialog = new ColorDialog();
+            btnCancel = new Button();
             tabControl1.SuspendLayout();
             tabConnection.SuspendLayout();
+            groupBox6.SuspendLayout();
             panelMCWS.SuspendLayout();
             tabPrefs.SuspendLayout();
+            groupBox5.SuspendLayout();
+            groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)delaySlide).BeginInit();
             tabColors.SuspendLayout();
-            groupBox2.SuspendLayout();
-            tabCustomize.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgSyntax).BeginInit();
+            groupBox3.SuspendLayout();
+            boxTheme.SuspendLayout();
+            boxFonts.SuspendLayout();
             SuspendLayout();
             // 
             // btnSave
             // 
-            btnSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            btnSave.Location = new System.Drawing.Point(364, 280);
+            btnSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnSave.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            btnSave.Location = new System.Drawing.Point(400, 380);
             btnSave.Name = "btnSave";
-            btnSave.Size = new System.Drawing.Size(87, 27);
+            btnSave.Size = new System.Drawing.Size(87, 31);
             btnSave.TabIndex = 20;
             btnSave.Text = "SAVE";
             btnSave.UseVisualStyleBackColor = true;
@@ -116,81 +122,84 @@
             // 
             // tabControl1
             // 
-            tabControl1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tabControl1.Controls.Add(tabConnection);
             tabControl1.Controls.Add(tabPrefs);
             tabControl1.Controls.Add(tabColors);
-            tabControl1.Controls.Add(tabCustomize);
             tabControl1.Location = new System.Drawing.Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new System.Drawing.Size(465, 275);
+            tabControl1.Size = new System.Drawing.Size(501, 375);
             tabControl1.TabIndex = 0;
             // 
             // tabConnection
             // 
-            tabConnection.Controls.Add(label1);
-            tabConnection.Controls.Add(panelMCWS);
-            tabConnection.Controls.Add(btnTestConnection);
-            tabConnection.Controls.Add(optAutomation);
-            tabConnection.Controls.Add(optMCWS);
-            tabConnection.Location = new System.Drawing.Point(4, 24);
+            tabConnection.Controls.Add(groupBox6);
+            tabConnection.Location = new System.Drawing.Point(4, 26);
             tabConnection.Name = "tabConnection";
-            tabConnection.Padding = new System.Windows.Forms.Padding(3);
-            tabConnection.Size = new System.Drawing.Size(457, 247);
+            tabConnection.Padding = new Padding(3);
+            tabConnection.Size = new System.Drawing.Size(493, 345);
             tabConnection.TabIndex = 3;
             tabConnection.Text = "Connection";
             tabConnection.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // groupBox6
             // 
-            label1.AutoSize = true;
-            label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label1.Location = new System.Drawing.Point(13, 15);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(200, 15);
-            label1.TabIndex = 17;
-            label1.Text = "Select a method to connect to MC:";
+            groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox6.Controls.Add(panelMCWS);
+            groupBox6.Controls.Add(btnTestConnection);
+            groupBox6.Controls.Add(optAutomation);
+            groupBox6.Controls.Add(optMCWS);
+            groupBox6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            groupBox6.Location = new System.Drawing.Point(8, 6);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new System.Drawing.Size(475, 349);
+            groupBox6.TabIndex = 18;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "MC Connection method";
             // 
             // panelMCWS
             // 
-            panelMCWS.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            panelMCWS.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelMCWS.Controls.Add(label6);
             panelMCWS.Controls.Add(label7);
             panelMCWS.Controls.Add(lblServer);
             panelMCWS.Controls.Add(txtUsername);
             panelMCWS.Controls.Add(txtPassword);
             panelMCWS.Controls.Add(txtServer);
-            panelMCWS.Location = new System.Drawing.Point(8, 89);
+            panelMCWS.Location = new System.Drawing.Point(12, 85);
             panelMCWS.Name = "panelMCWS";
-            panelMCWS.Size = new System.Drawing.Size(434, 111);
+            panelMCWS.Size = new System.Drawing.Size(457, 116);
             panelMCWS.TabIndex = 3;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(22, 67);
+            label6.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            label6.Location = new System.Drawing.Point(15, 79);
             label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(60, 15);
+            label6.Size = new System.Drawing.Size(67, 17);
             label6.TabIndex = 15;
             label6.Text = "Password:";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(22, 41);
+            label7.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            label7.Location = new System.Drawing.Point(15, 46);
             label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(63, 15);
+            label7.Size = new System.Drawing.Size(70, 17);
             label7.TabIndex = 15;
             label7.Text = "Username:";
             // 
             // lblServer
             // 
+            lblServer.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             lblServer.Image = Properties.Resources.help;
             lblServer.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            lblServer.Location = new System.Drawing.Point(22, 12);
+            lblServer.Location = new System.Drawing.Point(15, 13);
             lblServer.Name = "lblServer";
-            lblServer.Size = new System.Drawing.Size(67, 15);
+            lblServer.Size = new System.Drawing.Size(67, 17);
             lblServer.TabIndex = 15;
             lblServer.Text = "Server:";
             toolTip1.SetToolTip(lblServer, resources.GetString("lblServer.ToolTip"));
@@ -198,38 +207,41 @@
             // 
             // txtUsername
             // 
-            txtUsername.Location = new System.Drawing.Point(91, 38);
+            txtUsername.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            txtUsername.Location = new System.Drawing.Point(91, 43);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new System.Drawing.Size(150, 23);
+            txtUsername.Size = new System.Drawing.Size(150, 25);
             txtUsername.TabIndex = 4;
             txtUsername.TextChanged += connection_Changed;
             // 
             // txtPassword
             // 
-            txtPassword.Location = new System.Drawing.Point(91, 67);
+            txtPassword.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            txtPassword.Location = new System.Drawing.Point(91, 76);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new System.Drawing.Size(150, 23);
+            txtPassword.Size = new System.Drawing.Size(150, 25);
             txtPassword.TabIndex = 5;
             txtPassword.UseSystemPasswordChar = true;
             txtPassword.TextChanged += connection_Changed;
             // 
             // txtServer
             // 
-            txtServer.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            txtServer.Location = new System.Drawing.Point(91, 9);
+            txtServer.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtServer.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            txtServer.Location = new System.Drawing.Point(91, 10);
             txtServer.Name = "txtServer";
-            txtServer.Size = new System.Drawing.Size(331, 23);
+            txtServer.Size = new System.Drawing.Size(354, 25);
             txtServer.TabIndex = 3;
             txtServer.Text = "http://localhost:52199";
             txtServer.TextChanged += connection_Changed;
             // 
             // btnTestConnection
             // 
-            btnTestConnection.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            btnTestConnection.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            btnTestConnection.Location = new System.Drawing.Point(16, 206);
+            btnTestConnection.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnTestConnection.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            btnTestConnection.Location = new System.Drawing.Point(164, 228);
             btnTestConnection.Name = "btnTestConnection";
-            btnTestConnection.Size = new System.Drawing.Size(112, 27);
+            btnTestConnection.Size = new System.Drawing.Size(143, 37);
             btnTestConnection.TabIndex = 6;
             btnTestConnection.Text = "Test connection";
             btnTestConnection.UseVisualStyleBackColor = true;
@@ -239,12 +251,13 @@
             // 
             optAutomation.AutoSize = true;
             optAutomation.Checked = true;
-            optAutomation.Location = new System.Drawing.Point(16, 45);
+            optAutomation.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            optAutomation.Location = new System.Drawing.Point(12, 33);
             optAutomation.Name = "optAutomation";
-            optAutomation.Size = new System.Drawing.Size(110, 19);
+            optAutomation.Size = new System.Drawing.Size(179, 21);
             optAutomation.TabIndex = 1;
             optAutomation.TabStop = true;
-            optAutomation.Text = "Automation API";
+            optAutomation.Text = "Automation API (localhost)";
             toolTip1.SetToolTip(optAutomation, "MC must be installed in this computer");
             optAutomation.UseVisualStyleBackColor = true;
             optAutomation.CheckedChanged += connectionOptionChanged;
@@ -252,9 +265,10 @@
             // optMCWS
             // 
             optMCWS.AutoSize = true;
-            optMCWS.Location = new System.Drawing.Point(16, 70);
+            optMCWS.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            optMCWS.Location = new System.Drawing.Point(12, 61);
             optMCWS.Name = "optMCWS";
-            optMCWS.Size = new System.Drawing.Size(61, 19);
+            optMCWS.Size = new System.Drawing.Size(65, 21);
             optMCWS.TabIndex = 2;
             optMCWS.Text = "MCWS";
             toolTip1.SetToolTip(optMCWS, "Connect to Network or Local MC server");
@@ -263,94 +277,93 @@
             // 
             // tabPrefs
             // 
-            tabPrefs.Controls.Add(delaySlide);
-            tabPrefs.Controls.Add(lblDelay);
-            tabPrefs.Controls.Add(label17);
-            tabPrefs.Controls.Add(txtPlaylistFilter);
-            tabPrefs.Controls.Add(txtTooltip);
-            tabPrefs.Controls.Add(chkPlaylistFilter);
-            tabPrefs.Controls.Add(chkTooltip);
-            tabPrefs.Controls.Add(chkSaveTabs);
-            tabPrefs.Controls.Add(chkFastStart);
-            tabPrefs.Controls.Add(chkSafeMode);
-            tabPrefs.Controls.Add(chkMaximize);
-            tabPrefs.Controls.Add(chkTabs);
-            tabPrefs.Controls.Add(chkAPITime);
-            tabPrefs.Controls.Add(chkIndent);
-            tabPrefs.Controls.Add(chkLines);
-            tabPrefs.Controls.Add(chkSaveView);
-            tabPrefs.Controls.Add(chkLoadPlaylist);
+            tabPrefs.Controls.Add(groupBox5);
+            tabPrefs.Controls.Add(groupBox4);
             tabPrefs.Location = new System.Drawing.Point(4, 24);
             tabPrefs.Name = "tabPrefs";
-            tabPrefs.Padding = new System.Windows.Forms.Padding(3);
-            tabPrefs.Size = new System.Drawing.Size(457, 247);
+            tabPrefs.Padding = new Padding(3);
+            tabPrefs.Size = new System.Drawing.Size(493, 347);
             tabPrefs.TabIndex = 0;
             tabPrefs.Text = "Preferences";
             tabPrefs.UseVisualStyleBackColor = true;
             // 
-            // delaySlide
+            // groupBox5
             // 
-            delaySlide.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            delaySlide.AutoSize = false;
-            delaySlide.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            delaySlide.LargeChange = 200;
-            delaySlide.Location = new System.Drawing.Point(114, 213);
-            delaySlide.Maximum = 2000;
-            delaySlide.Minimum = 100;
-            delaySlide.Name = "delaySlide";
-            delaySlide.Size = new System.Drawing.Size(289, 25);
-            delaySlide.SmallChange = 50;
-            delaySlide.TabIndex = 10;
-            delaySlide.TickFrequency = 50;
-            delaySlide.TickStyle = System.Windows.Forms.TickStyle.None;
-            toolTip1.SetToolTip(delaySlide, "Delay after typing stops before recalculating the expression result");
-            delaySlide.Value = 500;
-            delaySlide.ValueChanged += delaySlide_ValueChanged;
+            groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox5.Controls.Add(chkFastStart);
+            groupBox5.Controls.Add(txtPlaylistFilter);
+            groupBox5.Controls.Add(chkSaveTabs);
+            groupBox5.Controls.Add(chkAPITime);
+            groupBox5.Controls.Add(chkPlaylistFilter);
+            groupBox5.Controls.Add(chkSaveView);
+            groupBox5.Controls.Add(chkLoadPlaylist);
+            groupBox5.Controls.Add(txtTooltip);
+            groupBox5.Controls.Add(chkTooltip);
+            groupBox5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            groupBox5.Location = new System.Drawing.Point(8, 6);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new System.Drawing.Size(475, 187);
+            groupBox5.TabIndex = 32;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Application";
             // 
-            // lblDelay
+            // chkFastStart
             // 
-            lblDelay.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            lblDelay.AutoSize = true;
-            lblDelay.Location = new System.Drawing.Point(403, 214);
-            lblDelay.Name = "lblDelay";
-            lblDelay.Size = new System.Drawing.Size(44, 15);
-            lblDelay.TabIndex = 29;
-            lblDelay.Text = "500 ms";
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Location = new System.Drawing.Point(13, 213);
-            label17.Name = "label17";
-            label17.Size = new System.Drawing.Size(96, 15);
-            label17.TabIndex = 30;
-            label17.Text = "Evaluation delay:";
+            chkFastStart.AutoSize = true;
+            chkFastStart.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkFastStart.Location = new System.Drawing.Point(10, 24);
+            chkFastStart.Name = "chkFastStart";
+            chkFastStart.Size = new System.Drawing.Size(80, 21);
+            chkFastStart.TabIndex = 5;
+            chkFastStart.Text = "Fast start";
+            toolTip1.SetToolTip(chkFastStart, "Enable this option to get just the Playlist names without the file count for each one.\r\nGetting the filecount for many playlists can be slow, specially for Smartlists.");
+            chkFastStart.UseVisualStyleBackColor = true;
             // 
             // txtPlaylistFilter
             // 
-            txtPlaylistFilter.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtPlaylistFilter.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtPlaylistFilter.Enabled = false;
-            txtPlaylistFilter.Location = new System.Drawing.Point(124, 144);
+            txtPlaylistFilter.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            txtPlaylistFilter.Location = new System.Drawing.Point(123, 147);
             txtPlaylistFilter.Name = "txtPlaylistFilter";
-            txtPlaylistFilter.Size = new System.Drawing.Size(323, 23);
+            txtPlaylistFilter.Size = new System.Drawing.Size(346, 23);
             txtPlaylistFilter.TabIndex = 7;
             txtPlaylistFilter.TextChanged += connection_Changed;
             // 
-            // txtTooltip
+            // chkSaveTabs
             // 
-            txtTooltip.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            txtTooltip.Enabled = false;
-            txtTooltip.Location = new System.Drawing.Point(124, 173);
-            txtTooltip.Name = "txtTooltip";
-            txtTooltip.Size = new System.Drawing.Size(323, 23);
-            txtTooltip.TabIndex = 9;
+            chkSaveTabs.AutoSize = true;
+            chkSaveTabs.Checked = true;
+            chkSaveTabs.CheckState = CheckState.Checked;
+            chkSaveTabs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            chkSaveTabs.Location = new System.Drawing.Point(10, 78);
+            chkSaveTabs.Name = "chkSaveTabs";
+            chkSaveTabs.Size = new System.Drawing.Size(205, 21);
+            chkSaveTabs.TabIndex = 1;
+            chkSaveTabs.Text = "Auto-save/restore expressions";
+            chkSaveTabs.UseVisualStyleBackColor = true;
+            // 
+            // chkAPITime
+            // 
+            chkAPITime.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkAPITime.AutoSize = true;
+            chkAPITime.Checked = true;
+            chkAPITime.CheckState = CheckState.Checked;
+            chkAPITime.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            chkAPITime.Location = new System.Drawing.Point(245, 50);
+            chkAPITime.Name = "chkAPITime";
+            chkAPITime.Size = new System.Drawing.Size(228, 21);
+            chkAPITime.TabIndex = 14;
+            chkAPITime.Text = "Show API call times in Playlist table";
+            chkAPITime.UseVisualStyleBackColor = true;
             // 
             // chkPlaylistFilter
             // 
             chkPlaylistFilter.AutoSize = true;
-            chkPlaylistFilter.Location = new System.Drawing.Point(14, 146);
+            chkPlaylistFilter.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            chkPlaylistFilter.Location = new System.Drawing.Point(10, 149);
             chkPlaylistFilter.Name = "chkPlaylistFilter";
-            chkPlaylistFilter.Size = new System.Drawing.Size(95, 19);
+            chkPlaylistFilter.Size = new System.Drawing.Size(101, 21);
             chkPlaylistFilter.TabIndex = 6;
             chkPlaylistFilter.Text = "Playlist Filter:";
             toolTip1.SetToolTip(chkPlaylistFilter, resources.GetString("chkPlaylistFilter.ToolTip"));
@@ -358,184 +371,208 @@
             chkPlaylistFilter.CheckedChanged += connectionOptionChanged;
             chkPlaylistFilter.TextChanged += connection_Changed;
             // 
+            // chkSaveView
+            // 
+            chkSaveView.AutoSize = true;
+            chkSaveView.Checked = true;
+            chkSaveView.CheckState = CheckState.Checked;
+            chkSaveView.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkSaveView.Location = new System.Drawing.Point(10, 51);
+            chkSaveView.Name = "chkSaveView";
+            chkSaveView.Size = new System.Drawing.Size(169, 21);
+            chkSaveView.TabIndex = 2;
+            chkSaveView.Text = "Remember view settings";
+            toolTip1.SetToolTip(chkSaveView, "Restore window size and position, editor layout and zoom level.");
+            chkSaveView.UseVisualStyleBackColor = true;
+            // 
+            // chkLoadPlaylist
+            // 
+            chkLoadPlaylist.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkLoadPlaylist.AutoSize = true;
+            chkLoadPlaylist.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkLoadPlaylist.Location = new System.Drawing.Point(245, 24);
+            chkLoadPlaylist.Name = "chkLoadPlaylist";
+            chkLoadPlaylist.Size = new System.Drawing.Size(200, 21);
+            chkLoadPlaylist.TabIndex = 3;
+            chkLoadPlaylist.Text = "Reload last playlist on startup";
+            chkLoadPlaylist.UseVisualStyleBackColor = true;
+            // 
+            // txtTooltip
+            // 
+            txtTooltip.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtTooltip.Enabled = false;
+            txtTooltip.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            txtTooltip.Location = new System.Drawing.Point(123, 116);
+            txtTooltip.Margin = new Padding(3, 2, 3, 2);
+            txtTooltip.Name = "txtTooltip";
+            txtTooltip.Size = new System.Drawing.Size(346, 23);
+            txtTooltip.TabIndex = 9;
+            // 
             // chkTooltip
             // 
             chkTooltip.AutoSize = true;
-            chkTooltip.Location = new System.Drawing.Point(14, 175);
+            chkTooltip.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            chkTooltip.Location = new System.Drawing.Point(10, 118);
             chkTooltip.Name = "chkTooltip";
-            chkTooltip.Size = new System.Drawing.Size(101, 19);
+            chkTooltip.Size = new System.Drawing.Size(111, 21);
             chkTooltip.TabIndex = 8;
             chkTooltip.Text = "Tooltip Folder:";
-            toolTip1.SetToolTip(chkTooltip, "Set this path in case Zelda doesn't detect the Tooltip: location correctly.\r\nLeave blank to autodetect the Tooltip folder.");
+            toolTip1.SetToolTip(chkTooltip, "Used for \"Insert Image\" function.\r\nSet this path in case Zelda doesn't detect the Tooltip: location correctly.\r\nLeave blank to autodetect the Tooltip folder.");
             chkTooltip.UseVisualStyleBackColor = true;
-            chkTooltip.CheckedChanged += chkbox_CheckedChanged;
+            chkTooltip.CheckedChanged += chkTooltip_CheckChanged;
             // 
-            // chkSaveTabs
+            // groupBox4
             // 
-            chkSaveTabs.AutoSize = true;
-            chkSaveTabs.Checked = true;
-            chkSaveTabs.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkSaveTabs.Location = new System.Drawing.Point(14, 16);
-            chkSaveTabs.Name = "chkSaveTabs";
-            chkSaveTabs.Size = new System.Drawing.Size(185, 19);
-            chkSaveTabs.TabIndex = 1;
-            chkSaveTabs.Text = "Auto-save/restore expressions";
-            chkSaveTabs.UseVisualStyleBackColor = true;
-            // 
-            // chkFastStart
-            // 
-            chkFastStart.AutoSize = true;
-            chkFastStart.Location = new System.Drawing.Point(14, 91);
-            chkFastStart.Name = "chkFastStart";
-            chkFastStart.Size = new System.Drawing.Size(73, 19);
-            chkFastStart.TabIndex = 5;
-            chkFastStart.Text = "Fast start";
-            toolTip1.SetToolTip(chkFastStart, "Enable this option to get just the Playlist names without the file count for each one.\r\nGetting the filecount for many playlists can be slow, specially for Smartlists.");
-            chkFastStart.UseVisualStyleBackColor = true;
+            groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox4.Controls.Add(chkSafeMode);
+            groupBox4.Controls.Add(chkTabs);
+            groupBox4.Controls.Add(delaySlide);
+            groupBox4.Controls.Add(chkIndent);
+            groupBox4.Controls.Add(lblDelay);
+            groupBox4.Controls.Add(chkLines);
+            groupBox4.Controls.Add(label17);
+            groupBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            groupBox4.Location = new System.Drawing.Point(8, 199);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new System.Drawing.Size(475, 124);
+            groupBox4.TabIndex = 31;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Editor";
             // 
             // chkSafeMode
             // 
+            chkSafeMode.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             chkSafeMode.AutoSize = true;
             chkSafeMode.Checked = true;
-            chkSafeMode.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkSafeMode.Location = new System.Drawing.Point(224, 116);
+            chkSafeMode.CheckState = CheckState.Checked;
+            chkSafeMode.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkSafeMode.Location = new System.Drawing.Point(245, 50);
             chkSafeMode.Name = "chkSafeMode";
-            chkSafeMode.Size = new System.Drawing.Size(176, 19);
+            chkSafeMode.Size = new System.Drawing.Size(192, 21);
             chkSafeMode.TabIndex = 4;
             chkSafeMode.Text = "ShellRun/SetField safe mode";
             toolTip1.SetToolTip(chkSafeMode, resources.GetString("chkSafeMode.ToolTip"));
             chkSafeMode.UseVisualStyleBackColor = true;
             // 
-            // chkMaximize
-            // 
-            chkMaximize.AutoSize = true;
-            chkMaximize.Checked = true;
-            chkMaximize.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkMaximize.Location = new System.Drawing.Point(14, 116);
-            chkMaximize.Name = "chkMaximize";
-            chkMaximize.Size = new System.Drawing.Size(111, 19);
-            chkMaximize.TabIndex = 4;
-            chkMaximize.Text = "Start maximized";
-            chkMaximize.UseVisualStyleBackColor = true;
-            chkMaximize.Visible = false;
-            // 
             // chkTabs
             // 
+            chkTabs.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             chkTabs.AutoSize = true;
             chkTabs.Checked = true;
-            chkTabs.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkTabs.Location = new System.Drawing.Point(224, 66);
+            chkTabs.CheckState = CheckState.Checked;
+            chkTabs.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkTabs.Location = new System.Drawing.Point(245, 24);
             chkTabs.Name = "chkTabs";
-            chkTabs.Size = new System.Drawing.Size(169, 19);
+            chkTabs.Size = new System.Drawing.Size(190, 21);
             chkTabs.TabIndex = 13;
             chkTabs.Text = "Insert spaces instead of Tab";
             chkTabs.UseVisualStyleBackColor = true;
             // 
-            // chkAPITime
+            // delaySlide
             // 
-            chkAPITime.AutoSize = true;
-            chkAPITime.Checked = true;
-            chkAPITime.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkAPITime.Location = new System.Drawing.Point(224, 91);
-            chkAPITime.Name = "chkAPITime";
-            chkAPITime.Size = new System.Drawing.Size(211, 19);
-            chkAPITime.TabIndex = 14;
-            chkAPITime.Text = "Show API call times in Playlist table";
-            chkAPITime.UseVisualStyleBackColor = true;
+            delaySlide.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            delaySlide.AutoSize = false;
+            delaySlide.BackColor = System.Drawing.Color.FromArgb(247, 247, 249);
+            delaySlide.LargeChange = 200;
+            delaySlide.Location = new System.Drawing.Point(123, 85);
+            delaySlide.Maximum = 2000;
+            delaySlide.Minimum = 100;
+            delaySlide.Name = "delaySlide";
+            delaySlide.Size = new System.Drawing.Size(296, 28);
+            delaySlide.SmallChange = 50;
+            delaySlide.TabIndex = 10;
+            delaySlide.TickFrequency = 50;
+            delaySlide.TickStyle = TickStyle.None;
+            toolTip1.SetToolTip(delaySlide, "Delay after typing stops before recalculating the expression result");
+            delaySlide.Value = 500;
+            delaySlide.ValueChanged += delaySlide_ValueChanged;
             // 
             // chkIndent
             // 
             chkIndent.AutoSize = true;
             chkIndent.Checked = true;
-            chkIndent.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkIndent.Location = new System.Drawing.Point(224, 41);
+            chkIndent.CheckState = CheckState.Checked;
+            chkIndent.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkIndent.Location = new System.Drawing.Point(10, 50);
             chkIndent.Name = "chkIndent";
-            chkIndent.Size = new System.Drawing.Size(136, 19);
+            chkIndent.Size = new System.Drawing.Size(149, 21);
             chkIndent.TabIndex = 12;
             chkIndent.Text = "Indent wrapped lines";
             chkIndent.UseVisualStyleBackColor = true;
+            // 
+            // lblDelay
+            // 
+            lblDelay.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblDelay.AutoSize = true;
+            lblDelay.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            lblDelay.Location = new System.Drawing.Point(419, 85);
+            lblDelay.Name = "lblDelay";
+            lblDelay.Size = new System.Drawing.Size(50, 17);
+            lblDelay.TabIndex = 29;
+            lblDelay.Text = "500 ms";
             // 
             // chkLines
             // 
             chkLines.AutoSize = true;
             chkLines.Checked = true;
-            chkLines.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkLines.Location = new System.Drawing.Point(224, 16);
+            chkLines.CheckState = CheckState.Checked;
+            chkLines.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkLines.Location = new System.Drawing.Point(10, 24);
             chkLines.Name = "chkLines";
-            chkLines.Size = new System.Drawing.Size(127, 19);
+            chkLines.Size = new System.Drawing.Size(137, 21);
             chkLines.TabIndex = 11;
             chkLines.Text = "Show line numbers";
             chkLines.UseVisualStyleBackColor = true;
             // 
-            // chkSaveView
+            // label17
             // 
-            chkSaveView.AutoSize = true;
-            chkSaveView.Checked = true;
-            chkSaveView.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkSaveView.Location = new System.Drawing.Point(14, 41);
-            chkSaveView.Name = "chkSaveView";
-            chkSaveView.Size = new System.Drawing.Size(155, 19);
-            chkSaveView.TabIndex = 2;
-            chkSaveView.Text = "Remember view settings";
-            chkSaveView.UseVisualStyleBackColor = true;
-            // 
-            // chkLoadPlaylist
-            // 
-            chkLoadPlaylist.AutoSize = true;
-            chkLoadPlaylist.Location = new System.Drawing.Point(14, 66);
-            chkLoadPlaylist.Name = "chkLoadPlaylist";
-            chkLoadPlaylist.Size = new System.Drawing.Size(180, 19);
-            chkLoadPlaylist.TabIndex = 3;
-            chkLoadPlaylist.Text = "Reload last playlist on startup";
-            chkLoadPlaylist.UseVisualStyleBackColor = true;
+            label17.AutoSize = true;
+            label17.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            label17.Location = new System.Drawing.Point(10, 85);
+            label17.Name = "label17";
+            label17.Size = new System.Drawing.Size(105, 17);
+            label17.TabIndex = 30;
+            label17.Text = "Evaluation delay:";
             // 
             // tabColors
             // 
-            tabColors.Controls.Add(txtExtraFuncs);
-            tabColors.Controls.Add(label20);
-            tabColors.Controls.Add(chkSyntaxComments);
-            tabColors.Controls.Add(chkSyntaxDelim);
-            tabColors.Controls.Add(chkSyntaxFunction);
-            tabColors.Controls.Add(chkSyntax);
-            tabColors.Controls.Add(radio3);
-            tabColors.Controls.Add(radio2);
-            tabColors.Controls.Add(radio1);
-            tabColors.Controls.Add(groupBox2);
-            tabColors.Location = new System.Drawing.Point(4, 24);
+            tabColors.Controls.Add(groupBox3);
+            tabColors.Controls.Add(boxTheme);
+            tabColors.Controls.Add(boxFonts);
+            tabColors.Location = new System.Drawing.Point(4, 26);
             tabColors.Name = "tabColors";
-            tabColors.Padding = new System.Windows.Forms.Padding(3);
-            tabColors.Size = new System.Drawing.Size(457, 247);
+            tabColors.Padding = new Padding(3);
+            tabColors.Size = new System.Drawing.Size(493, 345);
             tabColors.TabIndex = 1;
-            tabColors.Text = "Colors";
+            tabColors.Text = "Theme";
             tabColors.UseVisualStyleBackColor = true;
             // 
-            // txtExtraFuncs
+            // groupBox3
             // 
-            txtExtraFuncs.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            txtExtraFuncs.Location = new System.Drawing.Point(239, 34);
-            txtExtraFuncs.Multiline = true;
-            txtExtraFuncs.Name = "txtExtraFuncs";
-            txtExtraFuncs.Size = new System.Drawing.Size(208, 51);
-            txtExtraFuncs.TabIndex = 5;
-            toolTip1.SetToolTip(txtExtraFuncs, "Add new function names for highlighting, separated by space.\r\nThis allows ZELDA to recognized recently added functions.\r\n\r\nRequires application restart to take effect.");
-            // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.Location = new System.Drawing.Point(239, 16);
-            label20.Name = "label20";
-            label20.Size = new System.Drawing.Size(183, 15);
-            label20.TabIndex = 15;
-            label20.Text = "Additional functions to highlight:";
+            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox3.Controls.Add(chkSyntaxComments);
+            groupBox3.Controls.Add(chkSyntaxDelim);
+            groupBox3.Controls.Add(chkSyntaxFunction);
+            groupBox3.Controls.Add(txtExtraFuncs);
+            groupBox3.Controls.Add(chkSyntax);
+            groupBox3.Controls.Add(label20);
+            groupBox3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            groupBox3.Location = new System.Drawing.Point(8, 69);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new System.Drawing.Size(475, 140);
+            groupBox3.TabIndex = 25;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Syntax highlight";
             // 
             // chkSyntaxComments
             // 
             chkSyntaxComments.AutoSize = true;
             chkSyntaxComments.Checked = true;
-            chkSyntaxComments.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkSyntaxComments.Location = new System.Drawing.Point(14, 91);
+            chkSyntaxComments.CheckState = CheckState.Checked;
+            chkSyntaxComments.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkSyntaxComments.Location = new System.Drawing.Point(10, 109);
             chkSyntaxComments.Name = "chkSyntaxComments";
-            chkSyntaxComments.Size = new System.Drawing.Size(193, 19);
+            chkSyntaxComments.Size = new System.Drawing.Size(208, 21);
             chkSyntaxComments.TabIndex = 4;
             chkSyntaxComments.Text = "Comment lines starting with ##";
             chkSyntaxComments.UseVisualStyleBackColor = true;
@@ -544,10 +581,11 @@
             // 
             chkSyntaxDelim.AutoSize = true;
             chkSyntaxDelim.Checked = true;
-            chkSyntaxDelim.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkSyntaxDelim.Location = new System.Drawing.Point(14, 66);
+            chkSyntaxDelim.CheckState = CheckState.Checked;
+            chkSyntaxDelim.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkSyntaxDelim.Location = new System.Drawing.Point(10, 81);
             chkSyntaxDelim.Name = "chkSyntaxDelim";
-            chkSyntaxDelim.Size = new System.Drawing.Size(179, 19);
+            chkSyntaxDelim.Size = new System.Drawing.Size(190, 21);
             chkSyntaxDelim.TabIndex = 3;
             chkSyntaxDelim.Text = "Highlight function delimiters";
             toolTip1.SetToolTip(chkSyntaxDelim, "Shade the delimiters (commas and parethesis) of the function under the cursor position");
@@ -557,260 +595,262 @@
             // 
             chkSyntaxFunction.AutoSize = true;
             chkSyntaxFunction.Checked = true;
-            chkSyntaxFunction.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkSyntaxFunction.Location = new System.Drawing.Point(14, 41);
+            chkSyntaxFunction.CheckState = CheckState.Checked;
+            chkSyntaxFunction.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkSyntaxFunction.Location = new System.Drawing.Point(10, 52);
             chkSyntaxFunction.Name = "chkSyntaxFunction";
-            chkSyntaxFunction.Size = new System.Drawing.Size(165, 19);
+            chkSyntaxFunction.Size = new System.Drawing.Size(174, 21);
             chkSyntaxFunction.TabIndex = 2;
             chkSyntaxFunction.Text = "Highlight current function";
             toolTip1.SetToolTip(chkSyntaxFunction, "Shade the full text of the function under the cursor position");
             chkSyntaxFunction.UseVisualStyleBackColor = true;
             // 
+            // txtExtraFuncs
+            // 
+            txtExtraFuncs.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtExtraFuncs.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            txtExtraFuncs.Location = new System.Drawing.Point(244, 41);
+            txtExtraFuncs.Multiline = true;
+            txtExtraFuncs.Name = "txtExtraFuncs";
+            txtExtraFuncs.Size = new System.Drawing.Size(221, 84);
+            txtExtraFuncs.TabIndex = 5;
+            toolTip1.SetToolTip(txtExtraFuncs, "Add new function names for highlighting, separated by space.\r\nThis allows ZELDA to recognized recently added functions.\r\n\r\nRequires application restart to take effect.");
+            // 
             // chkSyntax
             // 
             chkSyntax.AutoSize = true;
             chkSyntax.Checked = true;
-            chkSyntax.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkSyntax.Location = new System.Drawing.Point(14, 16);
+            chkSyntax.CheckState = CheckState.Checked;
+            chkSyntax.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkSyntax.Location = new System.Drawing.Point(10, 24);
             chkSyntax.Name = "chkSyntax";
-            chkSyntax.Size = new System.Drawing.Size(166, 19);
+            chkSyntax.Size = new System.Drawing.Size(178, 21);
             chkSyntax.TabIndex = 1;
             chkSyntax.Text = "Enable syntax highlighting";
             toolTip1.SetToolTip(chkSyntax, "Colorize language elements");
             chkSyntax.UseVisualStyleBackColor = true;
             // 
-            // radio3
+            // label20
             // 
-            radio3.Appearance = System.Windows.Forms.Appearance.Button;
-            radio3.BackColor = System.Drawing.Color.White;
-            radio3.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            radio3.FlatAppearance.BorderSize = 0;
-            radio3.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
-            radio3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            radio3.Location = new System.Drawing.Point(167, 127);
-            radio3.Name = "radio3";
-            radio3.Size = new System.Drawing.Size(73, 22);
-            radio3.TabIndex = 8;
-            radio3.Text = "Rendered Output";
-            radio3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            radio3.UseVisualStyleBackColor = false;
-            radio3.CheckedChanged += radio_CheckedChanged;
+            label20.AutoSize = true;
+            label20.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            label20.Location = new System.Drawing.Point(244, 21);
+            label20.Name = "label20";
+            label20.Size = new System.Drawing.Size(196, 17);
+            label20.TabIndex = 15;
+            label20.Text = "Additional functions to highlight:";
             // 
-            // radio2
+            // boxTheme
             // 
-            radio2.Appearance = System.Windows.Forms.Appearance.Button;
-            radio2.BackColor = System.Drawing.Color.White;
-            radio2.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            radio2.FlatAppearance.BorderSize = 0;
-            radio2.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
-            radio2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            radio2.Location = new System.Drawing.Point(81, 127);
-            radio2.Name = "radio2";
-            radio2.Size = new System.Drawing.Size(87, 22);
-            radio2.TabIndex = 7;
-            radio2.Text = "Text Output";
-            radio2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            radio2.UseVisualStyleBackColor = false;
-            radio2.CheckedChanged += radio_CheckedChanged;
+            boxTheme.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxTheme.Controls.Add(btnThemeHelp);
+            boxTheme.Controls.Add(optThemeLight);
+            boxTheme.Controls.Add(btnThemeEdit);
+            boxTheme.Controls.Add(optThemeDark);
+            boxTheme.Controls.Add(optThemeAuto);
+            boxTheme.Controls.Add(btnThemeReset);
+            boxTheme.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            boxTheme.Location = new System.Drawing.Point(8, 6);
+            boxTheme.Name = "boxTheme";
+            boxTheme.Size = new System.Drawing.Size(475, 57);
+            boxTheme.TabIndex = 24;
+            boxTheme.TabStop = false;
+            boxTheme.Text = "Color theme";
             // 
-            // radio1
+            // btnThemeHelp
             // 
-            radio1.Appearance = System.Windows.Forms.Appearance.Button;
-            radio1.BackColor = System.Drawing.Color.White;
-            radio1.Checked = true;
-            radio1.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            radio1.FlatAppearance.BorderSize = 0;
-            radio1.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightGray;
-            radio1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            radio1.Location = new System.Drawing.Point(27, 127);
-            radio1.Name = "radio1";
-            radio1.Size = new System.Drawing.Size(54, 22);
-            radio1.TabIndex = 6;
-            radio1.TabStop = true;
-            radio1.Text = "Editor";
-            radio1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            radio1.UseVisualStyleBackColor = false;
-            radio1.CheckedChanged += radio_CheckedChanged;
+            btnThemeHelp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnThemeHelp.AutoSize = true;
+            btnThemeHelp.FlatAppearance.BorderSize = 0;
+            btnThemeHelp.FlatStyle = FlatStyle.Flat;
+            btnThemeHelp.Image = Properties.Resources.help;
+            btnThemeHelp.Location = new System.Drawing.Point(303, 20);
+            btnThemeHelp.Name = "btnThemeHelp";
+            btnThemeHelp.Size = new System.Drawing.Size(24, 24);
+            btnThemeHelp.TabIndex = 23;
+            btnThemeHelp.UseVisualStyleBackColor = true;
+            btnThemeHelp.Click += btnThemeHelp_Click;
             // 
-            // groupBox2
+            // optThemeLight
             // 
-            groupBox2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            groupBox2.Controls.Add(btnBackColor);
-            groupBox2.Controls.Add(btnFont);
-            groupBox2.Controls.Add(btnTextColor);
-            groupBox2.Controls.Add(lblSampleColor);
-            groupBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            groupBox2.Location = new System.Drawing.Point(14, 128);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(433, 110);
-            groupBox2.TabIndex = 4;
-            groupBox2.TabStop = false;
+            optThemeLight.AutoSize = true;
+            optThemeLight.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            optThemeLight.Location = new System.Drawing.Point(69, 24);
+            optThemeLight.Name = "optThemeLight";
+            optThemeLight.Size = new System.Drawing.Size(54, 21);
+            optThemeLight.TabIndex = 21;
+            optThemeLight.Text = "Light";
+            optThemeLight.UseVisualStyleBackColor = true;
             // 
-            // btnBackColor
+            // btnThemeEdit
             // 
-            btnBackColor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            btnBackColor.AutoSize = true;
-            btnBackColor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            btnBackColor.LinkColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            btnBackColor.Location = new System.Drawing.Point(355, 79);
-            btnBackColor.Name = "btnBackColor";
-            btnBackColor.Size = new System.Drawing.Size(71, 15);
-            btnBackColor.TabIndex = 12;
-            btnBackColor.TabStop = true;
-            btnBackColor.Text = "background";
-            btnBackColor.LinkClicked += btnBackColor_LinkClicked;
+            btnThemeEdit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnThemeEdit.Font = new System.Drawing.Font("Segoe UI", 9F);
+            btnThemeEdit.Location = new System.Drawing.Point(330, 20);
+            btnThemeEdit.Name = "btnThemeEdit";
+            btnThemeEdit.Size = new System.Drawing.Size(65, 26);
+            btnThemeEdit.TabIndex = 22;
+            btnThemeEdit.Text = "Edit";
+            toolTip1.SetToolTip(btnThemeEdit, "Open selected theme in Notepad");
+            btnThemeEdit.UseVisualStyleBackColor = true;
+            btnThemeEdit.Click += btnThemeEdit_Click;
             // 
-            // btnFont
+            // optThemeDark
             // 
-            btnFont.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            btnFont.AutoSize = true;
-            btnFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            btnFont.LinkColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            btnFont.Location = new System.Drawing.Point(355, 29);
-            btnFont.Name = "btnFont";
-            btnFont.Size = new System.Drawing.Size(29, 15);
-            btnFont.TabIndex = 10;
-            btnFont.TabStop = true;
-            btnFont.Text = "font";
-            btnFont.LinkClicked += btnFont_LinkClicked;
+            optThemeDark.AutoSize = true;
+            optThemeDark.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            optThemeDark.Location = new System.Drawing.Point(129, 24);
+            optThemeDark.Name = "optThemeDark";
+            optThemeDark.Size = new System.Drawing.Size(53, 21);
+            optThemeDark.TabIndex = 20;
+            optThemeDark.Text = "Dark";
+            optThemeDark.UseVisualStyleBackColor = true;
             // 
-            // btnTextColor
+            // optThemeAuto
             // 
-            btnTextColor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            btnTextColor.AutoSize = true;
-            btnTextColor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            btnTextColor.LinkColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            btnTextColor.Location = new System.Drawing.Point(355, 54);
-            btnTextColor.Name = "btnTextColor";
-            btnTextColor.Size = new System.Drawing.Size(57, 15);
-            btnTextColor.TabIndex = 11;
-            btnTextColor.TabStop = true;
-            btnTextColor.Text = "text color";
-            btnTextColor.LinkClicked += btnTextColor_LinkClicked;
+            optThemeAuto.AutoSize = true;
+            optThemeAuto.Checked = true;
+            optThemeAuto.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            optThemeAuto.Location = new System.Drawing.Point(10, 24);
+            optThemeAuto.Name = "optThemeAuto";
+            optThemeAuto.Size = new System.Drawing.Size(53, 21);
+            optThemeAuto.TabIndex = 19;
+            optThemeAuto.TabStop = true;
+            optThemeAuto.Text = "Auto";
+            toolTip1.SetToolTip(optThemeAuto, "Select theme according to System setting");
+            optThemeAuto.UseVisualStyleBackColor = true;
             // 
-            // lblSampleColor
+            // btnThemeReset
             // 
-            lblSampleColor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            lblSampleColor.BackColor = System.Drawing.Color.FromArgb(64, 64, 0);
-            lblSampleColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            lblSampleColor.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            lblSampleColor.ForeColor = System.Drawing.Color.White;
-            lblSampleColor.Location = new System.Drawing.Point(13, 29);
-            lblSampleColor.Name = "lblSampleColor";
-            lblSampleColor.Padding = new System.Windows.Forms.Padding(3);
-            lblSampleColor.Size = new System.Drawing.Size(337, 70);
-            lblSampleColor.TabIndex = 9;
-            lblSampleColor.Text = resources.GetString("lblSampleColor.Text");
+            btnThemeReset.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnThemeReset.Font = new System.Drawing.Font("Segoe UI", 9F);
+            btnThemeReset.Location = new System.Drawing.Point(401, 20);
+            btnThemeReset.Name = "btnThemeReset";
+            btnThemeReset.Size = new System.Drawing.Size(65, 26);
+            btnThemeReset.TabIndex = 22;
+            btnThemeReset.Text = "Reset";
+            toolTip1.SetToolTip(btnThemeReset, "Reset selected theme to default");
+            btnThemeReset.UseVisualStyleBackColor = true;
+            btnThemeReset.Click += btnThemeReset_Click;
             // 
-            // tabCustomize
+            // boxFonts
             // 
-            tabCustomize.Controls.Add(label3);
-            tabCustomize.Controls.Add(comboBox1);
-            tabCustomize.Controls.Add(label2);
-            tabCustomize.Controls.Add(dgSyntax);
-            tabCustomize.Location = new System.Drawing.Point(4, 24);
-            tabCustomize.Name = "tabCustomize";
-            tabCustomize.Padding = new System.Windows.Forms.Padding(3);
-            tabCustomize.Size = new System.Drawing.Size(457, 247);
-            tabCustomize.TabIndex = 2;
-            tabCustomize.Text = "Customize";
-            tabCustomize.UseVisualStyleBackColor = true;
+            boxFonts.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxFonts.Controls.Add(lblRenderFont);
+            boxFonts.Controls.Add(lblOutputFont);
+            boxFonts.Controls.Add(lblEditorFont);
+            boxFonts.Controls.Add(btnResetRenderFont);
+            boxFonts.Controls.Add(btnResetOutputFont);
+            boxFonts.Controls.Add(btnResetEditorFont);
+            boxFonts.Controls.Add(btnRenderFont);
+            boxFonts.Controls.Add(btnOutputFont);
+            boxFonts.Controls.Add(btnEditorFont);
+            boxFonts.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            boxFonts.Location = new System.Drawing.Point(8, 215);
+            boxFonts.Name = "boxFonts";
+            boxFonts.Size = new System.Drawing.Size(475, 117);
+            boxFonts.TabIndex = 4;
+            boxFonts.TabStop = false;
+            boxFonts.Text = "Fonts";
             // 
-            // label3
+            // lblRenderFont
             // 
-            label3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(333, 20);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(42, 15);
-            label3.TabIndex = 15;
-            label3.Text = "Preset:";
-            label3.Visible = false;
+            lblRenderFont.AutoSize = true;
+            lblRenderFont.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            lblRenderFont.Location = new System.Drawing.Point(140, 85);
+            lblRenderFont.Name = "lblRenderFont";
+            lblRenderFont.Size = new System.Drawing.Size(139, 17);
+            lblRenderFont.TabIndex = 15;
+            lblRenderFont.Text = "Consolas, 9pt, Regular";
             // 
-            // comboBox1
+            // lblOutputFont
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Default", "Default - Dark", "Custom", "Custom - Dark" });
-            comboBox1.Location = new System.Drawing.Point(381, 17);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new System.Drawing.Size(66, 23);
-            comboBox1.TabIndex = 18;
-            comboBox1.Visible = false;
+            lblOutputFont.AutoSize = true;
+            lblOutputFont.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            lblOutputFont.Location = new System.Drawing.Point(140, 57);
+            lblOutputFont.Name = "lblOutputFont";
+            lblOutputFont.Size = new System.Drawing.Size(139, 17);
+            lblOutputFont.TabIndex = 15;
+            lblOutputFont.Text = "Consolas, 9pt, Regular";
             // 
-            // label2
+            // lblEditorFont
             // 
-            label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            label2.AutoSize = true;
-            label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label2.ForeColor = System.Drawing.Color.Red;
-            label2.Location = new System.Drawing.Point(8, 9);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(311, 21);
-            label2.TabIndex = 19;
-            label2.Text = "Custom colors are not yet implemented";
+            lblEditorFont.AutoSize = true;
+            lblEditorFont.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            lblEditorFont.Location = new System.Drawing.Point(140, 29);
+            lblEditorFont.Name = "lblEditorFont";
+            lblEditorFont.Size = new System.Drawing.Size(139, 17);
+            lblEditorFont.TabIndex = 15;
+            lblEditorFont.Text = "Consolas, 9pt, Regular";
             // 
-            // dgSyntax
+            // btnResetRenderFont
             // 
-            dgSyntax.AllowUserToAddRows = false;
-            dgSyntax.AllowUserToDeleteRows = false;
-            dgSyntax.AllowUserToResizeColumns = false;
-            dgSyntax.AllowUserToResizeRows = false;
-            dgSyntax.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            dgSyntax.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dgSyntax.BackgroundColor = System.Drawing.SystemColors.Window;
-            dgSyntax.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dgSyntax.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgSyntax.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5, Column6 });
-            dgSyntax.Enabled = false;
-            dgSyntax.Location = new System.Drawing.Point(8, 55);
-            dgSyntax.Name = "dgSyntax";
-            dgSyntax.RowHeadersVisible = false;
-            dgSyntax.RowHeadersWidth = 51;
-            dgSyntax.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            dgSyntax.Size = new System.Drawing.Size(439, 173);
-            dgSyntax.TabIndex = 14;
+            btnResetRenderFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            btnResetRenderFont.Location = new System.Drawing.Point(10, 80);
+            btnResetRenderFont.Name = "btnResetRenderFont";
+            btnResetRenderFont.Size = new System.Drawing.Size(27, 27);
+            btnResetRenderFont.TabIndex = 23;
+            btnResetRenderFont.Text = "X";
+            toolTip1.SetToolTip(btnResetRenderFont, "reset to default");
+            btnResetRenderFont.UseVisualStyleBackColor = true;
+            btnResetRenderFont.Click += btnResetRenderFont_Click;
             // 
-            // Column1
+            // btnResetOutputFont
             // 
-            Column1.HeaderText = "Element";
-            Column1.MinimumWidth = 6;
-            Column1.Name = "Column1";
-            Column1.Width = 75;
+            btnResetOutputFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            btnResetOutputFont.Location = new System.Drawing.Point(10, 52);
+            btnResetOutputFont.Name = "btnResetOutputFont";
+            btnResetOutputFont.Size = new System.Drawing.Size(27, 27);
+            btnResetOutputFont.TabIndex = 23;
+            btnResetOutputFont.Text = "X";
+            toolTip1.SetToolTip(btnResetOutputFont, "reset to default");
+            btnResetOutputFont.UseVisualStyleBackColor = true;
+            btnResetOutputFont.Click += btnResetOutputFont_Click;
             // 
-            // Column2
+            // btnResetEditorFont
             // 
-            Column2.HeaderText = "Text";
-            Column2.MinimumWidth = 6;
-            Column2.Name = "Column2";
-            Column2.Width = 34;
+            btnResetEditorFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            btnResetEditorFont.Location = new System.Drawing.Point(10, 24);
+            btnResetEditorFont.Name = "btnResetEditorFont";
+            btnResetEditorFont.Size = new System.Drawing.Size(27, 27);
+            btnResetEditorFont.TabIndex = 23;
+            btnResetEditorFont.Text = "X";
+            toolTip1.SetToolTip(btnResetEditorFont, "reset to default");
+            btnResetEditorFont.UseVisualStyleBackColor = true;
+            btnResetEditorFont.Click += btnResetEditorFont_Click;
             // 
-            // Column3
+            // btnRenderFont
             // 
-            Column3.HeaderText = "Text Color";
-            Column3.MinimumWidth = 6;
-            Column3.Name = "Column3";
-            Column3.Width = 85;
+            btnRenderFont.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            btnRenderFont.Location = new System.Drawing.Point(43, 80);
+            btnRenderFont.Name = "btnRenderFont";
+            btnRenderFont.Size = new System.Drawing.Size(91, 27);
+            btnRenderFont.TabIndex = 23;
+            btnRenderFont.Text = "Render font";
+            btnRenderFont.UseVisualStyleBackColor = true;
+            btnRenderFont.Click += btnRenderFont_Click;
             // 
-            // Column4
+            // btnOutputFont
             // 
-            Column4.HeaderText = "Back";
-            Column4.MinimumWidth = 6;
-            Column4.Name = "Column4";
-            Column4.Width = 38;
+            btnOutputFont.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            btnOutputFont.Location = new System.Drawing.Point(43, 52);
+            btnOutputFont.Name = "btnOutputFont";
+            btnOutputFont.Size = new System.Drawing.Size(91, 27);
+            btnOutputFont.TabIndex = 23;
+            btnOutputFont.Text = "Output font";
+            btnOutputFont.UseVisualStyleBackColor = true;
+            btnOutputFont.Click += btnOutputFont_Click;
             // 
-            // Column5
+            // btnEditorFont
             // 
-            Column5.HeaderText = "Back Color";
-            Column5.MinimumWidth = 6;
-            Column5.Name = "Column5";
-            Column5.Width = 89;
-            // 
-            // Column6
-            // 
-            Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            Column6.HeaderText = "Sample";
-            Column6.MinimumWidth = 6;
-            Column6.Name = "Column6";
+            btnEditorFont.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            btnEditorFont.Location = new System.Drawing.Point(43, 24);
+            btnEditorFont.Name = "btnEditorFont";
+            btnEditorFont.Size = new System.Drawing.Size(91, 27);
+            btnEditorFont.TabIndex = 23;
+            btnEditorFont.Text = "Editor font";
+            btnEditorFont.UseVisualStyleBackColor = true;
+            btnEditorFont.Click += btnEditorFont_Click;
             // 
             // fontDialog
             // 
@@ -827,39 +867,56 @@
             colorDialog.FullOpen = true;
             colorDialog.SolidColorOnly = true;
             // 
+            // btnCancel
+            // 
+            btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnCancel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            btnCancel.Location = new System.Drawing.Point(307, 381);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new System.Drawing.Size(87, 31);
+            btnCancel.TabIndex = 20;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
+            // 
             // SettingsUI
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(465, 313);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(501, 418);
             Controls.Add(tabControl1);
+            Controls.Add(btnCancel);
             Controls.Add(btnSave);
-            Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             KeyPreview = true;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "SettingsUI";
             ShowInTaskbar = false;
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "ZELDA Settings";
             Load += SettingsUI_Load;
             KeyPress += SettingsUI_KeyPress;
             tabControl1.ResumeLayout(false);
             tabConnection.ResumeLayout(false);
-            tabConnection.PerformLayout();
+            groupBox6.ResumeLayout(false);
+            groupBox6.PerformLayout();
             panelMCWS.ResumeLayout(false);
             panelMCWS.PerformLayout();
             tabPrefs.ResumeLayout(false);
-            tabPrefs.PerformLayout();
+            groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)delaySlide).EndInit();
             tabColors.ResumeLayout(false);
-            tabColors.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            tabCustomize.ResumeLayout(false);
-            tabCustomize.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgSyntax).EndInit();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            boxTheme.ResumeLayout(false);
+            boxTheme.PerformLayout();
+            boxFonts.ResumeLayout(false);
+            boxFonts.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -869,42 +926,23 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPrefs;
         private System.Windows.Forms.CheckBox chkLoadPlaylist;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox boxFonts;
         private System.Windows.Forms.TabPage tabColors;
-        private System.Windows.Forms.DataGridView dgSyntax;
         private System.Windows.Forms.CheckBox chkSyntax;
         private System.Windows.Forms.CheckBox chkSaveTabs;
         private System.Windows.Forms.CheckBox chkLines;
-        private System.Windows.Forms.Label lblSampleColor;
         private System.Windows.Forms.CheckBox chkIndent;
-        private System.Windows.Forms.LinkLabel btnBackColor;
-        private System.Windows.Forms.LinkLabel btnTextColor;
-        private System.Windows.Forms.RadioButton radio3;
-        private System.Windows.Forms.RadioButton radio2;
-        private System.Windows.Forms.RadioButton radio1;
         private System.Windows.Forms.TextBox txtExtraFuncs;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.CheckBox chkTabs;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.CheckBox chkSyntaxDelim;
         private System.Windows.Forms.CheckBox chkSyntaxFunction;
-        private System.Windows.Forms.CheckBox chkMaximize;
         private System.Windows.Forms.CheckBox chkAPITime;
         private System.Windows.Forms.CheckBox chkSaveView;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.FontDialog fontDialog;
         private System.Windows.Forms.ColorDialog colorDialog;
-        private System.Windows.Forms.LinkLabel btnFont;
         private System.Windows.Forms.CheckBox chkFastStart;
-        private System.Windows.Forms.TabPage tabCustomize;
         private System.Windows.Forms.CheckBox chkSyntaxComments;
         private System.Windows.Forms.TabPage tabConnection;
         private System.Windows.Forms.Label label6;
@@ -915,7 +953,7 @@
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.RadioButton optMCWS;
         private System.Windows.Forms.RadioButton optAutomation;
-        private System.Windows.Forms.TrackBar delaySlide;
+        private TransparentTrackBar delaySlide;
         private System.Windows.Forms.Label lblDelay;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox txtPlaylistFilter;
@@ -924,7 +962,27 @@
         private System.Windows.Forms.CheckBox chkTooltip;
         private System.Windows.Forms.Panel panelMCWS;
         private System.Windows.Forms.Button btnTestConnection;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chkSafeMode;
+        private System.Windows.Forms.Button btnEditorFont;
+        private System.Windows.Forms.Label lblEditorFont;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox boxTheme;
+        private System.Windows.Forms.RadioButton optThemeLight;
+        private System.Windows.Forms.Button btnThemeEdit;
+        private System.Windows.Forms.RadioButton optThemeDark;
+        private System.Windows.Forms.RadioButton optThemeAuto;
+        private System.Windows.Forms.Button btnThemeReset;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private Button btnThemeHelp;
+        private Label lblRenderFont;
+        private Label lblOutputFont;
+        private Button btnResetRenderFont;
+        private Button btnResetOutputFont;
+        private Button btnResetEditorFont;
+        private Button btnRenderFont;
+        private Button btnOutputFont;
+        private Button btnCancel;
     }
 }
