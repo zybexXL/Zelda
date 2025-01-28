@@ -61,6 +61,7 @@ namespace Zelda
             chkSafeMode = new CheckBox();
             chkTabs = new CheckBox();
             delaySlide = new TransparentTrackBar();
+            chkMultirowTabs = new CheckBox();
             chkIndent = new CheckBox();
             lblDelay = new Label();
             chkLines = new CheckBox();
@@ -94,7 +95,6 @@ namespace Zelda
             fontDialog = new FontDialog();
             colorDialog = new ColorDialog();
             btnCancel = new Button();
-            chkMultirowTabs = new CheckBox();
             tabControl1.SuspendLayout();
             tabConnection.SuspendLayout();
             groupBox6.SuspendLayout();
@@ -280,10 +280,10 @@ namespace Zelda
             // 
             tabPrefs.Controls.Add(groupBox5);
             tabPrefs.Controls.Add(groupBox4);
-            tabPrefs.Location = new System.Drawing.Point(4, 26);
+            tabPrefs.Location = new System.Drawing.Point(4, 24);
             tabPrefs.Name = "tabPrefs";
             tabPrefs.Padding = new Padding(3);
-            tabPrefs.Size = new System.Drawing.Size(493, 362);
+            tabPrefs.Size = new System.Drawing.Size(493, 364);
             tabPrefs.TabIndex = 0;
             tabPrefs.Text = "Preferences";
             tabPrefs.UseVisualStyleBackColor = true;
@@ -489,6 +489,19 @@ namespace Zelda
             delaySlide.Value = 500;
             delaySlide.ValueChanged += delaySlide_ValueChanged;
             // 
+            // chkMultirowTabs
+            // 
+            chkMultirowTabs.AutoSize = true;
+            chkMultirowTabs.Checked = true;
+            chkMultirowTabs.CheckState = CheckState.Checked;
+            chkMultirowTabs.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkMultirowTabs.Location = new System.Drawing.Point(10, 77);
+            chkMultirowTabs.Name = "chkMultirowTabs";
+            chkMultirowTabs.Size = new System.Drawing.Size(163, 21);
+            chkMultirowTabs.TabIndex = 12;
+            chkMultirowTabs.Text = "Show multiple tab rows";
+            chkMultirowTabs.UseVisualStyleBackColor = true;
+            // 
             // chkIndent
             // 
             chkIndent.AutoSize = true;
@@ -671,6 +684,7 @@ namespace Zelda
             btnThemeHelp.Size = new System.Drawing.Size(24, 24);
             btnThemeHelp.TabIndex = 23;
             btnThemeHelp.UseVisualStyleBackColor = true;
+            btnThemeHelp.Visible = false;
             btnThemeHelp.Click += btnThemeHelp_Click;
             // 
             // optThemeLight
@@ -880,19 +894,6 @@ namespace Zelda
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
-            // 
-            // chkMultilineTabs
-            // 
-            chkMultirowTabs.AutoSize = true;
-            chkMultirowTabs.Checked = true;
-            chkMultirowTabs.CheckState = CheckState.Checked;
-            chkMultirowTabs.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            chkMultirowTabs.Location = new System.Drawing.Point(10, 77);
-            chkMultirowTabs.Name = "chkMultilineTabs";
-            chkMultirowTabs.Size = new System.Drawing.Size(163, 21);
-            chkMultirowTabs.TabIndex = 12;
-            chkMultirowTabs.Text = "Show multiple tab rows";
-            chkMultirowTabs.UseVisualStyleBackColor = true;
             // 
             // SettingsUI
             // 
