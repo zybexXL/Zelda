@@ -138,19 +138,19 @@ namespace Zelda
         private void btnResetEditorFont_Click(object sender, EventArgs e)
         {
             fonts[0] = Constants.DefaultEditorFont;
-            lblEditorFont.Text = settings.GetFontString(fonts[0]);
+            ShowFonts();
         }
 
         private void btnResetOutputFont_Click(object sender, EventArgs e)
         {
             fonts[1] = Constants.DefaultOutputFont;
-            lblOutputFont.Text = settings.GetFontString(fonts[1]);
+            ShowFonts();
         }
 
         private void btnResetRenderFont_Click(object sender, EventArgs e)
         {
             fonts[2] = Constants.DefaultRenderFont;
-            lblRenderFont.Text = settings.GetFontString(fonts[2]);
+            ShowFonts();
         }
         private void btnEditorFont_Click(object sender, EventArgs e)
         {
