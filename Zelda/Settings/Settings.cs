@@ -15,6 +15,7 @@ namespace Zelda
         public bool ShowLineNumbers { get; set; } = true;
         public bool WrapIndent { get; set; } = true;
         public bool ReplaceTabs { get; set; } = true;
+        public bool TabRows { get; set; } = true;
         public bool ShowAPICallTime { get; set; } = true;
         public bool FastStart { get; set; } = false;
         public bool UseMCWS { get; set; } = false;

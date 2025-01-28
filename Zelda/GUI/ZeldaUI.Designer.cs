@@ -180,6 +180,7 @@ namespace Zelda
             tabsLeft.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tabsLeft.Location = new Point(0, 0);
             tabsLeft.Margin = new System.Windows.Forms.Padding(2);
+            tabsLeft.Multiline = true;
             tabsLeft.Name = "tabsLeft";
             tabsLeft.Padding = new Point(6, 4);
             tabsLeft.SelectedIndex = 0;

@@ -94,6 +94,7 @@ namespace Zelda
             fontDialog = new FontDialog();
             colorDialog = new ColorDialog();
             btnCancel = new Button();
+            chkMultirowTabs = new CheckBox();
             tabControl1.SuspendLayout();
             tabConnection.SuspendLayout();
             groupBox6.SuspendLayout();
@@ -112,7 +113,7 @@ namespace Zelda
             // 
             btnSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnSave.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            btnSave.Location = new System.Drawing.Point(400, 380);
+            btnSave.Location = new System.Drawing.Point(400, 397);
             btnSave.Name = "btnSave";
             btnSave.Size = new System.Drawing.Size(87, 31);
             btnSave.TabIndex = 20;
@@ -129,7 +130,7 @@ namespace Zelda
             tabControl1.Location = new System.Drawing.Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new System.Drawing.Size(501, 375);
+            tabControl1.Size = new System.Drawing.Size(501, 392);
             tabControl1.TabIndex = 0;
             // 
             // tabConnection
@@ -138,7 +139,7 @@ namespace Zelda
             tabConnection.Location = new System.Drawing.Point(4, 26);
             tabConnection.Name = "tabConnection";
             tabConnection.Padding = new Padding(3);
-            tabConnection.Size = new System.Drawing.Size(493, 345);
+            tabConnection.Size = new System.Drawing.Size(493, 362);
             tabConnection.TabIndex = 3;
             tabConnection.Text = "Connection";
             tabConnection.UseVisualStyleBackColor = true;
@@ -279,10 +280,10 @@ namespace Zelda
             // 
             tabPrefs.Controls.Add(groupBox5);
             tabPrefs.Controls.Add(groupBox4);
-            tabPrefs.Location = new System.Drawing.Point(4, 24);
+            tabPrefs.Location = new System.Drawing.Point(4, 26);
             tabPrefs.Name = "tabPrefs";
             tabPrefs.Padding = new Padding(3);
-            tabPrefs.Size = new System.Drawing.Size(493, 347);
+            tabPrefs.Size = new System.Drawing.Size(493, 362);
             tabPrefs.TabIndex = 0;
             tabPrefs.Text = "Preferences";
             tabPrefs.UseVisualStyleBackColor = true;
@@ -427,6 +428,7 @@ namespace Zelda
             groupBox4.Controls.Add(chkSafeMode);
             groupBox4.Controls.Add(chkTabs);
             groupBox4.Controls.Add(delaySlide);
+            groupBox4.Controls.Add(chkMultirowTabs);
             groupBox4.Controls.Add(chkIndent);
             groupBox4.Controls.Add(lblDelay);
             groupBox4.Controls.Add(chkLines);
@@ -434,7 +436,7 @@ namespace Zelda
             groupBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
             groupBox4.Location = new System.Drawing.Point(8, 199);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new System.Drawing.Size(475, 124);
+            groupBox4.Size = new System.Drawing.Size(475, 146);
             groupBox4.TabIndex = 31;
             groupBox4.TabStop = false;
             groupBox4.Text = "Editor";
@@ -474,7 +476,7 @@ namespace Zelda
             delaySlide.AutoSize = false;
             delaySlide.BackColor = System.Drawing.Color.FromArgb(247, 247, 249);
             delaySlide.LargeChange = 200;
-            delaySlide.Location = new System.Drawing.Point(123, 85);
+            delaySlide.Location = new System.Drawing.Point(123, 110);
             delaySlide.Maximum = 2000;
             delaySlide.Minimum = 100;
             delaySlide.Name = "delaySlide";
@@ -505,7 +507,7 @@ namespace Zelda
             lblDelay.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblDelay.AutoSize = true;
             lblDelay.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            lblDelay.Location = new System.Drawing.Point(419, 85);
+            lblDelay.Location = new System.Drawing.Point(419, 110);
             lblDelay.Name = "lblDelay";
             lblDelay.Size = new System.Drawing.Size(50, 17);
             lblDelay.TabIndex = 29;
@@ -528,7 +530,7 @@ namespace Zelda
             // 
             label17.AutoSize = true;
             label17.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            label17.Location = new System.Drawing.Point(10, 85);
+            label17.Location = new System.Drawing.Point(10, 110);
             label17.Name = "label17";
             label17.Size = new System.Drawing.Size(105, 17);
             label17.TabIndex = 30;
@@ -542,7 +544,7 @@ namespace Zelda
             tabColors.Location = new System.Drawing.Point(4, 26);
             tabColors.Name = "tabColors";
             tabColors.Padding = new Padding(3);
-            tabColors.Size = new System.Drawing.Size(493, 345);
+            tabColors.Size = new System.Drawing.Size(493, 362);
             tabColors.TabIndex = 1;
             tabColors.Text = "Theme";
             tabColors.UseVisualStyleBackColor = true;
@@ -871,7 +873,7 @@ namespace Zelda
             // 
             btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnCancel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            btnCancel.Location = new System.Drawing.Point(307, 381);
+            btnCancel.Location = new System.Drawing.Point(307, 398);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new System.Drawing.Size(87, 31);
             btnCancel.TabIndex = 20;
@@ -879,11 +881,24 @@ namespace Zelda
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
+            // chkMultilineTabs
+            // 
+            chkMultirowTabs.AutoSize = true;
+            chkMultirowTabs.Checked = true;
+            chkMultirowTabs.CheckState = CheckState.Checked;
+            chkMultirowTabs.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            chkMultirowTabs.Location = new System.Drawing.Point(10, 77);
+            chkMultirowTabs.Name = "chkMultilineTabs";
+            chkMultirowTabs.Size = new System.Drawing.Size(163, 21);
+            chkMultirowTabs.TabIndex = 12;
+            chkMultirowTabs.Text = "Show multiple tab rows";
+            chkMultirowTabs.UseVisualStyleBackColor = true;
+            // 
             // SettingsUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(501, 418);
+            ClientSize = new System.Drawing.Size(501, 435);
             Controls.Add(tabControl1);
             Controls.Add(btnCancel);
             Controls.Add(btnSave);
@@ -984,5 +999,6 @@ namespace Zelda
         private Button btnRenderFont;
         private Button btnOutputFont;
         private Button btnCancel;
+        private CheckBox chkMultirowTabs;
     }
 }

@@ -56,7 +56,7 @@ namespace Zelda
             tabsLeft.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             tabsLeft.TabPages.Clear();
             txtOutput.Margins[1].Width = 10;             // remove default margin
-            SetOutputStyle();
+            ApplySkin();
 
             toolStrip1.Renderer = new ToolstripRenderer(Color.PowderBlue);      // renderer to apply a backcolor on Checked toolstrip buttons
             showFunctionHelper(false);
@@ -722,6 +722,7 @@ namespace Zelda
             currentTab?.Evaluate();
             ShowResults();
 
+            tabsLeft.Multiline = settings.TabRows;
             foreach (var tab in expressionTabs)
                 tab.Config(settings);
             if (gridFiles.Columns["API"] != null)

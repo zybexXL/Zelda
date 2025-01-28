@@ -117,6 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="chkSafeMode.ToolTip" xml:space="preserve">
+    <value>Safe-mode protects from unwanted effects of automatically running
+expressions containing ShellRun() or SetField() calls by disabling the
+automatic Run/Evaluate button.
+When this option is enabled, expressions with these functions can only
+be manually executed by pressing F5.</value>
+  </data>
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -141,13 +148,6 @@ Only playlists containing one of the filter strings will be loaded.
 - Start a filter with "!" to exclude matching lists.
 
 Ex: "Smartlists\New; !demo; Music\Test; Sample"</value>
-  </data>
-  <data name="chkSafeMode.ToolTip" xml:space="preserve">
-    <value>Safe-mode protects from unwanted effects of automatically running
-expressions containing ShellRun() or SetField() calls by disabling the
-automatic Run/Evaluate button.
-When this option is enabled, expressions with these functions can only
-be manually executed by pressing F5.</value>
   </data>
   <metadata name="fontDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>114, 17</value>

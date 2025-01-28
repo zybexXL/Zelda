@@ -45,6 +45,7 @@ namespace Zelda
             chkTabs.Checked = settings.ReplaceTabs;
             chkLines.Checked = settings.ShowLineNumbers;
             chkSafeMode.Checked = settings.SafeMode;
+            chkMultirowTabs.Checked = settings.TabRows;
             delaySlide.Value = settings.EvaluateDelay;
 
             // theme - highlight
@@ -88,6 +89,7 @@ namespace Zelda
             settings.ReplaceTabs = chkTabs.Checked;
             settings.ShowLineNumbers = chkLines.Checked;
             settings.SafeMode = chkSafeMode.Checked;
+            settings.TabRows = chkMultirowTabs.Checked;
             settings.EvaluateDelay = delaySlide.Value;
 
             // theme
@@ -109,6 +111,7 @@ namespace Zelda
         }
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel; 
             Close();
         }
 
@@ -123,7 +126,6 @@ namespace Zelda
 
         private void SettingsUI_Load(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
         }
 
         private void delaySlide_ValueChanged(object sender, EventArgs e)
