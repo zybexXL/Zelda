@@ -33,7 +33,7 @@ namespace Zelda
         Right, Swap, Trim, TrimLines, UnMoveArticles, Unswap, URLify,
         // test and comparison
         Compare, FieldExists, IsDigit, IsDriveMissing, IsEmpty, IsEqual, IsInPlayingNow, IsLowerCase, IsMissing,
-        IsOverridden, IsPlaying, IsRange, IsRemovable, IsUpperCase, SearchTags,
+        IsOverridden, IsPathMissing, IsPlaying, IsRange, IsRemovable, IsUpperCase, SearchTags,
         // math + subfunctions
         Math,
         abs, sign, log, log10, pow, randn, equal, below, above,
@@ -191,6 +191,7 @@ namespace Zelda
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsLowerCase, "Tests a value to check if it's all in lower case", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsLowerCase"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsMissing, "Tests to see if a file exists on the system", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsMissing"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsOverridden, "Tests a calculated field to check for an expression override value", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsOverridden"),
+            new ELFunction(ELCategory.TestCompare, ELFunctions.IsPathMissing, "Tests to see if a folder exists on the system", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsPathMissing"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsPlaying, "Tests to see if a file is in currently being played", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsPlaying"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsRange, "Tests a value for inclusion within a given range", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsRange"),
             new ELFunction(ELCategory.TestCompare, ELFunctions.IsRemovable, "Tests to see if a file is stored on removable media", "https://wiki.jriver.com/index.php/Test_and_Comparison_Functions#IsRemovable"),

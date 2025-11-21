@@ -184,6 +184,7 @@ namespace Zelda
             tabsLeft.Name = "tabsLeft";
             tabsLeft.Padding = new Point(6, 4);
             tabsLeft.SelectedIndex = 0;
+            tabsLeft.ShowToolTips = true;
             tabsLeft.Size = new Size(688, 350);
             tabsLeft.TabIndex = 1;
             tabsLeft.DrawItem += tabsLeft_DrawItem;
@@ -477,7 +478,7 @@ namespace Zelda
             // btnInsertFunction
             // 
             btnInsertFunction.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            btnInsertFunction.Font = new Font("Segoe Condensed", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnInsertFunction.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnInsertFunction.ForeColor = Color.Blue;
             btnInsertFunction.Image = Properties.Resources.Function32;
             btnInsertFunction.ImageTransparentColor = Color.Magenta;

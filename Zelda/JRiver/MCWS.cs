@@ -27,6 +27,8 @@ namespace Zelda
         public string Platform { get; set; }
         public string ServerName { get; set; }
         public bool ReadOnly { get; set; }
+        public int ConnectionTimeout { get; set; } = 3;     // in seconds
+
 
         public MCWS(string server, string username, string password, bool verbose = false)
         {
@@ -56,7 +58,8 @@ namespace Zelda
 
         public bool Connect()
         {
-            http = new HttpClient();
+            var handler = new SocketsHttpHandler { ConnectTimeout = TimeSpan.FromSeconds(ConnectionTimeout) };
+            http = new HttpClient(handler);
             http.BaseAddress = new Uri(hostURL);
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
             http.DefaultRequestHeaders.ConnectionClose = true;      // MC is slow with connection=keep-alive

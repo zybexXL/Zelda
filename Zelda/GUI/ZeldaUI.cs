@@ -297,7 +297,7 @@ namespace Zelda
         private void ConnectJRiver(ProgressInfo progress)
         {
             progress.result = false;
-            progress.subtitle = "Starting MediaCenter";
+            progress.subtitle = jrAPI.Server;
             progress.Update(true);
             if (!jrAPI.Connect())
                 return;
@@ -1341,6 +1341,7 @@ namespace Zelda
             string name = $"🔗 [{e.ClickedItem.Text}]";
             string exp = e.ClickedItem.Tag as string;
             tabsLeft.SelectedTab = AddExpressionTab(name, exp, linkedField: e.ClickedItem.Text);
+            tabsLeft.SelectedTab.ToolTipText = e.ClickedItem.ToolTipText;
         }
 
         private void btnRevert_Click(object sender, EventArgs e)

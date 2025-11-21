@@ -329,7 +329,9 @@ namespace Zelda
 
         private void syntaxIndicators()
         {
-            var funcs = highlighter.Functions;
+            List<ELToken> funcs = null;
+            lock(this)
+                funcs = highlighter.Functions;
             int pos = scintilla.CurrentPosition;
 
             ELToken currFunc = null;

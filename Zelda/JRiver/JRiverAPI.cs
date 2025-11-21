@@ -30,6 +30,7 @@ namespace Zelda
         public int APIlevel => api == null ? 0 : api.APIlevel;
         public string Server { get; private set; }
         public bool ReadOnly => api == null ? true : api.ReadOnly;
+        public bool isMCWS => api is MCWS;
 
         public List<JRPlaylist> Playlists { get; set; }
         public List<JRField> Fields { get; set; }
@@ -165,7 +166,7 @@ namespace Zelda
         public void updateFile(JRFile file, bool allFields = true, bool formatted = true)
         {
             List<string> fields = allFields ? FieldMap.Keys.ToList() : file.fields.Keys.ToList();
-            if (allFields && api is MCWS) fields = null;
+            if (allFields && isMCWS) fields = null;
             var updated = api.GetFile(file.Key, fields, formatted);
             file.copyFrom(updated);
         }
