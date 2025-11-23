@@ -157,7 +157,7 @@ namespace Zelda
             if (HttpGet(url, out string xml, false) != 200)
                 return null;
             var match = Regex.Match(xml ?? "", @"<Item Name=""Value"">(.*?)</Item>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            if (match.Success) result = HttpUtility.HtmlDecode(match.Groups[1].Value.Replace("+"," "));
+            if (match.Success) result = HttpUtility.HtmlDecode(match.Groups[1].Value);
             return result;
         }
 
