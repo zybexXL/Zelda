@@ -20,16 +20,12 @@ namespace Zelda
 
             AutoUpgrade.Cleanup();
 
-            CoreWebView2Environment.SetLoaderDllFolderPath(Path.Combine(Application.StartupPath, "runtimes\\win-x64\\native"));
+            //CoreWebView2Environment.SetLoaderDllFolderPath(Path.Combine(Application.StartupPath, ".\runtimes\\win-x64\\native"));
+            
 
-/*
- * #if NET9_0_OR_GREATER
-            ApplicationConfiguration.Initialize();
-#pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            //ApplicationConfiguration.Initialize();
             Application.SetColorMode(SystemColorMode.Dark);
-#pragma warning restore WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-#else
-*/
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

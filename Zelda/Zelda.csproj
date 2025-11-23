@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <OutputType>WinExe</OutputType>
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
@@ -50,17 +50,16 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" ExcludeAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="Scintilla5.NET" Version="5.6.4" ExcludeAssets="all" GeneratePathProperty="true" />
-    <Reference Include="$(PkgMicrosoft_Web_WebView2)\lib\net462\Microsoft.Web.WebView2.Core.dll" private="true" />
-    <Reference Include="$(PkgMicrosoft_Web_WebView2)\lib\net462\Microsoft.Web.WebView2.WinForms.dll" private="true" />
-    <Reference Include="$(PkgMicrosoft_Web_WebView2)\lib\net462\Microsoft.Web.WebView2.Wpf.dll" private="false" />
-    <Reference Include="$(PkgScintilla5_NET)\lib\net6.0-windows7.0\Scintilla.NET.dll" private="true" />
-    <None Include="$(PkgMicrosoft_Web_WebView2)\runtimes\win-x64\native\WebView2Loader.dll" CopyToOutputDirectory="PreserveNewest" LinkBase="runtimes\win-x64\native\" visible="false" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3595.46" />
+    <PackageReference Include="Scintilla5.NET" Version="6.1.0" />
+	  <!--<Reference Include="$(PkgMicrosoft_Web_WebView2)\lib\net462\Microsoft.Web.WebView2.Core.dll" private="true" />
+	<Reference Include="$(PkgMicrosoft_Web_WebView2)\lib\net462\Microsoft.Web.WebView2.WinForms.dll" private="true" />
+	<Reference Include="$(PkgMicrosoft_Web_WebView2)\lib\net462\Microsoft.Web.WebView2.Wpf.dll" private="false" />
+	  <None Include="$(PkgMicrosoft_Web_WebView2)\runtimes\win-x64\native\WebView2Loader.dll" CopyToOutputDirectory="PreserveNewest" LinkBase="runtimes\win-x64\native\" visible="false" />
     <None Include="$(PkgScintilla5_NET)\runtimes\win-x64\native\Lexilla.dll" CopyToOutputDirectory="PreserveNewest" LinkBase="runtimes\win-x64\native\" visible="false" />
-    <None Include="$(PkgScintilla5_NET)\runtimes\win-x64\native\Scintilla.dll" CopyToOutputDirectory="PreserveNewest" LinkBase="runtimes\win-x64\native\" visible="false" />
+    <None Include="$(PkgScintilla5_NET)\runtimes\win-x64\native\Scintilla.dll" CopyToOutputDirectory="PreserveNewest" LinkBase="runtimes\win-x64\native\" visible="false" /> -->
   </ItemGroup>
   <ItemGroup>
       <Compile Update="Properties\Resources.Designer.cs">

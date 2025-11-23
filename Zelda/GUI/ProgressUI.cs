@@ -11,6 +11,20 @@ namespace Zelda
         BackgroundWorker worker;
         Action<ProgressInfo> bgAction;
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                // Set this style BEFORE base.CreateParams is created and returned.
+                SetStyle(ControlStyles.ApplyThemingImplicitly, true);
+
+                CreateParams cp = base.CreateParams;
+
+                // Other logic
+                return cp;
+            }
+        }
+
         public ProgressUI(string title, Action<ProgressInfo> action, bool canCancel = true, params object[] args)
         {
             InitializeComponent();

@@ -18,6 +18,20 @@ namespace Zelda
     [DesignerCategory("code")]
     public class WikiView2 : UserControl
     {
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                // Set this style BEFORE base.CreateParams is created and returned.
+                SetStyle(ControlStyles.ApplyThemingImplicitly, true);
+
+                CreateParams cp = base.CreateParams;
+
+                // Other logic
+                return cp;
+            }
+        }
+
         //private IContainer components = null;
         public WebView2 webWiki { get; private set; } = new WebView2();
         public bool Initialized { get; private set; }

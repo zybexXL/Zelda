@@ -15,6 +15,20 @@ namespace Zelda
 {
     public partial class ExpressionTab : TabPage
     {
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                // Set this style BEFORE base.CreateParams is created and returned.
+                SetStyle(ControlStyles.ApplyThemingImplicitly, true);
+
+                CreateParams cp = base.CreateParams;
+
+                // Other logic
+                return cp;
+            }
+        }
+
         private static int uniqueID = 0;
 
         public string savedExpression { get; set; }

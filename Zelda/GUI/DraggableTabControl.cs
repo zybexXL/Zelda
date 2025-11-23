@@ -5,6 +5,20 @@ namespace System.Windows.Forms
     [DesignerCategory("code")]
     public class DraggableTabControl : TabControl
     {
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                // Set this style BEFORE base.CreateParams is created and returned.
+                SetStyle(ControlStyles.ApplyThemingImplicitly, true);
+
+                CreateParams cp = base.CreateParams;
+
+                // Other logic
+                return cp;
+            }
+        }
+
         private TabPage predraggedTab;
         private int lastSwitchHash;
         private DateTime lastSwitchTime;
