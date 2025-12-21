@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text.Encodings.Web;
 using System.Windows.Forms;
 
 namespace Zelda
@@ -20,12 +21,7 @@ namespace Zelda
 
         private void lblContact_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            try
-            {
-                string url = $"mailto:pfonseca@gmail.com?subject=Zelda%20v{Program.version.ToString()}";
-                Process.Start(url);
-            }
-            catch { }
+            Util.ShellStart($"mailto:pbfonseca@gmail.com?subject=Zelda%20v{Program.version.ToString()}");
         }
 
         private void AboutUI_KeyPress(object sender, KeyPressEventArgs e)
@@ -36,11 +32,7 @@ namespace Zelda
 
         private void lblForum_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            try
-            {
-                Process.Start($"https://yabb.jriver.com/interact/index.php/topic,125975.0.html");
-            }
-            catch { }
+            Util.ShellStart("https://yabb.jriver.com/interact/index.php/topic,125975.0.html");
         }
     }
 }

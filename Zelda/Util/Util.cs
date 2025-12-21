@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Text.Encodings.Web;
-using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -111,6 +112,24 @@ namespace Zelda
             }
             catch { }
             return default(T);
+        }
+
+        public static void ShellStart(string command)
+        {
+            if (string.IsNullOrEmpty(command)) return;
+            try
+            {
+                var ps = new ProcessStartInfo(command) 
+                {
+                    UseShellExecute = true,
+                    Verb = "open"
+                };
+                Process.Start(ps);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         /*
