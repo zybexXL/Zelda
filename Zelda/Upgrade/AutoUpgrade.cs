@@ -96,7 +96,7 @@ namespace Zelda
                 {
                     progress.subtitle = "downloading new version";
                     progress.Update();
-                    client.DefaultRequestHeaders.Add("User-Agent", "Microsoft .Net HttpClient");
+                    client.DefaultRequestHeaders.Add("User-Agent", "Microsoft .Net/8.0 (HttpClient)");
                     var response = client.GetAsync(LatestVersion.package).Result;
                     using (var fs = new FileStream(tmpFile, FileMode.Create))
                         response.Content.CopyToAsync(fs).Wait();

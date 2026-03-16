@@ -43,6 +43,8 @@ namespace Zelda
             //((ISupportInitialize)(webWiki)).EndInit();
             Controls.Add(webWiki);
             ResumeLayout(true);
+
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "Zelda/2.0 (JRiver_Internet_Reader) Net/8.0 (HttpClient)");
         }
 
         /// <summary> 
@@ -103,11 +105,11 @@ namespace Zelda
             {
                 cancelSource?.Cancel();
                 cancelSource = new CancellationTokenSource();
-                Task.Run(() => PreloadWiki(func?.wikiUrl, cancelSource.Token));
+                Task.Run(() => PreloadWiki(name, func?.wikiUrl, cancelSource.Token));
             }
         }
 
-        private void PreloadWiki(string url, CancellationToken cancel)
+        private void PreloadWiki(string name, string url, CancellationToken cancel)
         {
             var resp = httpClient.GetAsync(url).Result;
             if (resp.IsSuccessStatusCode && !cancel.IsCancellationRequested)
@@ -115,6 +117,14 @@ namespace Zelda
                 wikiPreloaded = resp.Content.ReadAsStringAsync().Result;     // preload HTML
                 if (!cancel.IsCancellationRequested)
                     BeginInvoke((MethodInvoker)delegate { webWiki.Source = new Uri(url); });
+            }
+            else
+            {
+                BeginInvoke((MethodInvoker)delegate
+                {
+                    string style = @"<body style=""background-color:#F6F6F6;"">";
+                    webWiki.NavigateToString($"{style}Failed to load Wiki page for function <b>{name}()</b><br>HTTP {(int)resp.StatusCode}: {resp.ReasonPhrase}");
+                });
             }
         }
 
@@ -140,7 +150,7 @@ namespace Zelda
 
             try
             {
-                string html = wikiPreloaded; // resp.Content.ReadAsStringAsync().Result;
+                string html = wikiPreloaded;
 
                 html = Regex.Replace(html, "<script>.*?</script>", "");
                 html = Regex.Replace(html, "<a class=\"mw-jump-link\".+?</a>", "");
@@ -160,9 +170,7 @@ namespace Zelda
                 var content = doc.DocumentNode.Descendants().Where(d => d.Id == "content").FirstOrDefault();
                 content?.SetAttributeValue("class", "");
                 content?.SetAttributeValue("style", "margin: 0 0 0 0; border:0; padding: 10px;");
-                //content?.SetAttributeValue("zelda", "1");
 
-                //string html = "<html><body>this works!</body></html>";
                 MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(doc.DocumentNode.OuterHtml));
 
                 CoreWebView2WebResourceResponse response = webWiki.CoreWebView2.Environment.CreateWebResourceResponse(ms, 200, "OK", "Content-Type: text/html; charset=utf-8");
