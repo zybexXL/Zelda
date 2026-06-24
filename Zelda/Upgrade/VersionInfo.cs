@@ -43,7 +43,7 @@ namespace Zelda
                 m1 = Regex.Match(json, @"""published_at"": ?""(.+?)""");
                 ver.date = DateTime.ParseExact(m1.Groups[1].Value, "yyyy-MM-dd'T'HH:mm:ss'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
 
-                m1 = Regex.Match(json, @"""browser_download_url"": ?""(.+?)""");
+                m1 = Regex.Match(json, @"""browser_download_url"": ?""([^""]+\.exe)""");
                 ver.package = m1.Groups[1].Value;
 
                 return ver;

@@ -388,6 +388,8 @@ namespace Zelda
 
                 // Search the remainder of the document
                 scintilla.TargetStart = scintilla.TargetEnd;
+                if (scintilla.TargetStart != scintilla.TargetEnd)   // some wide chars cause failure to set TargetStart
+                    break;
                 scintilla.TargetEnd = scintilla.TextLength;
             }
         }

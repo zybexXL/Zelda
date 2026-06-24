@@ -152,12 +152,12 @@ namespace Zelda
         public string ResolveExpression(int filekey, string expression)
         {
             string result = "";
-            expression = Uri.EscapeDataString(expression);
-            string url = $"File/GetFilledTemplate?File={filekey}&Expression={expression}";
+            string exp = Uri.EscapeDataString(HttpUtility.HtmlEncode(expression));
+            string url = $"File/GetFilledTemplate?File={filekey}&Expression={exp}";
             if (HttpGet(url, out string xml, false) != 200)
                 return null;
             var match = Regex.Match(xml ?? "", @"<Item Name=""Value"">(.*?)</Item>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            if (match.Success) result = HttpUtility.HtmlDecode(match.Groups[1].Value);
+            if (match.Success) result = HttpUtility.HtmlDecode(HttpUtility.HtmlDecode(match.Groups[1].Value));
             return result;
         }
 

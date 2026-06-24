@@ -35,9 +35,15 @@ namespace Zelda
             if (font.font != null)
                 ddFont.Text = font.font;
             if (font.size > 0)
+            {
+                ddFontSize.SelectedIndex = -1;
                 ddFontSize.Text = font.size.ToString();
+            }
             if (font.alpha > 0)
+            {
+                ddAlpha.SelectedIndex = -1;
                 ddAlpha.Text = font.alpha.ToString();
+            }
             if (font.color != Color.Empty)
                 lblColor.BackColor = font.color;
             if (font.bgcolor != Color.Empty)
