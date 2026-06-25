@@ -80,7 +80,14 @@ namespace Zelda
                 return null;
 
             var fields = JRField.Parse(xml);
-            if (fields != null) return fields.ToList();
+            if (fields != null)
+            {
+                foreach (var f in fields)
+                    if (f.Expression != null)
+                        f.Expression = HttpUtility.HtmlDecode(f.Expression);
+
+                return fields.ToList();
+            }
 
             // Field Name="Album Artist (auto)" Expression="AlbumArtist()" DataType="String" EditType="Standard" Type="" DisplayName="Album Artist (auto)"/>
             var matches = Regex.Matches(xml, "<Field Name=\"(.+?)\".+?DisplayName=\"(.+?)\"", RegexOptions.Singleline);
@@ -91,8 +98,7 @@ namespace Zelda
         {
             string name = Uri.EscapeDataString(field.Name);
             string type = string.IsNullOrEmpty(field.DataType) ? "string" : Uri.EscapeDataString(field.DataType);
-            string expression = field.isCalculated ? $"&Expression={Uri.EscapeDataString(field.Expression ?? "")}" : "";
-
+            string expression = field.isCalculated ? $"&Expression={Uri.EscapeDataString(HttpUtility.HtmlEncode(field.Expression ?? ""))}" : "";
             return HttpGet($"Library/CreateField?Name={name}&Type={type}{expression}", out string xml) == 200;
         }
 
