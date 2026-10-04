@@ -96,9 +96,9 @@ namespace Zelda
 
         public bool CreateField(JRField field)
         {
-            string name = Uri.EscapeDataString(field.Name);
+            string name = Util.EncodeUriString(field.Name);
             string type = string.IsNullOrEmpty(field.DataType) ? "string" : Uri.EscapeDataString(field.DataType);
-            string expression = field.isCalculated ? $"&Expression={Uri.EscapeDataString(HttpUtility.HtmlEncode(field.Expression ?? ""))}" : "";
+            string expression = field.isCalculated ? $"&Expression={HttpUtility.HtmlEncode(Util.EncodeUriString(field.Expression ?? ""))}" : "";
             return HttpGet($"Library/CreateField?Name={name}&Type={type}{expression}", out string xml) == 200;
         }
 
@@ -158,7 +158,7 @@ namespace Zelda
         public string ResolveExpression(int filekey, string expression)
         {
             string result = "";
-            string exp = Uri.EscapeDataString(HttpUtility.HtmlEncode(expression));
+            string exp = Util.EncodeUriString(expression);
             string url = $"File/GetFilledTemplate?File={filekey}&Expression={exp}";
             if (HttpGet(url, out string xml, false) != 200)
                 return null;
@@ -178,7 +178,7 @@ namespace Zelda
             return JRFile.FromJson(json);
         }
 
-        private int HttpGet(string url, out string answer, bool printDebug = true)
+        private int HttpGet(string url, out string answer, bool printDebug = true, bool mojibake=false)
         {
             answer = null;
             try
@@ -186,11 +186,12 @@ namespace Zelda
                 string debugstr = url;
                 if (debugstr.Length > 75) debugstr = debugstr.Substring(0, 75) + "(...)";
                 if (debug && printDebug) Console.WriteLine($"  -> MCWS call: {debugstr}");
-
+                
                 using (HttpResponseMessage response = http.GetAsync(url).Result)
                 {
-                    answer = response.Content.ReadAsStringAsync().Result;
-
+                    var bytes = response.Content.ReadAsByteArrayAsync().Result;
+                    bytes = Util.DecodeCESU8(bytes);
+                    answer = Encoding.UTF8.GetString(bytes);
                     debugstr = answer != null && answer.Length < 75 ? $"'{answer.Replace('\r', '.').Replace('\n', '.')}'" : $"{answer.Length} bytes";
                     if (debug && printDebug) Console.WriteLine($"  <- MCWS says: {response.StatusCode}, {debugstr}");
 

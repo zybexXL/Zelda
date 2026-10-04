@@ -3,10 +3,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Windows.Forms;
 
 namespace Zelda
@@ -130,6 +132,51 @@ namespace Zelda
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        public static string EncodeUriString(string exp)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < exp.Length;)
+                {
+                    bool isDouble = i < exp.Length - 1 && char.IsSurrogatePair(exp, i);
+                    if (isDouble)
+                        sb.Append(HttpUtility.HtmlEncode(exp.Substring(i, 2)));
+                    else
+                        sb.Append(exp[i]);
+                    i = isDouble ? i + 2 : i + 1;
+                }
+                return Uri.EscapeDataString(sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return exp;
+        }
+
+        public static byte[] DecodeCESU8(byte[] text)
+        {
+            MemoryStream ms = new MemoryStream();
+            for (int i = 0; i < text.Length;)
+            {
+                if (i < text.Length - 5 && text[i] == 0xED && text[i + 3] == 0xED && (text[i + 1] & 0xF0) == 0xA0 && (text[i + 2] & 0xC0) == 0x80 && (text[i + 4] & 0xF0) == 0xB0 && (text[i + 5] & 0xC0) == 0x80)
+                {
+                    uint high = (uint)(((text[i] & 0x0F) << 12) + ((text[i + 1] & 0x3F) << 6) + (text[i + 2] & 0x3F));
+                    uint low = (uint)(((text[i + 3] & 0x0F) << 12) + ((text[i + 4] & 0x3F) << 6) + (text[i + 5] & 0x3F));
+                    uint codepoint = 0x10000 + ((high & 0x03FF) << 10 | (low & 0x03FF));
+                    var utf8bytes = Encoding.UTF8.GetBytes(char.ConvertFromUtf32((int)codepoint));
+                    for (int j = 0; j < utf8bytes.Length; j++)
+                        ms.WriteByte(utf8bytes[j]);
+                    i += 5;
+                }
+                else
+                    ms.WriteByte(text[i]);
+                i++;
+            }
+            return ms.ToArray();
         }
 
         /*

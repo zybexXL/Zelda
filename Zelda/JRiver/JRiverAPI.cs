@@ -97,6 +97,27 @@ namespace Zelda
             return path;
         }
 
+        public JRField getField(string name, bool updateCache = true)
+        {
+            name = name.ToLower();
+            if (!updateCache)
+                return Fields?.SingleOrDefault(f => f.isCalculated && f.Name.ToLower() == name);
+            
+            JRField updated = null;
+            try
+            {
+                updated = api.GetFields().SingleOrDefault(f => f.Name.ToLower() == name);
+                if (updated != null && Fields != null)
+                {
+                    var field = Fields.FirstOrDefault(f => f.Name.ToLower() == name);
+                    field.Expression = updated.Expression;
+                    field.Description = updated.Description;
+                }
+            }
+            catch (Exception ex) { Logger.Log(ex, "JRiverAPI.refreshField()"); }
+            return updated;
+        }
+
         public List<JRField> getFields()
         {
             Fields = new List<JRField>();

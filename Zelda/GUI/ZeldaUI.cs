@@ -1354,7 +1354,7 @@ namespace Zelda
                     return;
             }
 
-            var field = jrAPI.Fields.SingleOrDefault(f => f.isCalculated && f.Name.ToLower() == currentTab.linkedField.ToLower());
+            var field = jrAPI.getField(currentTab.linkedField);
             if (field == null)
             {
                 MessageBox.Show($"Field [{currentTab.linkedField}] not found in MC!", "Field not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
